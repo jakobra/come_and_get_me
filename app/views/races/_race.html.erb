@@ -1,0 +1,14 @@
+<% unless race.new_record? %>
+	<tr>
+		<td><%= link_to race.event.name, race_path(race) %></td>
+		<td class="center"><%= race.distance %></td>
+		<td class="center"><%= link_to race.track.name, track_path(race.track) unless race.track.blank? %></td>
+		<td><%= race.time.strftime("%H:%M:%S") unless race.time.blank? %></td>
+		<td class="center"><%= race.max_pulse unless race.max_pulse.blank? %></td>
+		<td class="center"><%= race.avg_pulse unless race.avg_pulse.blank? %></td>
+		<% if authorized %>
+			<td class="small"><%= link_to 'Edit', edit_race_path(race) %></td>
+			<td class="small"><%= link_to 'Destroy', race, :confirm => 'Are you sure?', :method => :delete %></td>
+		<% end %>
+	</tr>
+<% end %>

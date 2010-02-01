@@ -1,0 +1,28 @@
+<p>
+	<b>From:</b>
+	<%=h @email.from %>
+</p>
+
+<p>
+	<b>To:</b>
+	<%=h @email.to %>
+</p>
+
+<p>
+	<b>Subject:</b>
+	<%=h @email.subject %>
+</p>
+
+<p>
+	<b>Body:</b>
+	<%=h @email.body %>
+</p>
+
+<p>
+	<b>Attachment file name:</b>
+	<%= link_to(h(@email.attachment_file_name), @email.attachment.url) %>
+</p>
+
+
+<%= link_to 'Edit', edit_email_path(@email) %> |
+<%= link_to 'Back', emails_path %>

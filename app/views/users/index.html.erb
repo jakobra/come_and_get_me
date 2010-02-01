@@ -1,0 +1,21 @@
+<h1>Listing users</h1>
+<table id="users">
+	<tr>
+		<th>Login</th>
+		<th>email</th>
+	</tr>
+
+<% @users.each do |user| %>
+  <tr>
+	<td><%= link_to user.login, user %></td>
+	<td><%= h user.email %></td>
+	<% if authorized?(user) %>
+		<td><%= link_to 'Edit', edit_user_path(user) %></td>
+    	<td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+	<% else %>
+		<td></td>
+		<td></td>
+	<% end %>
+  </tr>
+<% end %>
+</table>

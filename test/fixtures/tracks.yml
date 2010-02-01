@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  gpx_file_name: MyString
+  gpx_content_type: MyString
+  gpx_file_size: 1
+
+two:
+  name: MyString
+  gpx_file_name: MyString
+  gpx_content_type: MyString
+  gpx_file_size: 1

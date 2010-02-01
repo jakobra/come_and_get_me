@@ -1,0 +1,48 @@
+<% title @race.training.title %>
+
+<h1>Edit Race</h1>
+
+<% form_for @race do |f| %>
+	<%= f.error_messages %>
+	
+	<p class="left">
+		<%= f.label :event_id %><br />
+		<%= f.collection_select :event_id, Event.all, :id, :name, :include_blank => true %>
+		or create one:
+	</p>
+	<div class="left">
+		<p>
+			<%= f.label :new_event_name %><br />
+			<%= f.text_field :new_event_name %>
+		</p>
+		<p>
+			<%= f.label :new_event_description %><br />
+			<%= f.text_field :new_event_description %>
+		</p>
+	</div>
+	<p class="left  clear_left">
+		<%= f.label :distance %><br />
+		<%= f.text_field :distance, :size => 4 %>
+	</p>
+	<p class="left">
+		<%= f.label :time %><br />
+		<%= f.text_field :time, :size => 8 %>
+	</p>
+	<p class="left">
+		<%= f.label :max_pulse %><br />
+		<%= f.text_field :max_pulse, :size => 4 %>
+	</p>
+	<p class="left">
+		<%= f.label :avg_pulse %><br />
+		<%= f.text_field :avg_pulse, :size => 4 %>
+	</p>
+	
+	<p class="left clear_left">
+		<%= f.label :track_id %><br />
+		<%= f.collection_select :track_id, Track.all, :id, :name, :include_blank => true %>
+	</p>
+	
+	<p class="clear_left">
+		<%= f.submit 'Update' %>
+	</p>
+<% end %>

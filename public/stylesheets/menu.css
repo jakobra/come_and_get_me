@@ -1,0 +1,12 @@
+#menu {
+	float:left;
+	width:100%;
+}
+
+#authentication_info {
+	float:left;
+}
+
+#locations {
+	float:right;
+}

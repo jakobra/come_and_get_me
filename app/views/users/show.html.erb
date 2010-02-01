@@ -1,0 +1,28 @@
+<% title @user.login %>
+
+<h4>Name:</h4>
+<%= @user.name %>
+
+<h4>Year of birth:</h4>
+<%= @user.birthday_year %>
+
+<p>
+	<% if authorized?(@user) %>
+		<%= link_to "Edit Profile", edit_user_path(@user) %> | 
+		<%= link_to "New Training", new_user_training_path(@user) %> | 
+	<% end %>
+	<%= link_to "Trainings", user_trainings_path(@user) %>
+</p>
+
+<h4>Recent Trainings:</h4>
+<table>
+	<% @user.trainings.recent(2.weeks.ago).each do |training| %>
+		<tr>
+			<td><%= training.date %></td>
+			<td><%= link_to training.title, training %></td>
+			<% if authorized?(@user) %>
+				<td><%= link_to "Edit", edit_training_path(training) %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>

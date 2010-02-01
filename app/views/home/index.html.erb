@@ -1,0 +1,8 @@
+<% title "Welcome" %>
+<h1>Welcome to Racetraining!</h1>
+
+<% if logged_in? %>
+	<p class="bold">You are logged in as <%=h current_user.login %></p>
+<% else %>
+	<p class="bold">You are currently not logged in.</p>
+<% end %>

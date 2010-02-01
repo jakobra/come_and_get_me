@@ -1,0 +1,59 @@
+<% main_class "large_width" %>
+
+<% content_for :head do %>
+	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAI7vgMWXyJttIg3zaex8VQBS8AnXYoE8C-F64DtdDJq8UsxjJ0hRgLHNjEsGnhPbSknXTWgAOGMt14g" type="text/javascript"></script>
+	<%= javascript_include_tag "google_maps" %>
+	
+	<script type="text/javascript">
+		// <![CDATA[
+		var track_id = "<%= @race.track.to_param %>";
+		var map = null;
+		// ]]>
+	</script>
+	
+<% end %>
+
+
+<% title @race.training.title %>
+
+<div class="left width_200">
+	<p>
+		<span class="bold">Event:</span><br />
+		<%= @race.event.name %>
+	</p>
+	<p>
+		<span class="bold">Distance:</span><br />
+		<%= @race.distance %>
+	</p>
+	<p>
+		<span class="bold">Time:</span><br />
+		<%= @race.time.strftime("%H:%M:%S") unless @race.time.blank? %>
+	</p>
+	<p>
+		<span class="bold">Max pulse:</span><br />
+		<%= @race.max_pulse unless @race.max_pulse.blank? %>
+	</p>
+	<p>
+		<span class="bold">Avg. pulse:</span><br />
+		<%= @race.avg_pulse unless @race.avg_pulse.blank? %>
+	</p>
+
+	<p>
+		<span class="bold">Track:</span><br />
+		<%= link_to @race.track.name, track_path(@race.track) unless @race.track.blank? %>
+	</p>
+	
+	<p>
+		<span class="bold">Date:</span><br />
+		<%= @race.training.date %>
+	</p>
+	
+</div>
+
+<div id="map_canvas" class="left"></div>
+<div class="clear_left">
+	<%= link_to "Back", training_path(@race.training) %>
+	<% if authorized?(@race) %>
+	 | <%= link_to "Edit", edit_race_path(@race) %>
+	<% end %>
+</div>

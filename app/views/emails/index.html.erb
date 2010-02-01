@@ -1,0 +1,24 @@
+<h1>Listing emails</h1>
+
+<table>
+  <tr>
+    <th>From</th>
+    <th>To</th>
+    <th>Subject</th>
+    <th>Attachment</th>
+  </tr>
+
+<% @emails.each do |email| %>
+  <tr>
+    <td><%=h truncate(email.from, 20) %></td>
+    <td><%=h email.to %></td>
+    <td><%=h email.subject %></td>
+    <td><%= link_to (h(email.attachment_file_name), email.attachment.url) %></td>
+	<td><%= link_to 'Parse GPX', parse_gpx_email_path(email) %></td>
+    <td><%= link_to 'Show', email %></td>
+    <td><%= link_to 'Edit', edit_email_path(email) %></td>
+    <td><%= link_to 'Destroy', email, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+
+</table>

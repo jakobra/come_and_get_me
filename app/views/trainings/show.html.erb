@@ -1,0 +1,78 @@
+<% title @training.title %>
+<% main_class("large_width") %>
+
+<p>
+  <b>Title:</b>
+  <%=h @training.title %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%=h @training.date %>
+</p>
+
+<p>
+  <b>Comment:</b>
+  <%=h @training.comment %>
+</p>
+
+<table id="races">
+	<tr>
+		<th>Event</th>
+		<th>Distance (km)</th>
+		<th>Track</th>
+		<th>Time</th>
+		<th>Max pulse</th>
+		<th>Avg. pulse</th>
+	</tr>
+	<%= render :partial => @training.races, :locals => {:authorized => authorized?(@training)} %>
+</table>
+
+<% if authorized?(@training) %>
+	<fieldset>
+		<% remote_form_for(@training.races.build, :url => training_races_path(@training)) do |f|  %>
+			<%= error_messages_for 'race', :object => @training.races %>
+		
+			<p class="left">
+				<%= f.label :event_id %><br />
+				<%= f.collection_select :event_id, Event.all, :id, :name, :prompt => "Select an Event" %>
+				or create one:
+			</p>
+			<div class="left">
+				<p>
+					<%= f.label :new_event_name %><br />
+					<%= f.text_field :new_event_name %>
+				</p>
+				<p>
+					<%= f.label :new_event_description %><br />
+					<%= f.text_field :new_event_description %>
+				</p>
+			</div>
+			<p class="left  clear_left">
+				<%= f.label :distance %><br />
+				<%= f.text_field :distance, :size => 4 %>
+			</p>
+			<p class="left">
+				<%= f.label :time %><br />
+				<%= f.text_field :time, :size => 8 %>
+			</p>
+			<p class="left">
+				<%= f.label :max_pulse %><br />
+				<%= f.text_field :max_pulse, :size => 4 %>
+			</p>
+			<p class="left">
+				<%= f.label :avg_pulse %><br />
+				<%= f.text_field :avg_pulse, :size => 4 %>
+			</p>
+			<p class="clear_left">
+				<%= f.submit 'Create' %>
+			</p>
+		<% end %>
+	</fieldset>
+<% end %>
+
+<% if authorized?(@training) %>
+	<%= link_to 'Edit', edit_training_path(@training) %> |
+<% end %>
+
+<%= link_to 'Back', @training.user %>

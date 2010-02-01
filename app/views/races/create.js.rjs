@@ -1,0 +1,15 @@
+page << "if ($('errorExplanation') != undefined) {"
+  page.remove :errorExplanation
+page << "}"
+
+flash.discard
+
+unless @race.new_record?
+  page.insert_html :bottom, :races, :partial => @race
+  page["new_race"].reset
+else
+  page.insert_html :top, :new_race, (error_messages_for 'race', :object => @training.races)
+end
+
+
+

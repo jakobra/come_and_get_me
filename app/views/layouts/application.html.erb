@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<title><%= h(yield(:title) || "Untitled") %></title>
+		<%= stylesheet_link_tag :all %>
+		<%= javascript_include_tag 'prototype', 'effects', 'controls', 'slider', 'application' %>
+		<%= yield(:head) %>
+	</head>
+	<body>
+		<div id="container">
+			<%= render "/home/menu" %>
+			
+			<%- flash.each do |name, msg| -%>
+				<% content_tag :div, :class => "large_width" do %>
+					<%= content_tag :div, msg, :id => "flash_#{name}" %>
+				<% end %>
+			<%- end -%>
+			
+			<% content_tag :div, :class =>  (@class || "medium_width") do %>
+				<%= yield %>
+			<% end %>
+			
+			<% unless @content_for_right_side.blank?  %>
+				<% content_tag :div, :class => "small_width" do %>
+					<%= yield(:right_side) %>
+				<% end %>
+			<% end %>
+    	</div>
+	</body>
+</html>
