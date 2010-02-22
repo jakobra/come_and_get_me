@@ -1,0 +1,25 @@
+<% title "Municipalities" %>
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Code</th>
+		<th>County</th>
+	</tr>
+	<% for municipality in @municipalities %>
+		<tr>
+			<td><%=h municipality.name %></td>
+			<td><%=h municipality.code %></td>
+			<td><%=h municipality.county.name %></td>
+			<td><%= link_to "Show", municipality %></td>
+			<% if admin? %>
+				<td><%= link_to "Edit", edit_municipality_path(municipality) %></td>
+				<td><%= link_to "Destroy", municipality, :confirm => 'Are you sure?', :method => :delete %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+
+<% if admin? %>
+	<p><%= link_to "New Municipality", counties_path %></p>
+<% end %>

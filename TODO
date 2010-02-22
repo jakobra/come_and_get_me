@@ -1,4 +1,4 @@
-* More info on the track, like date and season (cross-country tracks)
+### FUNCTIONALITY ###
 
 * Work on the import via email
 
@@ -10,4 +10,16 @@
 
 * Change Mime-types for gpx and kml
 
-* Tags, make it possible to tag tracks
+* Add way-points to describe specific points
+
+* Implement send-mail functionality to report mail for example
+
+### CODING ###
+
+* Clean up update-action for race_track
+
+* Work on the code for comments-container
+
+* If possible find a nicer way to find latest tracksegments from association
+
+* Tagging conflict with vestal versions, now solved by renaming Tagging to Taging

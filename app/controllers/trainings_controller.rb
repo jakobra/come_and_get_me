@@ -5,7 +5,7 @@ class TrainingsController < ApplicationController
   # GET /trainings.xml
   def index
     @user = User.find(params[:user_id])
-    @trainings = @user.trainings
+    @trainings = @user.trainings.find(:all, :order => "date DESC")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -46,11 +46,15 @@ class TrainingsController < ApplicationController
   def create
     @user = User.find(params[:user_id])
     @training = @user.trainings.build(params[:training])
+    
+    unless params[:races].blank?
+      params[:races].each { |race| @training.races.build(race) }
+    end
 
     respond_to do |format|
       if @training.save
         flash[:notice] = 'Training was successfully created.'
-        format.html { redirect_to(@user) }
+        format.html { redirect_to(@training) }
         format.xml  { render :xml => @training, :status => :created, :location => @training }
       else
         format.html { render :action => "new" }
@@ -83,7 +87,7 @@ class TrainingsController < ApplicationController
     @training.destroy
 
     respond_to do |format|
-      format.html { redirect_to(trainings_url) }
+      format.html { redirect_to(user_trainings_url(@training.user)) }
       format.xml  { head :ok }
     end
   end

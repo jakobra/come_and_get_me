@@ -8,7 +8,6 @@ xml.gpx("xmlns" => "http://www.topografix.com/GPX/1/1", :creator => "Come And Ge
         tracksegment.points.find_with_sample_rate(params[:rate]).each do |point|
           trkseg.trkpt(:lat => point.latitude, :lon => point.longitude) do |trkpt|
             trkpt.ele point.elevation
-            trkpt.time point.point_created_at.utc.xmlschema
           end
         end
       end

@@ -1,4 +1,16 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :pages
+
+  map.resources :comments, :only => [:index, :edit, :update], :member => {:approve => :put, :report => :get} do |comments|
+    comments.resources :comments, :only => [:new, :create]
+  end
+  
+  map.resources :counties do |county|
+    county.resources :municipalities, :shallow => true do |municipality|
+      municipality.resources :tracks, :only => [:index]
+      municipality.resources :race_tracks, :only => [:index]
+    end
+  end
   
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   
@@ -10,44 +22,28 @@ ActionController::Routing::Routes.draw do |map|
   
   map.open_id_complete 'session', :controller => 'sessions', :action => 'create', :requirements => {:method => :get}
   
-  map.resources :users do |users|
+  map.resources :users, :member => {:statistics => :get, :admin => :put} do |users|
     users.resources :trainings, :shallow => true do |trainings|
-      trainings.resources :races, :shallow => true
+      trainings.resources :comments, :only => [:new, :create]
+      trainings.resources :races, :shallow => true, :collection => {:edit_individual => :post, :update_individual => :put} do |races| 
+        races.resources :comments, :only => [:new, :create]
+      end
     end
   end
   
-  #map.resources :users, :has_many => :trainings, :shallow => true
+  map.resources :race_tracks do |race_tracks|
+    race_tracks.resources :comments, :only => [:new, :create]
+  end
   
-  map.resource :session
+  map.resource :session, :only => [:new, :create, :destroy]
   
   map.resources :emails, :except => "new", :member => {:parse_gpx => :get}
   
-  map.resources :tracks, :has_many => :points, :shallow => true
-  
-  # The priority is based upon order of creation: first created -> highest priority.
-  
-  # Sample of regular route:
-  #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'
-  # Keep in mind you can assign values other than :controller and :action
-  
-  # Sample of named route:
-  #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
-  # This route can be invoked with purchase_url(:id => product.id)
-  
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   map.resources :products
-  
-  # Sample resource route with options:
-  #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }
-  
-  # Sample resource route with sub-resources:
-  #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
-  
-  # Sample resource route with more complex sub-resources
-  #   map.resources :products do |products|
-  #     products.resources :comments
-  #     products.resources :sales, :collection => { :recent => :get }
-  #   end
+  map.resources :tracks do |tracks|
+    tracks.resources :tracksegments, :only => [:new, :create]
+    tracks.resources :comments, :only => [:new, :create]
+    tracks.resources :points, :only => :index
+  end
   
   # Sample resource route within a namespace:
   #   map.namespace :admin do |admin|
@@ -55,14 +51,10 @@ ActionController::Routing::Routes.draw do |map|
   #     admin.resources :products
   #   end
   
-  # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   map.root :controller => "home"
   
-  # See how all your routes lay out with "rake routes"
+  map.static "static/:permalink", :controller => :pages, :action => :show
   
-  # Install the default routes as the lowest priority.
-  # Note: These default routes make all actions in every controller accessible via GET requests. You should
-  # consider removing or commenting them out if you're using named routes and resources.
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
 end

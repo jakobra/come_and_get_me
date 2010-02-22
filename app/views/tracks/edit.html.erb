@@ -1,17 +1,58 @@
-<h1>Editing track</h1>
+<% title "Editing '#{@track.name}'" %>
+<% main_class "large_width" %>
 
-<% form_for(@track) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-
-  <p>
-    <%= f.submit 'Update' %>
-  </p>
+<% content_for :head do %>
+	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAI7vgMWXyJttIg3zaex8VQBS8AnXYoE8C-F64DtdDJq8UsxjJ0hRgLHNjEsGnhPbSknXTWgAOGMt14g" type="text/javascript"></script>
+	<%= javascript_include_tag "maps" %>
+	
+	<%= javascript_tag "Map.set_options({click_listener: true});" %>
 <% end %>
 
+<h1>Editing track</h1>
+<div class="left width_200">
+<% form_for(@track, :html => {:multipart => true}) do |f| %>
+	<%= f.error_messages %>
+
+	<p>
+		<%= f.label :name %><br />
+		<%= f.text_field :name, :size => 27 %>
+	</p>
+	
+	<p>
+		<%= f.label :description %><br />
+		<%= f.text_area :description, :rows => 4, :cols => 27 %>
+	</p>
+	
+	<p>
+		<%= f.label :municipality_id %><br />
+		<%= select("county", "id", County.all.map {|c| [ c.name, c.id ] }, {:prompt => 'Select County'}, {:onchange => remote_function(:url => {:controller => :municipalities, :action => :index}, :with => "'county_id=' + this.value", :method => :get)}) %>
+		<%= f.collection_select :municipality_id, Municipality.all, :id, :name, {:prompt => "Select a Municipality"} %>
+	</p>
+	
+	<p>
+		<%= f.label :date %><br />
+		<%= f.date_select :date %>
+	</p>
+	
+	<p>
+		<%= f.label :track %><br />
+		<%= f.file_field :track %>... or plot track<br />
+		<%= f.label :circle, "Same start and finish point" %>
+		<%= f.check_box :circle %>
+	</p>
+	
+	<div id="new_tracksegment_points"></div>
+	
+	<p>
+		<%= f.submit 'Update' %>
+	</p>
+<% end %>
 <%= link_to 'Show', @track %> |
 <%= link_to 'Back', tracks_path %>
+<%= loading_div %>
+</div>
+<div class="right">
+	<div id="map_canvas"></div>
+	<%= link_to_function "Remove last point", "Map.remove_last_point()" %>
+</div>
+

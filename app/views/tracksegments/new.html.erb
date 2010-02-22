@@ -1,0 +1,27 @@
+<% title "New Tracksegment" %>
+<% main_class "large_width" %>
+
+<% content_for :head do %>
+	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAI7vgMWXyJttIg3zaex8VQBS8AnXYoE8C-F64DtdDJq8UsxjJ0hRgLHNjEsGnhPbSknXTWgAOGMt14g" type="text/javascript"></script>
+	<%= javascript_include_tag "maps" %>
+	
+	<%= javascript_tag "Map.set_options({click_listener: true});" %>
+<% end %>
+
+<div class="width_310">
+	Plot your track!
+	
+	<% form_for [@track, Tracksegment.new] do |f| %>
+	<div id="new_tracksegment_points"></div>
+	<%= link_to_function "Remove last point", "Map.remove_last_point()" %><br />
+	<p>
+		<%= f.label :circle, "Same start and finish point" %>
+		<%= f.check_box :circle %>
+	</p>
+	<%= f.submit "Create" %>
+	<% end %>
+	
+	<%= link_to 'Cancel', @track, :confirm => 'Are you sure?', :method => :delete %>
+</div>
+
+<div id="map_canvas" class="right"></div>

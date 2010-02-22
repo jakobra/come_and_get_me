@@ -1,0 +1,32 @@
+<% title "Municipality" %>
+
+<p>
+	<span class="bold">Name:</span>
+	<%=h @municipality.name %>
+</p>
+<p>
+	<span class="bold">Code:</span>
+	<%=h @municipality.code %>
+</p>
+<p>
+	<span class="bold">County:</span>
+	<%=h @municipality.county.name %>
+</p>
+
+<p>
+	<span class="bold">Tracks:</span>
+	<%= link_to "Tracks", municipality_tracks_path(@municipality) %>
+</p>
+
+<p>
+	<span class="bold">Race Tracks:</span>
+	<%= link_to "Race Tracks", municipality_race_tracks_path(@municipality) %>
+</p>
+
+<p>
+	<% if admin? %>
+		<%= link_to "Edit", edit_municipality_path(@municipality) %> |
+		<%= link_to "Destroy", @municipality, :confirm => 'Are you sure?', :method => :delete %> |
+	<% end %>
+	<%= link_to "View All", county_municipalities_path(@municipality.county) %>
+</p>

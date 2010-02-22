@@ -1,0 +1,8 @@
+<% if admin? %>
+	<% content_tag :div, :id => "admin_menu" do %>
+		<ul>
+			<li><%= link_to "Comments", comments_path %></li> |
+			<li><%= link_to "Pages", pages_path %></li>
+		</ul>
+	<% end %>
+<% end %>

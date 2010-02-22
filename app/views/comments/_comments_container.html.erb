@@ -1,0 +1,15 @@
+<% content_tag :div, :class => "comments_container left" do %>
+	<%= content_tag(:h3, "Comments") %>
+	
+	<% div_for(commentable, "comments", :class => "comments") do %>
+		<% unless commentable.comments.approved.blank? %>
+			<%= render :partial => "comments/comment", :collection => commentable.comments.approved %>
+		<% else %>
+			<%= content_tag(:p, "No comments") %>
+		<% end %>
+	<% end %>
+	<div class="left clear_left">
+		<%= link_to_remote "Post a comment", :url => url, :method => :get %>
+	</div>
+	
+<% end %>

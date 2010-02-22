@@ -1,0 +1,4 @@
+development:
+    default_user: 2
+    moving_average_window: 5
+    lowest_sample_rate: 40

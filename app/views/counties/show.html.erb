@@ -1,0 +1,22 @@
+<% title "County" %>
+
+<p>
+	<span class="bold">Name:</span>
+	<%=h @county.name %>
+</p>
+<p>
+	<span class="bold">Code:</span>
+	<%=h @county.code %>
+</p>
+<p>
+	<span class="bold">Numeric Code:</span>
+	<%=h @county.numeric_code %>
+</p>
+
+<p>
+	<% if admin? %>
+		<%= link_to "Edit", edit_county_path(@county) %> |
+		<%= link_to "Destroy", @county, :confirm => 'Are you sure?', :method => :delete %> |
+	<% end %>
+	<%= link_to "View All", counties_path %>
+</p>

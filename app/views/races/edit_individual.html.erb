@@ -1,0 +1,17 @@
+<% title "Edit Multiple Individual" %>
+<% main_class "large_width" %>
+
+<% form_tag update_individual_training_races_path(params[:training_id]), :method => :put do %>
+	<% @races.each do |race| %>
+		<% content_tag_for :div, race, :class => "border_bottom" do %>
+			<% fields_for "races[]", race do |f| %>
+				<%= render "fields", :f => f %>
+			<% end %>
+		<% end %>
+	<% end %>
+	<p class="clear_left">
+		<%= submit_tag "Update Races" %>
+	</p>
+<% end %>
+
+<%= link_to "Back", training_path(params[:training_id]) %>

@@ -3,18 +3,24 @@
 	<tr>
 		<th>Login</th>
 		<th>email</th>
+		<% if admin? %>
+			<th>Admin</th>
+		<% end %>
 	</tr>
 
 <% @users.each do |user| %>
   <tr>
 	<td><%= link_to user.login, user %></td>
 	<td><%= h user.email %></td>
-	<% if authorized?(user) %>
+	<% if admin? %>
+		<td><%= user.admin %></td>
+	<% end %>
+	<% if_authorized?(action_name, user) do %>
 		<td><%= link_to 'Edit', edit_user_path(user) %></td>
-    	<td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
-	<% else %>
-		<td></td>
-		<td></td>
+		<td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+	<% end %>
+	<% if admin? %>
+		<td><%= link_to 'Set/Unset admin', admin_user_path(user), :confirm => 'Are you sure?', :method => :put %></td>
 	<% end %>
   </tr>
 <% end %>

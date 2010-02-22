@@ -1,6 +1,6 @@
 class EmailsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => :create
-  before_filter :login_required
+  before_filter :login_required, :except => :create
   
   # GET /emails
   # GET /emails.xml
@@ -35,7 +35,7 @@ class EmailsController < ApplicationController
     @email = Email.new_email_from_mail(params[:email])
 
     respond_to do |format|
-      if @email.save
+      if @email.valid?
         flash[:notice] = 'Email was successfully created.'
         format.html { redirect_to(@email) }
         format.xml  { render :xml => @email, :status => :created, :location => @email }

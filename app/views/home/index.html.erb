@@ -6,3 +6,30 @@
 <% else %>
 	<p class="bold">You are currently not logged in.</p>
 <% end %>
+
+<div class="border_top left">
+	<h3>Last comment:</h3>
+	<p>
+		<%= link_to @last_comment.user.login, @last_comment.user %> commented on <%= @last_comment.non_comment_parent.class.to_s %>
+		<%= link_to @last_comment.non_comment_parent.title, @last_comment.non_comment_parent %>
+		<%= time_ago_in_words(@last_comment.created_at) %> ago
+	</p>
+	<h3>Last race:</h3>
+	<p>
+		<%= link_to @last_race.training.user.login, @last_race.training.user %> reported
+		<%= link_to @last_race.event.name, @last_race.training %>
+		<%= time_ago_in_words(@last_race.created_at) %> ago
+	</p>
+</div>
+
+<% content_for :right_side do %>
+	<h2><%= @area.name %></h2>
+	<h4>Race Tracks close to you</h4>
+	<% content_tag :ul do %>
+		<% @race_tracks.each do |race_track| %>
+			<% content_tag :li do %>
+				<%= link_to race_track.title, race_track_path(race_track) %>
+			<% end %>
+		<% end%>
+	<% end %>
+<% end %>

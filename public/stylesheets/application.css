@@ -19,7 +19,6 @@ a {
 
 #flash_notice, #flash_error {
 	padding: 5px 8px;
-	margin: 10px 0;
 }
 
 #flash_notice {
@@ -33,11 +32,11 @@ a {
 }
 
 .fieldWithErrors {
-  display: inline;
+	display: inline;
 }
 
 #errorExplanation {
-  width: 400px;
+  width: 500px;
   border: 2px solid #CF0000;
   padding: 0px;
   padding-bottom: 12px;
@@ -98,10 +97,8 @@ fieldset {
 }
 
 input[type="text"], input[type="password"], textarea {
-	-moz-border-radius-bottomleft:4px;
-	-moz-border-radius-bottomright:4px;
-	-moz-border-radius-topleft:4px;
-	-moz-border-radius-topright:4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
 	border:1px solid black;
 	font-family:arial,sans-serif;
 	font-size:18px;
@@ -109,8 +106,21 @@ input[type="text"], input[type="password"], textarea {
 	margin-top:2px;
 }
 
+textarea {
+	resize:none;
+}
+
 #new_race p, .edit_race p{
 	margin-right: 10px;
+}
+
+.fieldWithErrors input, .fieldWithErrors textarea{
+	border-color:red;
+	border-width:2px;
+}
+
+.fieldWithErrors select {
+	border:2px solid red;
 }
 
 /* OPENID LOGIN*/
@@ -126,7 +136,7 @@ input[type="text"], input[type="password"], textarea {
 
 /* TABLES */
 table {
-	margin:3px 0px 0px 0px;
+	margin:5px 0px 5px 0px;
 	border-collapse:collapse;
 }
 
@@ -136,6 +146,104 @@ table td {
 	border:1px solid black;
 }
 
-.small {
+/* LISTS */
+ul {
+	margin:5px 0px;
+}
+
+/* MODALBX CONTENT */
+.modalbox_content {
+	padding:0px;
+	margin:0px;
+	display:none;
+}
+
+#MB_content > .modalbox_content {
+	display:block;
+}
+
+#new_comment > #errorExplanation, .edit_comment > #errorExplanation {
+  width: 376px;
+}
+
+/* INDIVIDUAL STYLES */
+.race {
+	float:left;
+}
+
+.new_comment_box, .edit_comment_box {
+	background-image:url(/images/transparent/trans_black_06.png);
+	padding:10px;
+}
+
+/* COMMENTS */
+.comment_entry {
+	float:left;
+	clear:both;
+	border-top:1px solid black;
+	margin:3px 0px;
+}
+
+.comments {
+	margin-left:20px;
+}
+
+.comments_container > .comments {
+	margin-left:0px;
+}
+
+.view_comment_form {
+	color:blue;
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+p.comment_updated {
+	font-style:italic;
 	font-size:10px;
 }
+
+/* PAGES STYLES */
+
+.page p {
+	padding:5px 0px;
+}
+
+/* FOOTER STYLES */
+.footer {
+	text-align:center;
+	border-top:1px solid #cccccc;
+	padding-top:15px;
+}
+
+.footer ul {
+	padding:0px;
+	list-style:none;
+}
+
+.footer ul li {
+	display:inline;
+}
+
+/* ADMIN STYLES */
+
+#admin_menu {
+	background-image:url(/images/transparent/trans_black_06.png);
+	padding:10px;
+	width: 980px;
+	margin: 0 auto;
+	color:white;
+}
+
+#admin_menu a{
+	color:white;
+}
+
+#admin_menu ul{
+	list-style:none;
+}
+
+#admin_menu ul li{
+	display:inline;
+}
+

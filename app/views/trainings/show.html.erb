@@ -1,10 +1,5 @@
-<% title @training.title %>
+<% title "#{@training.date.strftime("%e %b - %Y")}" %>
 <% main_class("large_width") %>
-
-<p>
-  <b>Title:</b>
-  <%=h @training.title %>
-</p>
 
 <p>
   <b>Date:</b>
@@ -13,57 +8,87 @@
 
 <p>
   <b>Comment:</b>
-  <%=h @training.comment %>
+  <%=simple_format h @training.comment %>
 </p>
 
+<% form_tag edit_individual_training_races_path(@training) do %>
 <table id="races">
 	<tr>
+		<th></th>
 		<th>Event</th>
 		<th>Distance (km)</th>
 		<th>Track</th>
-		<th>Time</th>
-		<th>Max pulse</th>
-		<th>Avg. pulse</th>
+		<th>Time (hh:mm:ss)</th>
+		<th>Hr. max</th>
+		<th>Hr. avg</th>
 	</tr>
-	<%= render :partial => @training.races, :locals => {:authorized => authorized?(@training)} %>
+	<%= render :partial => @training.races, :locals => {:authorized => (if_authorized?(action_name, @training) {true})} %>
 </table>
+<%= select_tag :field, options_for_select([["All fields", ""], ["Event", "event_id"], ["Distance", "distance"], ["Track", "race_track_id"], ["Time", "time"], ["Hr.", "hr"], ["Commment", "comment"]]) %>
+<%= submit_tag "Edit selected" %>
+<% end %>
 
-<% if authorized?(@training) %>
-	<fieldset>
+<% if_authorized?(action_name, @training) do %>
+	<p>
+		<%= link_to_function("Show/Hide Race-form", :id => "toggle_race") do |page|
+			page[:race_form].toggle
+		end %>
+	</p>
+	
+	<fieldset id="race_form" style="display:none;">
 		<% remote_form_for(@training.races.build, :url => training_races_path(@training)) do |f|  %>
 			<%= error_messages_for 'race', :object => @training.races %>
 		
-			<p class="left">
-				<%= f.label :event_id %><br />
-				<%= f.collection_select :event_id, Event.all, :id, :name, :prompt => "Select an Event" %>
-				or create one:
-			</p>
 			<div class="left">
-				<p>
-					<%= f.label :new_event_name %><br />
-					<%= f.text_field :new_event_name %>
+				<p class="left">
+					<%= f.label :event_id %><br />
+					<%= f.collection_select :event_id, Event.all, :id, :name, :prompt => "Select an Event" %>
+					or create one:
 				</p>
-				<p>
-					<%= f.label :new_event_description %><br />
-					<%= f.text_field :new_event_description %>
+			
+				<div class="left">
+					<p>
+						<%= f.label :new_event_name %><br />
+						<%= f.text_field :new_event_name %>
+					</p>
+				
+					<p>
+						<%= f.label :new_event_description %><br />
+						<%= f.text_field :new_event_description %>
+					</p>
+				</div>
+			
+				<p class="left  clear_left">
+					<%= f.label :distance %><br />
+					<%= f.text_field :distance, :size => 4 %>
+				</p>
+			
+				<p class="left">
+					<%= f.label :time %><br />
+					<%= f.text_field :time, :size => 8 %>
+				</p>
+			
+				<p class="left">
+					<%= f.label :hr_max %><br />
+					<%= f.text_field :hr_max, :size => 4 %>
+				</p>
+			
+				<p class="left">
+					<%= f.label :hr_avg %><br />
+					<%= f.text_field :hr_avg, :size => 4 %>
+				</p>
+			
+				<p class="left">
+					<%= f.label :race_track_id %><br />
+					<%= f.collection_select :race_track_id, RaceTrack.all, :id, :title, :prompt => "Select a Track", :include_blank => true %>
 				</p>
 			</div>
-			<p class="left  clear_left">
-				<%= f.label :distance %><br />
-				<%= f.text_field :distance, :size => 4 %>
-			</p>
+			
 			<p class="left">
-				<%= f.label :time %><br />
-				<%= f.text_field :time, :size => 8 %>
+				<%= f.label :comment %><br />
+				<%= f.text_area :comment, :rows => 5, :cols => 30 %>
 			</p>
-			<p class="left">
-				<%= f.label :max_pulse %><br />
-				<%= f.text_field :max_pulse, :size => 4 %>
-			</p>
-			<p class="left">
-				<%= f.label :avg_pulse %><br />
-				<%= f.text_field :avg_pulse, :size => 4 %>
-			</p>
+			
 			<p class="clear_left">
 				<%= f.submit 'Create' %>
 			</p>
@@ -71,8 +96,12 @@
 	</fieldset>
 <% end %>
 
-<% if authorized?(@training) %>
-	<%= link_to 'Edit', edit_training_path(@training) %> |
-<% end %>
+<%= render "comments/comments_container", :commentable => @training, :url => new_training_comment_path(@training) %>
 
-<%= link_to 'Back', @training.user %>
+<div class="left clear_left">
+	<% if_authorized?(action_name, @training) do %>
+		<%= link_to 'Edit', edit_training_path(@training) %> |
+	<% end %>
+
+	<%= link_to 'Back', @training.user %>
+</div>

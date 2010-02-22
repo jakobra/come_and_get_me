@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  track: 
+  race_track: 
+  quantity: 1
+
+two:
+  track: 
+  race_track: 
+  quantity: 1

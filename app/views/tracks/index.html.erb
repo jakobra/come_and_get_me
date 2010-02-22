@@ -1,23 +1,23 @@
+<% title "Tracks" %>
+<% main_class "large_width" %>
+
 <h1>Listing tracks</h1>
 
 <table>
 	<tr>
 		<th>Name</th>
-		<th>Track file name</th>
-		<th>Track content type</th>
-		<th>Track file size</th>
+		<th>Track Source</th>
 	</tr>
 
 <% @tracks.each do |track| %>
 	<tr>
-		<td><%=h track.name %></td>
-		<td><%=h track.track_file_name %></td>
-		<td><%=h track.track_content_type %></td>
-		<td><%=h track.track_file_size %></td>
+		<td><%= link_to track.name, track %></td>
+		<td><%= track_created_from(track) %></td>
 		<% if logged_in? %>
-			<td><%= link_to 'Show', track %></td>
 			<td><%= link_to 'Edit', edit_track_path(track) %></td>
-			<td><%= link_to 'Destroy', track, :confirm => 'Are you sure?', :method => :delete %></td>
+			<% if admin? %>
+				<td><%= link_to 'Destroy', track, :confirm => 'Are you sure?', :method => :delete %></td>
+			<% end %>
 		<% end %>
 	</tr>
 <% end %>

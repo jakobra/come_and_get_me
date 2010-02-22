@@ -2,51 +2,90 @@
 
 <% content_for :head do %>
 	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAI7vgMWXyJttIg3zaex8VQBS8AnXYoE8C-F64DtdDJq8UsxjJ0hRgLHNjEsGnhPbSknXTWgAOGMt14g" type="text/javascript"></script>
-	<%= javascript_include_tag "google_maps" %>
+	<%= javascript_include_tag "maps" %>
 	
-	<script type="text/javascript">
-		// <![CDATA[
-		var track_id = "<%= @track.to_param %>";
-		var map = null;
-		// ]]>
-	</script>
+	<%= javascript_tag "Map.set_options({tracks: [#{@track.id}], track_version: #{@track.version}, distance: true, distance_prefix: 'distance_'});" %>
 	
 <% end %>
 
 <% content_for :right_side do %>
 	<h2>Info:</h2>
 	<p>
+		Version: <%= @track.version %>
+		<%= link_to "Current", :version => nil if params[:version] %>
+	</p>
+	
+	<%= link_to_function("View History", nil, :id => "track_history_view_link") do |page|
+		page[:track_history].toggle
+		page[:track_history_view_link].hide
+		page[:track_history_hide_link].show
+	end %>
+	
+	<%= link_to_function("Hide History", :style => "display:none;", :id => "track_history_hide_link") do |page|
+		page[:track_history].toggle
+		page[:track_history_hide_link].hide
+		page[:track_history_view_link].show
+	end %>
+	
+	<ul id="track_history" style="display:none;">
+		<li>
+			1. <%= link_to @track.created_at.strftime("%Y-%m-%d"), :version => 1 %>,
+			<%= @track.created_by_user.login unless @track.created_by_user.blank? %>
+		</li>
+		<% @track.versions.each do |version| %>
+			<li>
+				<%= version.number %>. <%= version.tag %>.
+				<%= link_to version.created_at.strftime("%Y-%m-%d"), :version => version.number %>,
+				<%= version.user.login unless version.user.blank? %>
+			</li>
+		<% end %>
+	</ul>
+	
+	<p>
 		Download this track:<br>
 		<%= link_to "#{h(@track.name)} (GPX)", track_points_path(@track, :gpx) %><br>
 		<%= link_to "#{h(@track.name)} (KML)", track_points_path(@track, :kml) %>
 	</p>
 	<p>
-		The Track is made from the following file:<br>
-		<%= link_to "#{h(@track.name)} (GPX)", @track.track.url %>
+		The Track is made from:<br>
+		<%= track_created_from(@track) %>
 	</p>
 	
 	<div class="border_top">
 		<p id="sample_rate">Rate: 5</p>
-		<p id="track_distance"></p>
-		<% total_time = 0 %>
-		<% @track.tracksegments.each_with_index do |tracksegment, index| %>
-			<p>Segement <%= index+1 %>: <%= readable_time_difference(tracksegment.end_time - tracksegment.start_time) %></p>
-			<% total_time += tracksegment.end_time - tracksegment.start_time %>
-		<% end %>
-		<p>Total time: <%= readable_time_difference(total_time) %></p>
-
+		<p><span id="distance_track_1"></span> km</p>
+	</div>
+	
+	<div class="border_top">
+		<h4>Description:</h4>
 		<p>
-			Time from start to stop: <%= readable_time_difference(@track.tracksegments.first.end_time - @track.tracksegments.last.start_time) %>
+			<%= @track.description %>
 		</p>
+		<h4>Municipality:</h4>
+		<p>
+			<%= @track.municipality.name %>
+		</p>
+		<h4>Date:</h4>
+		<p>
+			<%= @track.date.strftime("%Y-%m-%d") %>
+		</p>
+	</div>
+	
+	<div class="border_top">
+		<%= link_to 'Back', tracks_path %>
+		<% if logged_in? %>
+			| <%= link_to 'Edit', edit_track_path(@track) %>
+		<% end %>
 	</div>
 <% end %>
 
 <h2><%= h @track.name %></h2>
 <div id="map_canvas"></div>
 
-<div id="sample_rate_slide">
-	<div id="sample_rate_handle"></div>
-</div>
+<% if_high_sample_rate @track do %>
+	<div id="sample_rate_slide">
+		<div id="sample_rate_handle"></div>
+	</div>
+<% end %>
 
-<%= link_to 'Edit', edit_track_path(@track) %> |
-<%= link_to 'Back', tracks_path %>
+<%= render "comments/comments_container", :commentable => @track, :url => new_track_comment_path(@track) %>

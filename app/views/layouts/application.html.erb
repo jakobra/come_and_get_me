@@ -5,12 +5,13 @@
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 		<title><%= h(yield(:title) || "Untitled") %></title>
 		<%= stylesheet_link_tag :all %>
-		<%= javascript_include_tag 'prototype', 'effects', 'controls', 'slider', 'application' %>
+		<%= javascript_include_tag :rambo %>
 		<%= yield(:head) %>
 	</head>
 	<body>
+		<%= render "/application/admin_menu" %>
 		<div id="container">
-			<%= render "/home/menu" %>
+			<%= render "/application/menu" %>
 			
 			<%- flash.each do |name, msg| -%>
 				<% content_tag :div, :class => "large_width" do %>
@@ -27,6 +28,7 @@
 					<%= yield(:right_side) %>
 				<% end %>
 			<% end %>
+			<%= render "/application/footer" %>
     	</div>
 	</body>
 </html>

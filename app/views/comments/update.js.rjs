@@ -1,0 +1,8 @@
+unless @comment.valid?
+  page.insert_html :top, dom_id(@comment, "edit"), error_messages_for("comment")
+else
+  page.call 'hide_box'
+  page.replace dom_id(@comment), :partial => @comment
+  page.visual_effect(:highlight, dom_id(@comment), :duration => 0.5)
+  flash.discard
+end

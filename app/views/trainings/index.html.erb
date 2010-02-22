@@ -4,21 +4,21 @@
 
 <table>
   <tr>
-    <th>Title</th>
     <th>Date</th>
   </tr>
 
 <% @trainings.each do |training| %>
   <tr>
-    <td><%=h training.title %></td>
     <td><%=h training.date %></td>
     <td><%= link_to 'Show', training %></td>
-    <td><%= link_to 'Edit', edit_training_path(training) %></td>
-    <td><%= link_to 'Destroy', training, :confirm => 'Are you sure?', :method => :delete %></td>
+	<% if_authorized?(action_name, training) do %>
+    	<td><%= link_to 'Edit', edit_training_path(training) %></td>
+    	<td><%= link_to 'Destroy', training, :confirm => 'Are you sure?', :method => :delete %></td>
+	<% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
-
+<%= link_to 'Back', user_path(@user) %> |
 <%= link_to 'New training', new_user_training_path(@user) %>

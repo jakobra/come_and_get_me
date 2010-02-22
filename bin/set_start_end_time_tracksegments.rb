@@ -1,13 +1,7 @@
 require 'rubygems'
 require 'active_record'
 
-ActiveRecord::Base.establish_connection(
-  :adapter => "mysql",
-  :host => "localhost",
-  :database => "race_training_development",
-  :password => "always",
-  :username => "root"
-)
+require 'db_connection.rb'
 
 class Point < ActiveRecord::Base
   belongs_to :tracksegment
@@ -28,10 +22,7 @@ tracks = Track.find(:all)
 k = 0
 for track in tracks
   track.tracksegments.each do |tracksegment|
-    tracksegment.start_time = tracksegment.points.first.point_created_at
-    tracksegment.end_time = tracksegment.points.last.point_created_at
-    tracksegment.save
-    k += 1
+    puts "#{tracksegment.track_id}\n"
   end
 end
 

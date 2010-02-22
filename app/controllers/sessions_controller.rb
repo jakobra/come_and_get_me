@@ -49,14 +49,12 @@ protected
         user.login = (registration['nickname'].eql? "") ? registration['email'] : registration['nickname']
         user.email = registration['email']
         user.save(false)
-        self.current_user = user
-        successful_login
+        successful_login(user)
       else
         failed_login "Sorry, your OpenId didn´t provide enough user info"
       end
     else
-      self.current_user = user
-      successful_login
+      successful_login(user)
     end
   end
   
@@ -64,14 +62,17 @@ protected
      logout_keeping_session!
       user = User.authenticate(login, password)
       if user
-        self.current_user = user
-        successful_login
+        successful_login(user)
       else
         failed_login
       end
   end
   
-  def successful_login
+  def successful_login(user)
+    logger.info "Before"
+    user.update_attributes(:last_login_at => Time.now, :last_login_ip => (request.remote_ip || "unknown" ))
+    logger.info "After"
+    self.current_user = user
     new_cookie_flag = (params[:remember_me] == "1")
     handle_remember_cookie! new_cookie_flag
     redirect_back_or_default('/')

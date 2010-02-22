@@ -7,9 +7,7 @@ class User < ActiveRecord::Base
   
   has_many :trainings, :dependent => :destroy
   has_many :races, :through => :trainings
-  
-  
-  validate :validates_user_authentication
+  has_many :comments
   
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
@@ -29,7 +27,7 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :identity_url, :birthday_year
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :identity_url, :birthday_year, :last_login_at, :last_login_ip
 
 
 
@@ -53,7 +51,52 @@ class User < ActiveRecord::Base
     write_attribute :email, (value ? value.downcase : nil)
   end
 
+  def total_distance(from = 1.week.ago, to = Date.today)
+    distances = []
+    self.trainings.period(from, to).each do |training|
+      training.races.each { |race| distances << race.distance }
+    end
+    eval distances.join('+')
+  end
+  
+  def total_time(from = 1.week.ago, to = Date.today)
+    times = []
+    self.trainings.period(from, to).each do |training|
+      training.races.each do |race|
+        unless race.time.blank?
+          times << {:hours => race.time.strftime("%H").to_i,
+                    :minutes => race.time.strftime("%M").to_i,
+                    :seconds => race.time.strftime("%S").to_i}
+        end
+      end
+    end
+    hours = times.map { |time| time[:hours] }
+    minutes = times.map { |time| time[:minutes] }
+    seconds = times.map { |time| time[:seconds] }
+    seconds = eval seconds.join('+') 
+    seconds += get_seconds_from_hours_and_minutes(hours, minutes)
+    get_time_from_seconds seconds
+  end
+  
+  def admin?
+    self.admin
+  end
+  
   protected
+  
+  def get_seconds_from_hours_and_minutes(hours, minutes)
+    seconds = (3600 * (eval hours.join('+')))
+    seconds += (60 * (eval minutes.join('+')))
+  end
+  
+  def get_time_from_seconds(time)
+    result = {}
+    result['second'] =  time % 60
+    time = (time - result['second']) / 60
+    result['minute'] =  time % 60
+    result['hour'] = (time - result['minute']) / 60
+    result.sort # gets them in right order hour, minute, second even day if used
+  end
   
   def password_required?
     if (crypted_password.blank? || !password.blank?)

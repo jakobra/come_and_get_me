@@ -1,4 +1,25 @@
-function load_segment_points(sample_rate) {
+document.observe("dom:loaded", function() {
+	
+	// initially loads gmaps
+	if(GBrowserIsCompatible()) {
+		init_map();
+	}
+	
+	// horizontal slider control for samplerate in maps
+	new Control.Slider('sample_rate_handle', 'sample_rate_slide', {
+		range: $R(1, 10),
+		values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+		sliderValue: 5, // won't work if set to 0 due to a bug(?) in script.aculo.us
+		onSlide: function(rate) { $('sample_rate').innerHTML = 'Rate: ' + rate },
+		onChange: function(rate) {
+			$('sample_rate').innerHTML = 'Rate: ' + rate
+			reload_map_overlays(rate);
+		}
+	});
+	
+});
+
+function load_segment_points(track_id, color, sample_rate) {
 	GDownloadUrl("/tracks/" + track_id + "/points.gpx?rate=" + sample_rate, function(data, responseCode) {
 		
 		//resets the segment distances
@@ -19,13 +40,14 @@ function load_segment_points(sample_rate) {
 				points[k]['latitude'] = xml_points[k].getAttribute("lat");
 				points[k]['longitude'] = xml_points[k].getAttribute("lon");
 			}
+			this.points = this.points.concat(points);
 			set_start_point(points[0]);
 			set_end_point(points[k-1]);
-			add_route(points);
-			set_center_point_and_zoom_level(points);
+			add_route(points, color);
 			var distance = calculate_distance(points);
 			total_distance += distance;
 			render_track_distance(distance, i);
+			set_center_point_and_zoom_level(this.points);
 		}
 		render_track_distance(total_distance, null);
 	});
@@ -33,12 +55,12 @@ function load_segment_points(sample_rate) {
 
 function set_start_point(point) {
 	var point = new GLatLng(point["latitude"], point["longitude"]);
-	this.map.addOverlay(new GMarker(point));
+	this.gmap.addOverlay(new GMarker(point));
 }
 
 function set_end_point(point) {
 	var point = new GLatLng(point["latitude"], point["longitude"]);
-	this.map.addOverlay(new GMarker(point));
+	this.gmap.addOverlay(new GMarker(point));
 }
 
 function set_center_point_and_zoom_level(points) {
@@ -47,16 +69,16 @@ function set_center_point_and_zoom_level(points) {
 		var point = new GLatLng(points[i]["latitude"], points[i]["longitude"]);
 		bounds.extend(point);
 	}
-	this.map.setCenter(bounds.getCenter(), this.map.getBoundsZoomLevel(bounds));
+	this.gmap.setCenter(bounds.getCenter(), this.gmap.getBoundsZoomLevel(bounds));
 }
 
-function add_route(points) {
+function add_route(points, color) {
 	var line = new Array();
 	for (var i = 0; i < points.length; i++) {
 		line[i] = new GLatLng(points[i]["latitude"], points[i]["longitude"]);
 	}
-	var polyline = new GPolyline(line, "#fb006a", 3);
-	this.map.addOverlay(polyline);
+	var polyline = new GPolyline(line, "#" + color, 3);
+	this.gmap.addOverlay(polyline);
 }
 
 function render_track_distance(distance, i) {
@@ -84,12 +106,11 @@ function calculate_distance(points) {
 
 
 function init_map() {
-	var map = new GMap2(document.getElementById("map_canvas"));
-	map.setUIToDefault();
-	map.addMapType(G_SATELLITE_3D_MAP);
-	map.addControl(new GLargeMapControl3D());
-	this.map = map;
-	load_segment_points("");
+	var gmap = new GMap2(document.getElementById("map_canvas"));
+	gmap.setUIToDefault();
+	gmap.addMapType(G_SATELLITE_3D_MAP);
+	gmap.addControl(new GLargeMapControl3D());
+	this.gmap = gmap;
 }
 
 function reload_map_overlays(rate) {
@@ -98,5 +119,5 @@ function reload_map_overlays(rate) {
 }
 
 function clear_map_from_overlays() {
-	this.map.clearOverlays() 
+	this.gmap.clearOverlays() 
 }

@@ -1,0 +1,18 @@
+<div class="race_track_segment">
+	<% fields_for race_track_segment_field do |f| %>
+		<%= f.hidden_field :id, :name => "race_track_segments[][id]" %>
+		
+		<p>
+			<%= f.label :track_id %><br />
+			<%= f.collection_select :track_id, Track.all, :id, :name, {:prompt => "Select a Track"}, {:name => "race_track_segments[][track_id]"} %>
+		</p>
+		
+		<p>
+			<%= f.label :quantity %><br />
+			<%= f.text_field :quantity, :name => "race_track_segments[][quantity]" %>
+		</p>
+
+		<%= link_to_function 'remove', "this.up('.race_track_segment').remove()" %>
+
+	<% end %>
+</div>

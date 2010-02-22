@@ -1,0 +1,24 @@
+<% title "Race Track Records" %>
+
+
+<% if @statistics.blank? %>
+	<ul>
+		<% RaceTrack.all.each do |race_track| %>
+			<%= content_tag :li, link_to(race_track.title, :action => :race_track_records, :id => race_track) %>
+		<% end %>
+	</ul>
+<% else %>
+	<h2><%= @statistics.first.race_track.title %></h2>
+	
+	<ul>
+		<% @statistics.each do |stat| %>
+			<% content_tag :li do %>
+				<%= link_to stat.user.login, user_path(stat.user) %>
+				<%= "#{stat.event.name} #{stat.time.strftime("%H:%M:%S")}" %> 
+			<% end %>
+		<% end %>
+	</ul>
+	<%= link_to "Race Tracks", :action => "race_track_records", :id => nil %>
+<% end %>
+
+

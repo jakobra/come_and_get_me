@@ -1,0 +1,9 @@
+one:
+  name: MyString
+  code: MyString
+  numeric_code: 1
+
+two:
+  name: MyString
+  code: MyString
+  numeric_code: 1

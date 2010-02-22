@@ -1,0 +1,1 @@
+page[:municipality_id].replace_html options_for_select(@municipalities.map { |m| [m.name, m.id] })

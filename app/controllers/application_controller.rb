@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
+  helper_method :admin?
   
   include AuthenticatedSystem
   
@@ -13,11 +14,11 @@ class ApplicationController < ActionController::Base
   SPECIAL_AUTHORIZATION_CONTROLLERS = ['trainings', 'races']
   
   # Overrides access_denied in lib/authenticated_system.rb
-  def access_denied
+  def access_denied(msg = "Login required!")
     respond_to do |format|
       format.html do
         store_location
-        flash[:error] = "Login required!"
+        flash[:error] = msg
         redirect_to new_session_path
       end
       # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
@@ -31,10 +32,12 @@ class ApplicationController < ActionController::Base
   end
   
   # Overrides authorized() in lib/authenticated_system.rb
-  def authorized?(object = nil)
+  def authorized?(action = action_name, resource = nil)
     if logged_in?
-      if !object.eql? nil
-       authorized_object?(object)
+      if admin?
+        true
+      elsif !resource.eql? nil
+       authorized_object?(resource)
       elsif SPECIAL_AUTHORIZATION_CONTROLLERS.include?(controller_name)
         @authorize_controller_action ||= authorize_controller_action
       else
@@ -42,6 +45,17 @@ class ApplicationController < ActionController::Base
       end
     else
       false
+    end
+  end
+  
+  def admin_required
+    admin? || access_denied("Admin auhorization required!")
+  end
+  
+  # Check if user has admin access
+  def admin?
+    if logged_in?
+      current_user.admin? ? true : false
     end
   end
   

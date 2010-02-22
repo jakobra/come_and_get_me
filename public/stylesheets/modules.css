@@ -12,6 +12,7 @@
 	margin-left:20px;
 	margin-top:20px;
 	float:left;
+	overflow:hidden;
 }
 .large_width {
 	width:960px;
@@ -27,6 +28,10 @@
 
 .width_200 {
 	width:200px;
+}
+
+.width_310 {
+	width:310px;
 }
 
 .left {
@@ -51,5 +56,12 @@
 
 .border_top {
 	margin-top:10px;
+	padding-top:5px;
 	border-top:1px solid #cccccc;
+}
+
+.border_bottom {
+	margin-bottom:10px;
+	padding-bottom:5px;
+	border-bottom:1px solid #cccccc;
 }

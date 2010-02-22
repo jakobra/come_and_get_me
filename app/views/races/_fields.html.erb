@@ -1,0 +1,59 @@
+<%= f.error_messages :object_name => "Race" %>
+
+<% if form_input_field?("event_id") %>
+	<p class="left">
+		<%= f.label :event_id %><br />
+		<%= f.collection_select :event_id, Event.all, :id, :name, :include_blank => true %>
+		or create one:
+	</p>
+
+	<div class="left">
+		<p>
+			<%= f.label :new_event_name %><br />
+			<%= f.text_field :new_event_name %>
+		</p>
+		<p>
+			<%= f.label :new_event_description %><br />
+			<%= f.text_field :new_event_description %>
+		</p>
+	</div>
+<% end %>
+
+<% if form_input_field?("comment") %>
+	<p class="left">
+		<%= f.label :comment %><br />
+		<%= f.text_area :comment, :rows => 4, :cols => 30 %>
+	</p>
+<% end %>
+
+<% if form_input_field?("distance") %>
+	<p class="left  clear_left">
+		<%= f.label :distance, "Distance (km)" %><br />
+		<%= f.text_field :distance, :size => 4 %>
+	</p>
+<% end %>
+	
+<% if form_input_field?("time") %>
+	<p class="left">
+		<%= f.label :time_string, "Time" %><br />
+		<%= f.text_field :time_string, :size => 8 %>
+	</p>
+<% end %>
+	
+<% if form_input_field?("hr") %>
+	<p class="left">
+		<%= f.label :hr_max %><br />
+		<%= f.text_field :hr_max, :size => 4 %>
+	</p>
+	<p class="left">
+		<%= f.label :hr_avg %><br />
+		<%= f.text_field :hr_avg, :size => 4 %>
+	</p>
+<% end %>
+	
+<% if form_input_field?("race_track_id") %>
+	<p class="left">
+		<%= f.label :race_track_id %><br />
+		<%= f.collection_select :race_track_id, RaceTrack.all, :id, :title, :include_blank => true %>
+	</p>
+<% end %>

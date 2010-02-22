@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :except => [:show, :new, :create]
+  before_filter :login_required, :except => [:index, :show, :new, :create, :statistics]
   
   def index
     @users = User.all
   end
   
   def show
-    @user = User.find(params[:id])
+    @user = User.find(params[:id], :include => :races)
   end
   
   def new
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_attributes(params[:user])
         flash[:notice] = 'User was successfully updated.'
-        format.html { redirect_to(users_path) }
+        format.html { redirect_to(user_path(@user)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -59,6 +59,28 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+  # PUT /users/1/admin
+  def admin
+    @user = User.find(params[:id])
+    @user.toggle!(:admin)
+
+    redirect_to(users_url)
+  end
+  
+  # GET /users/1/statistics
+  # GET /users/1/statistics.xml
+  def statistics
+     @user = User.find(params[:id])
+     @start_date = Date.civil(params[:from][:year].to_i, params[:from][:month].to_i, params[:from][:day].to_i)
+     @end_date = Date.civil(params[:to][:year].to_i, params[:to][:month].to_i, params[:to][:day].to_i)
+     
+     respond_to do |format|
+       format.html
+       format.xml  { head :ok }
+       format.js
     end
   end
 end

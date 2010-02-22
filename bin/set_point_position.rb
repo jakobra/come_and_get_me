@@ -1,13 +1,7 @@
 require 'rubygems'
 require 'active_record'
 
-ActiveRecord::Base.establish_connection(
-  :adapter => "mysql",
-  :host => "localhost",
-  :database => "race_training_development",
-  :password => "always",
-  :username => "root"
-)
+require 'db_connection.rb'
 
 class Point < ActiveRecord::Base
   belongs_to :tracksegment

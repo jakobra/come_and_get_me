@@ -9,7 +9,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100201085533) do
+ActiveRecord::Schema.define(:version => 20100220153728) do
+
+  create_table "comments", :force => true do |t|
+    t.text     "content"
+    t.integer  "user_id"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "approved",         :default => true
+  end
+
+  create_table "counties", :force => true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.integer  "numeric_code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "emails", :force => true do |t|
     t.string   "from"
@@ -30,29 +48,73 @@ ActiveRecord::Schema.define(:version => 20100201085533) do
     t.datetime "updated_at"
   end
 
-  create_table "points", :force => true do |t|
+  create_table "municipalities", :force => true do |t|
     t.string   "name"
+    t.integer  "code"
+    t.integer  "county_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "pages", :force => true do |t|
+    t.string   "title"
+    t.string   "permalink"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "points", :force => true do |t|
     t.float    "latitude"
     t.float    "longitude"
     t.float    "elevation"
-    t.string   "description"
-    t.datetime "point_created_at"
     t.integer  "tracksegment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "position"
+  end
+
+  create_table "race_track_segments", :force => true do |t|
+    t.integer  "track_id"
+    t.integer  "race_track_id"
+    t.integer  "quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "race_tracks", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "municipality_id"
+    t.integer  "created_by_user_id"
+    t.integer  "last_updated_by_user_id"
   end
 
   create_table "races", :force => true do |t|
     t.integer  "event_id"
     t.float    "distance"
     t.time     "time"
-    t.integer  "max_pulse"
-    t.integer  "avg_pulse"
+    t.integer  "hr_max"
+    t.integer  "hr_avg"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "training_id"
-    t.integer  "track_id"
+    t.integer  "race_track_id"
+    t.text     "comment"
+  end
+
+  create_table "taggings", :force => true do |t|
+    t.integer  "race_track_id"
+    t.integer  "tag_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "tracks", :force => true do |t|
@@ -62,18 +124,20 @@ ActiveRecord::Schema.define(:version => 20100201085533) do
     t.integer  "track_file_size"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "date"
+    t.text     "description"
+    t.integer  "municipality_id"
+    t.integer  "created_by_user_id"
   end
 
   create_table "tracksegments", :force => true do |t|
     t.integer  "track_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "start_time"
-    t.datetime "end_time"
+    t.integer  "track_version"
   end
 
   create_table "trainings", :force => true do |t|
-    t.string   "title"
     t.date     "date"
     t.text     "comment"
     t.integer  "user_id"
@@ -93,8 +157,31 @@ ActiveRecord::Schema.define(:version => 20100201085533) do
     t.datetime "remember_token_expires_at"
     t.string   "identity_url"
     t.integer  "birthday_year"
+    t.boolean  "admin"
+    t.datetime "last_login_at"
+    t.string   "last_login_ip"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+
+  create_table "versions", :force => true do |t|
+    t.integer  "versioned_id"
+    t.string   "versioned_type"
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.string   "user_name"
+    t.text     "changes"
+    t.integer  "number"
+    t.string   "tag"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "versions", ["created_at"], :name => "index_versions_on_created_at"
+  add_index "versions", ["number"], :name => "index_versions_on_number"
+  add_index "versions", ["tag"], :name => "index_versions_on_tag"
+  add_index "versions", ["user_id", "user_type"], :name => "index_versions_on_user_id_and_user_type"
+  add_index "versions", ["user_name"], :name => "index_versions_on_user_name"
+  add_index "versions", ["versioned_id", "versioned_type"], :name => "index_versions_on_versioned_id_and_versioned_type"
 
 end

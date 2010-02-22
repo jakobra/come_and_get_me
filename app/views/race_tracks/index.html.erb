@@ -1,0 +1,23 @@
+<% title "Race Tracks"%>
+
+<h1>RaceTracks</h1>
+
+<table>
+	<tr>
+		<th>Title</th>
+	</tr>
+	
+	<% @race_tracks.each do |race_track| %>
+		<tr>
+			<%= content_tag :td, link_to(race_track.title, race_track) %>
+			<% if logged_in? %>
+				<%= content_tag :td, link_to("Edit", edit_race_track_path(race_track)) unless !logged_in? %>
+				<%= content_tag :td, link_to('Destroy', race_track, :confirm => 'Are you sure?', :method => :delete) unless !logged_in? %>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+
+<% if logged_in? %>
+	<%= link_to "New Race Track", new_race_track_path %>
+<% end %>

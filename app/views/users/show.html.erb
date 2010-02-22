@@ -6,8 +6,11 @@
 <h4>Year of birth:</h4>
 <%= @user.birthday_year %>
 
+<h4>Last login at:</h4>
+<%= @user.last_login_at.strftime("%e %b - %Y") %>
+
 <p>
-	<% if authorized?(@user) %>
+	<% if_authorized?(action_name, @user) do %>
 		<%= link_to "Edit Profile", edit_user_path(@user) %> | 
 		<%= link_to "New Training", new_user_training_path(@user) %> | 
 	<% end %>
@@ -18,11 +21,34 @@
 <table>
 	<% @user.trainings.recent(2.weeks.ago).each do |training| %>
 		<tr>
-			<td><%= training.date %></td>
-			<td><%= link_to training.title, training %></td>
-			<% if authorized?(@user) %>
+			<td><%= link_to training.date.strftime("%e %b - %Y"), training %></td>
+			<% if_authorized?(action_name, @user) do %>
 				<td><%= link_to "Edit", edit_training_path(training) %></td>
+				<td><%= link_to 'Destroy', training, :confirm => 'Are you sure?', :method => :delete %></td>
 			<% end %>
 		</tr>
 	<% end %>
 </table>
+
+<% content_for :right_side do %>
+	<% unless @user.trainings.blank? %>
+		<h2>User statistics</h2>
+		<% form_remote_tag :url => {:action => :statistics, :id => @user}, :method => :get do %>
+			<p>
+				<span class="bold">From:</span>
+				<%= select_date (@user.trainings.first.date), {:prefix => "from"} %>
+			</p>
+	
+			<p>
+				<span class="bold">To:</span>
+				<%= select_date Time.now, {:prefix => "to"} %>
+			</p>
+		
+			<p><%= submit_tag "Update" %></p>
+		<% end %>
+	
+		<div id="user_statistics">
+			<%= render :partial => "statistics", :object => @user, :locals => {:from => @user.trainings.first.date, :to => nil} %>
+		</div>
+	<% end %>
+<% end %>
