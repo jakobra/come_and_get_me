@@ -27,8 +27,6 @@
 
 * Clean up geocoding regarding ip_address
 
-* Change name from Track title
-
 * Change Mime-types for gpx and kml
 
 * Migrate all authorization to declarative

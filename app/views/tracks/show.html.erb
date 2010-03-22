@@ -1,7 +1,7 @@
 <% title @track.title %>
 
 <% content_for :head do %>
-	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAI7vgMWXyJttIg3zaex8VQBS8AnXYoE8C-F64DtdDJq8UsxjJ0hRgLHNjEsGnhPbSknXTWgAOGMt14g" type="text/javascript"></script>
+	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%= APP_CONFIG["google_maps_api_key"] %>" type="text/javascript"></script>
 	<%= javascript_include_tag "maps" %>
 	
 	<%= javascript_tag "Map.set_options({tracks: [#{@track.id}], track_version: #{@track.version}, distance: true, distance_prefix: 'distance_'});" %>
@@ -47,13 +47,13 @@
 		<ul id="track_history" style="display:none;">
 			<li>
 				1. <%= link_to @track.created_at.strftime("%Y-%m-%d"), :version => 1 %>,
-				<%= link_to @track.created_by_user.login, users_path(@track.created_by_user) unless @track.created_by_user.blank? %>
+				<%= link_to @track.created_by_user.login, user_path(@track.created_by_user) unless @track.created_by_user.blank? %>
 			</li>
 			<% @track.versions.each do |version| %>
 				<li>
-					<%= version.number %>. <%= version.tag %>.
+					<%= version.number %>. 
 					<%= link_to version.created_at.strftime("%Y-%m-%d"), :version => version.number %>,
-					<%= version.user.login unless version.user.blank? %>
+					<%= link_to version.user.login, user_path(version.user) unless version.user.blank? %>
 				</li>
 			<% end %>
 		</ul>
