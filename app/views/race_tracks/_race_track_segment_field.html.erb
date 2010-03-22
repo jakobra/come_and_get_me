@@ -3,7 +3,7 @@
 		<%= f.hidden_field :id, :name => "race_track_segments[][id]" %>
 		
 		<p style="display:inline;">
-			<%= f.collection_select :track_id, Track.all, :id, :name, {:prompt => "#{t("common.select")} #{t("activerecord.models.track.one")}"}, {:name => "race_track_segments[][track_id]"} %>
+			<%= f.collection_select :track_id, Track.all, :id, :title, {:prompt => "#{t("common.select")} #{t("activerecord.models.track.one")}"}, {:name => "race_track_segments[][track_id]"} %>
 		</p>
 		
 		<p style="display:inline;">

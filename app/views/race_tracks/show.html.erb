@@ -22,7 +22,7 @@
 		<span class="bold"><%= t("activerecord.models.track.other") %>:</span>
 		<ul>
 			<% @race_track.race_track_segments.each do |track_segment| %>
-				<%= content_tag :li, "#{track_segment.quantity} * #{link_to track_segment.track.name, track_path(track_segment.track)}" %>
+				<%= content_tag :li, "#{track_segment.quantity} * #{link_to track_segment.track.title, track_path(track_segment.track)}" %>
 			<% end %>
 		</ul>
 	<% end %>
