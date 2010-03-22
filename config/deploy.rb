@@ -12,6 +12,8 @@ set :repository,  "git@github.com:jakobra/Come-And-Get-Me.git"
 set :branch, "master"
 set :deploy_via, :remote_cache
 
+set :rails_env, "staging"
+
 role :web, "jakobra.se"                   # Your HTTP server, Apache/etc
 role :app, "jakobra.se"                   # This may be the same as your `Web` server
 role :db,  "jakobra.se", :primary => true # This is where Rails migrations will run
@@ -36,9 +38,13 @@ namespace :deploy do
     run "sudo rake gems:install"
   end
   
+  task :sync_assets do
+    system "scp -r public/assets  #{user}@#{host}:/#{deploy_to}/shared/public/"
+  end
+  
   task :config do
-    system "scp config/config.yml #{user}@#{host}:/#{deploy_to}/shared/config/"
-    system "scp config/database.yml #{user}@#{host}:/#{deploy_to}/shared/config/"
+    system "scp -r config/config.yml #{user}@#{host}:/#{deploy_to}/shared/config/config.yml"
+    system "scp -r config/database.yml #{user}@#{host}:/#{deploy_to}/shared/config/database.yml"
   end
   
 end
