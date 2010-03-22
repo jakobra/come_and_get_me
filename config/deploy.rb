@@ -16,6 +16,8 @@ role :web, "jakobra.se"                   # Your HTTP server, Apache/etc
 role :app, "jakobra.se"                   # This may be the same as your `Web` server
 role :db,  "jakobra.se", :primary => true # This is where Rails migrations will run
 
+set :rails_env, "staging"
+
 # If you are using Passenger mod_rails uncomment this:
 # if you're still using the script/reapear helper you will need
 # these http://github.com/rails/irs_process_scripts
