@@ -1,12 +1,17 @@
 class RaceTracksController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :login_required, :except => [:index, :show, :records]
   
   def index
-    if params[:municipality_id].blank?
-      @race_tracks = RaceTrack.all
+    if !params[:municipality_id].blank?
+      @race_tracks = Municipality.find(params[:municipality_id]).race_tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
+    elsif !params[:county_id].blank?
+      @county = County.find(params[:county_id], :include => :municipalities)
+      @municipalities = @county.municipalities
+      @race_tracks = @county.race_tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
     else
-      @race_tracks = Municipality.find(params[:municipality_id]).race_tracks
+      @race_tracks = RaceTrack.paginate(:page => params[:page], :order => :title, :per_page => 25)
     end
+    @latest_race_tracks = RaceTrack.latest
   end
 
   def show
@@ -30,13 +35,12 @@ class RaceTracksController < ApplicationController
     unless params[:race_track_segments].blank?
       params[:race_track_segments].each do |race_track_segment|
         tmp_object = @race_track.race_track_segments.build({:track_id => race_track_segment[:track_id], :quantity => race_track_segment[:quantity]})
-        logger.info "valid?: #{tmp_object.valid?}"
       end
     end
     
     respond_to do |format|
       if @race_track.save
-        flash[:notice] = 'Race Track was successfully created.'
+        flash[:notice] = t("race_tracks.create.created")
         format.html { redirect_to(@race_track) }
         format.xml  { render :xml => @race_track, :status => :created, :location => @race_track }
       else
@@ -70,12 +74,12 @@ class RaceTracksController < ApplicationController
     respond_to do |format|
       if @race_track.update_attributes(params[:race_track])
         if @race_track_segments.blank?
-          flash[:notice] = 'Race Track was successfully updated.'
+          flash[:notice] = t("race_tracks.update.updated")
           format.html { redirect_to(@race_track) }
           format.xml  { head :ok }
         else
           if @race_track_segments.all?(&:valid?)
-            flash[:notice] = 'Race Track was successfully updated.'
+            flash[:notice] = t("race_tracks.update.updated")
             format.html { redirect_to(@race_track) }
             format.xml  { head :ok }
           else
@@ -98,6 +102,10 @@ class RaceTracksController < ApplicationController
       format.html { redirect_to(race_tracks_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  def records
+    @race_track = RaceTrack.find(params[:id])
   end
   
 end

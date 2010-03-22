@@ -1,36 +1,43 @@
 <% title "#{@training.date.strftime("%e %b - %Y")}" %>
 <% main_class("large_width") %>
 
-<p>
-  <b>Date:</b>
-  <%=h @training.date %>
-</p>
+
+<p class="bold"><%=h @training.date %></p>
 
 <p>
-  <b>Comment:</b>
   <%=simple_format h @training.comment %>
 </p>
 
 <% form_tag edit_individual_training_races_path(@training) do %>
 <table id="races">
 	<tr>
-		<th></th>
-		<th>Event</th>
-		<th>Distance (km)</th>
-		<th>Track</th>
-		<th>Time (hh:mm:ss)</th>
-		<th>Hr. max</th>
-		<th>Hr. avg</th>
+		<%= content_tag :th if permitted_to? :update, @training.races.first %>
+		<th><%= t("activerecord.attributes.race.event_id") %></th>
+		<th><%= t("activerecord.attributes.race.distance") %></th>
+		<th><%= t("activerecord.attributes.race.race_track_id") %></th>
+		<th><%= t("activerecord.attributes.race.time") %></th>
+		<th><%= t("activerecord.attributes.race.hr_max") %></th>
+		<th><%= t("activerecord.attributes.race.hr_avg") %></th>
 	</tr>
-	<%= render :partial => @training.races, :locals => {:authorized => (if_authorized?(action_name, @training) {true})} %>
+	<%= render :partial => @training.races %>
 </table>
-<%= select_tag :field, options_for_select([["All fields", ""], ["Event", "event_id"], ["Distance", "distance"], ["Track", "race_track_id"], ["Time", "time"], ["Hr.", "hr"], ["Commment", "comment"]]) %>
-<%= submit_tag "Edit selected" %>
+
+<% if permitted_to? :update, @training %>
+	<%= select_tag :field, options_for_select([[t("trainings.show.all_fields"), ""],
+											   [t("activerecord.models.event.one"), "event_id"],
+											   [t("activerecord.attributes.race.distance"), "distance"],
+											   [t("activerecord.models.race track.one"), "race_track_id"],
+											   [t("activerecord.attributes.race.time"), "time"],
+											   ["#{t("activerecord.attributes.race.hr_max")}, #{t("activerecord.attributes.race.hr_avg")}", "hr"],
+											   [t("activerecord.models.comment.one"), "comment"]]) %>
+											
+	<%= submit_tag t("trainings.show.edit_selected") %>
+	<% end %>
 <% end %>
 
 <% if_authorized?(action_name, @training) do %>
 	<p>
-		<%= link_to_function("Show/Hide Race-form", :id => "toggle_race") do |page|
+		<%= link_to_function(t("trainings.show.show_hide_form"), :id => "toggle_race") do |page|
 			page[:race_form].toggle
 		end %>
 	</p>
@@ -39,58 +46,10 @@
 		<% remote_form_for(@training.races.build, :url => training_races_path(@training)) do |f|  %>
 			<%= error_messages_for 'race', :object => @training.races %>
 		
-			<div class="left">
-				<p class="left">
-					<%= f.label :event_id %><br />
-					<%= f.collection_select :event_id, Event.all, :id, :name, :prompt => "Select an Event" %>
-					or create one:
-				</p>
-			
-				<div class="left">
-					<p>
-						<%= f.label :new_event_name %><br />
-						<%= f.text_field :new_event_name %>
-					</p>
-				
-					<p>
-						<%= f.label :new_event_description %><br />
-						<%= f.text_field :new_event_description %>
-					</p>
-				</div>
-			
-				<p class="left  clear_left">
-					<%= f.label :distance %><br />
-					<%= f.text_field :distance, :size => 4 %>
-				</p>
-			
-				<p class="left">
-					<%= f.label :time %><br />
-					<%= f.text_field :time, :size => 8 %>
-				</p>
-			
-				<p class="left">
-					<%= f.label :hr_max %><br />
-					<%= f.text_field :hr_max, :size => 4 %>
-				</p>
-			
-				<p class="left">
-					<%= f.label :hr_avg %><br />
-					<%= f.text_field :hr_avg, :size => 4 %>
-				</p>
-			
-				<p class="left">
-					<%= f.label :race_track_id %><br />
-					<%= f.collection_select :race_track_id, RaceTrack.all, :id, :title, :prompt => "Select a Track", :include_blank => true %>
-				</p>
-			</div>
-			
-			<p class="left">
-				<%= f.label :comment %><br />
-				<%= f.text_area :comment, :rows => 5, :cols => 30 %>
-			</p>
+			<%= render "races/fields", :f => f %>
 			
 			<p class="clear_left">
-				<%= f.submit 'Create' %>
+				<%= f.submit t("common.create") %>
 			</p>
 		<% end %>
 	</fieldset>
@@ -100,8 +59,8 @@
 
 <div class="left clear_left">
 	<% if_authorized?(action_name, @training) do %>
-		<%= link_to 'Edit', edit_training_path(@training) %> |
+		<%= link_to t("common.edit"), edit_training_path(@training) %> |
 	<% end %>
 
-	<%= link_to 'Back', @training.user %>
+	<%= link_to t("common.back"), member_path(@training.user) %>
 </div>

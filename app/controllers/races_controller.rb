@@ -80,7 +80,7 @@ class RacesController < ApplicationController
   def update_individual
     @races = Race.update(params[:races].keys, params[:races].values).reject { |r| r.errors.blank? }
     if @races.blank?
-      flash[:notice] = "Races updated"
+      flash[:notice] = t("races.update_individual.updated")
       redirect_to training_path(params[:training_id])
     else
       render :action => "edit_individual"

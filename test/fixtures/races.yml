@@ -4,12 +4,12 @@ one:
   event: 
   distance: 1.5
   time: 2010-01-21 19:50:33
-  max_pulse: 1
-  avg_pulse: 1
+  hr_max: 1
+  hr_avg: 1
 
 two:
   event: 
   distance: 1.5
   time: 2010-01-21 19:50:33
-  max_pulse: 1
-  avg_pulse: 1
+  hr_max: 1
+  hr_avg: 1

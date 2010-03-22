@@ -32,8 +32,6 @@
 	</p>
 	
 	<p>
-		<%= f.submit 'Update' %>
+		<%= f.submit 'Update', :class => :submit %> | <%= link_to t("common.cancel"), users_path %>
 	</p>
 <% end %>
-
-<%= link_to 'Back', users_path %>

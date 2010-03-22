@@ -5,16 +5,16 @@ class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.xml
   def index
-    if params[:municipality_id].blank?
-      @tracks = Track.all
+    if !params[:municipality_id].blank?
+      @tracks = Municipality.find(params[:municipality_id]).tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
+    elsif !params[:county_id].blank?
+      @county = County.find(params[:county_id], :include => :municipalities)
+      @municipalities = @county.municipalities
+      @tracks = @county.tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
     else
-      @tracks = Municipality.find(params[:municipality_id]).tracks
+      @tracks = Track.paginate(:page => params[:page], :order => :title, :per_page => 25)
     end
-      
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @tracks }
-    end
+    @latest_tracks = Track.latest
   end
 
   # GET /tracks/1
@@ -57,7 +57,7 @@ class TracksController < ApplicationController
     
     respond_to do |format|
       if @track.save
-        flash[:notice] = 'Track was successfully created.'
+        flash[:notice] = t("tracks.create.created", :name => @track.title)
         format.html { redirect_to(@track) }
         format.xml  { render :xml => @track, :status => :created, :location => @track }
       else
@@ -80,7 +80,7 @@ class TracksController < ApplicationController
     
     respond_to do |format|
       if @track.update_attributes({:updated_by => current_user}.merge(params[:track]))
-        flash[:notice] = 'Track was successfully updated.'
+        flash[:notice] = t("tracks.update.updated", :name => @track.title)
         format.html { redirect_to(@track) }
         format.xml  { head :ok }
       else

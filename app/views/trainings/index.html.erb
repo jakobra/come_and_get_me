@@ -1,24 +1,33 @@
-<% title "#{@user.login}´s tranings" %>
+<% title "#{@user.login}s #{t("activerecord.models.training.other")}" %>
 
-<h1>Listing trainings</h1>
+<% content_for :right_side do %>
+	<div class="side_module">
+		Rambo Rocks!
+	</div>
+<% end %>
+
+<h1><%= "#{t("trainings.index.trainings_for")} #{@user.login}" %></h1>
+
+<p><%= will_paginate @trainings %></p>
 
 <table>
   <tr>
-    <th>Date</th>
+    <th class="align_left"><%= t("activerecord.attributes.training.date") %></th>
+	<th class="align_left"><%= t("activerecord.attributes.training.races") %></th>
   </tr>
 
 <% @trainings.each do |training| %>
-  <tr>
-    <td><%=h training.date %></td>
-    <td><%= link_to 'Show', training %></td>
+  <tr class="<%= cycle "odd", "even" %>">
+    <td><%= link_to training.date, training %></td>
+	<td><%= training.races.size %></td>
 	<% if_authorized?(action_name, training) do %>
-    	<td><%= link_to 'Edit', edit_training_path(training) %></td>
-    	<td><%= link_to 'Destroy', training, :confirm => 'Are you sure?', :method => :delete %></td>
+    	<td class="edit"><%= link_to t("common.edit"), edit_training_path(training) %></td>
+    	<td class="destroy"><%= link_to t("common.destroy"), training, :confirm => t("common.sure"), :method => :delete %></td>
 	<% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
-<%= link_to 'Back', user_path(@user) %> |
-<%= link_to 'New training', new_user_training_path(@user) %>
+<%= link_to t("common.back"), user_path(@user) %> |
+<%= link_to t("trainings.index.new_training"), new_user_training_path(@user) %>

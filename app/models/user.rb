@@ -82,6 +82,14 @@ class User < ActiveRecord::Base
     self.admin
   end
   
+  def to_param
+    login
+  end
+  
+  def role_symbols
+    [:member, :guest]
+  end
+  
   protected
   
   def get_seconds_from_hours_and_minutes(hours, minutes)

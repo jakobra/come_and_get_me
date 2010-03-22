@@ -1,39 +1,55 @@
 <% title @user.login %>
+<% main_class "small_width" %>
 
-<h4>Name:</h4>
-<%= @user.name %>
+<% content_for :left_side do %>
+	<div class="side_module">
+		<h4><%= t("users.show.recent_trainings") %>:</h4>
+		<table>
+			<% @user.trainings.recent(2.weeks.ago).each do |training| %>
+				<tr>
+					<td><%= link_to training.date.strftime("%e %b - %Y"), training %></td>
+					<% if_authorized?(action_name, @user) do %>
+						<td class="small"><%= link_to t("common.edit"), edit_training_path(training) %></td>
+						<td class="small"><%= link_to t("common.destroy"), training, :confirm => t("common.sure"), :method => :delete %></td>
+					<% end %>
+				</tr>
+			<% end %>
+		</table>
+	</div>
+	
+	<div class="side_module">
+		<p class="small">
+			<span class="bold"><%= t("activerecord.attributes.user.birthday_year") %>:</span>
+			<%= @user.birthday_year %>
+		</p>
 
-<h4>Year of birth:</h4>
-<%= @user.birthday_year %>
+		<p class="small">
+			<span class="bold"><%= t("users.show.last_login") %>:</span>
+			<%= @user.last_login_at.strftime("%e %b - %Y") %>
+		</p>
+	</div>
+<% end %>
 
-<h4>Last login at:</h4>
-<%= @user.last_login_at.strftime("%e %b - %Y") %>
+<h2><%= @user.name %><%= t("users.show.aka") %> <%= @user.login %></h2>
+
+
 
 <p>
-	<% if_authorized?(action_name, @user) do %>
-		<%= link_to "Edit Profile", edit_user_path(@user) %> | 
-		<%= link_to "New Training", new_user_training_path(@user) %> | 
+	<% if permitted_to? :update, @user %>
+		<%= link_to t("users.show.edit_profile"), edit_user_path(@user) %> | 
 	<% end %>
-	<%= link_to "Trainings", user_trainings_path(@user) %>
+	<% if permitted_to? :create, @user.trainings %>
+		<%= link_to t("users.show.new_training"), new_user_training_path(@user) %> | 
+	<% end %>
+	<%= link_to t("activerecord.models.training.other"), user_trainings_path(@user) %>
 </p>
 
-<h4>Recent Trainings:</h4>
-<table>
-	<% @user.trainings.recent(2.weeks.ago).each do |training| %>
-		<tr>
-			<td><%= link_to training.date.strftime("%e %b - %Y"), training %></td>
-			<% if_authorized?(action_name, @user) do %>
-				<td><%= link_to "Edit", edit_training_path(training) %></td>
-				<td><%= link_to 'Destroy', training, :confirm => 'Are you sure?', :method => :delete %></td>
-			<% end %>
-		</tr>
-	<% end %>
-</table>
+
 
 <% content_for :right_side do %>
 	<% unless @user.trainings.blank? %>
 		<h2>User statistics</h2>
-		<% form_remote_tag :url => {:action => :statistics, :id => @user}, :method => :get do %>
+		<% form_remote_tag :url => {:action => :statistics, :id => @user.id}, :method => :get do %>
 			<p>
 				<span class="bold">From:</span>
 				<%= select_date (@user.trainings.first.date), {:prefix => "from"} %>

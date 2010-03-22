@@ -13,6 +13,11 @@ class Race < ActiveRecord::Base
   validates_numericality_of :hr_max, :hr_avg, :allow_nil => true, :less_than => 250, :only_integer => true
   validates_format_of :time_string, :with => /^\d{2}:\d{2}:\d{2}$/, :message => "must be in format of hh:mm:ss"
   
+  def self.recent_records
+    race_tracks = calculate(:min, :time, :group => "race_track_id", :conditions => "race_track_id IS NOT NULL", :include => :training)
+    find_all_by_time(race_tracks.values, :order => "trainings.date DESC", :joins => :training, :limit => 5)
+  end
+  
   def time_string
     if @time_string.blank?
        time.blank? ? "" : time.strftime("%H:%M:%S")
@@ -21,6 +26,9 @@ class Race < ActiveRecord::Base
     end
   end
   
+  def title
+    self.training.date.strftime("%e %b - %Y")
+  end
   
   def time_string=(time_str)
     @time_string = time_str

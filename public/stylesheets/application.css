@@ -1,7 +1,19 @@
+/* COLORS
+	http://www.colourlovers.com/palette/144642/Cherry_Cub
+	almost pure		#fffcfc
+	Linen			#f0dfab
+	Cold Coffee		#c98a3b
+	Sour Cherry		#f10879
+	Golden Crumb	#e0a421
+	Color Lover		#eeeef0
+*/
+
 body {
-	background-color: #4B7399;
+	background-color: #FFFCFC;
 	font-family: Verdana, Helvetica, Arial;
 	font-size: 14px;
+	margin:0;
+	color:#444444;
 }
 
 a img {
@@ -9,7 +21,11 @@ a img {
 }
 
 a {
-  color: #0000FF;
+  color: #E0A421;
+}
+
+a:hover {
+  color: #F10879;
 }
 
 .clear {
@@ -17,18 +33,30 @@ a {
   overflow: hidden;
 }
 
+.margin_top {
+	margin-top:20px;
+}
+
+p.default {
+	margin:1em 0;
+}
+
+div.default {
+	margin:1em 0;
+}
+
 #flash_notice, #flash_error {
 	padding: 5px 8px;
 }
 
 #flash_notice {
-  background-color: #CFC;
-  border: solid 1px #6C6;
+  background-color: #eeeef0;
+  border: solid 2px #6C6;
 }
 
 #flash_error {
-  background-color: #FCC;
-  border: solid 1px #C66;
+  background-color: #eeeef0;
+  border: solid 2px red;
 }
 
 .fieldWithErrors {
@@ -69,23 +97,44 @@ a {
   list-style: disc;
 }
 
+/* HEADER STYLES */
+
+.header_container {
+	height:100px;
+	background-color: #FFFCFC;
+}
+
+.header {
+	margin:10px 0 10px 0;
+	width:1000px;
+	height:100px;
+	background-image:url("/images/header.png");
+	background-repeat:no-repeat;
+	background-position:250px 0px;
+	background-color: #FFFCFC;
+}
+
+.header img {
+	margin-left:45px;
+}
+
 /* Samplerate slide */
 
 #map_canvas {
-	width:650px;
+	width:740px;
 	height:430px;
 }
 
 #sample_rate_slide {
-	width:650px;
-	background-color:#cccccc;
+	width:740px;
+	background-color:#bec1c5;
 	height:15px;
 }
 
 #sample_rate_handle {
-	width:10px;
+	width:30px;
 	height:15px;
-	background-color:#fb006a;
+	background-color:#F10879;
 	cursor:move;
 }
 
@@ -125,7 +174,7 @@ textarea {
 
 /* OPENID LOGIN*/
 #openid_url {
-	background-image:url(/images/icons/open_id.png);
+	background-image:url("/images/icons/open_id.png");
 	background-position:4px 4px;
 	background-repeat:no-repeat;
 	padding:2px 2px 2px 23px;
@@ -138,12 +187,36 @@ textarea {
 table {
 	margin:5px 0px 5px 0px;
 	border-collapse:collapse;
+	width:100%;
+}
+
+tbody {
+	width:100%;
+}
+
+table tbody tr.odd {
+	background-color:#F0DFAB;
+}
+
+table tbody tr.odd a{
+	color:#444444;
+}
+
+table tbody tr.even {
+	background-color:white;
+}
+
+table tbody tr.even a{
+	color:#444444;
 }
 
 table td {
 	margin:0px;
 	padding:3px 10px;
-	border:1px solid black;
+}
+
+td.records {
+	width:60px;
 }
 
 /* LISTS */
@@ -172,7 +245,7 @@ ul {
 }
 
 .new_comment_box, .edit_comment_box {
-	background-image:url(/images/transparent/trans_black_06.png);
+	background-image:url("/images/transparent/trans_black_06.png");
 	padding:10px;
 }
 
@@ -211,9 +284,12 @@ p.comment_updated {
 
 /* FOOTER STYLES */
 .footer {
+	float:left;
+	width:1000px;
 	text-align:center;
-	border-top:1px solid #cccccc;
+	border-top:1px solid #F10879;
 	padding-top:15px;
+	margin-top:20px;
 }
 
 .footer ul {
@@ -223,12 +299,13 @@ p.comment_updated {
 
 .footer ul li {
 	display:inline;
+	color:#F10879;
 }
 
 /* ADMIN STYLES */
 
 #admin_menu {
-	background-image:url(/images/transparent/trans_black_06.png);
+	background-image:url("/images/transparent/trans_black_06.png");
 	padding:10px;
 	width: 980px;
 	margin: 0 auto;
@@ -245,5 +322,34 @@ p.comment_updated {
 
 #admin_menu ul li{
 	display:inline;
+}
+
+input.submit {
+	width:100px;
+	height:30px;
+	border:none;
+	background-image:url("/images/buttons/submit.png");
+	background-color:white;
+	color:white;
+	font-size:14px;
+	cursor:pointer;
+}
+
+/* TABLE CELLS */
+td.record {
+	width:55px;
+}
+
+td.edit {
+	width:80px;
+}
+
+td.destroy {
+	width:5px;
+}
+
+/* AREA NAVIGATION */
+.area_navigation > .area_select {
+	float:left;
 }
 

@@ -1,35 +1,42 @@
-<% title "Welcome" %>
-<h1>Welcome to Racetraining!</h1>
+<% main_class "small_width" %>
 
-<% if logged_in? %>
-	<p class="bold">You are logged in as <%=h current_user.login %></p>
-<% else %>
-	<p class="bold">You are currently not logged in.</p>
+<% content_for :left_side do %>
+	<div class="side_module">
+		<h5><%= t("side_modules.recent_records") %></h5>
+		<p class="small">
+			<% @recent_records.each do |record| %>
+				<%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %>, <%= truncate(record.race_track.title,:length => 25) unless record.race_track.blank? %><br />
+			<% end %>
+		</p>
+	</div>
+	
+	<div class="side_module bg_test">
+		<h5><%= t("side_modules.latest_race") %></h5>
+		<p class="small">
+			<%= link_to @last_race.training.user.login, @last_race.training.user %> <%= t("side_modules.reported") %>
+			<%= link_to @last_race.event.name, @last_race.training %>
+			<%= t("side_modules.for") %>
+			<%= time_ago_in_words(@last_race.created_at) %> <%= t("side_modules.ago") %>
+		</p>
+	</div>
 <% end %>
 
-<div class="border_top left">
-	<h3>Last comment:</h3>
-	<p>
-		<%= link_to @last_comment.user.login, @last_comment.user %> commented on <%= @last_comment.non_comment_parent.class.to_s %>
-		<%= link_to @last_comment.non_comment_parent.title, @last_comment.non_comment_parent %>
-		<%= time_ago_in_words(@last_comment.created_at) %> ago
-	</p>
-	<h3>Last race:</h3>
-	<p>
-		<%= link_to @last_race.training.user.login, @last_race.training.user %> reported
-		<%= link_to @last_race.event.name, @last_race.training %>
-		<%= time_ago_in_words(@last_race.created_at) %> ago
-	</p>
-</div>
-
 <% content_for :right_side do %>
-	<h2><%= @area.name %></h2>
-	<h4>Race Tracks close to you</h4>
-	<% content_tag :ul do %>
-		<% @race_tracks.each do |race_track| %>
-			<% content_tag :li do %>
-				<%= link_to race_track.title, race_track_path(race_track) %>
+	<% unless @area.nil? %>
+		<div class="side_module close_race_tracks">
+			<h2><%= @area.name %></h2>
+			<h5><%= t("side_modules.close_race_track") %></h5>
+			<% content_tag :ul do %>
+				<% @race_tracks.each do |race_track| %>
+					<% content_tag :li, :class => "small" do %>
+						<%= link_to race_track.title, race_track_path(race_track), :class => "font_color" %>
+					<% end %>
+				<% end%>
 			<% end %>
-		<% end%>
+			<p class="small">
+				<span class="bold"><%= t("common.create")%></span> <%= t("side_modules.your_own") %>
+				<%= link_to t("activerecord.models.race track.one"), new_race_track_path, :class => "font_color" %>
+			</p>
+		</div>
 	<% end %>
 <% end %>

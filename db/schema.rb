@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100220153728) do
+ActiveRecord::Schema.define(:version => 20100322122823) do
 
   create_table "comments", :force => true do |t|
     t.text     "content"
@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(:version => 20100220153728) do
   end
 
   create_table "tracks", :force => true do |t|
-    t.string   "name"
+    t.string   "title"
     t.string   "track_file_name"
     t.string   "track_content_type"
     t.integer  "track_file_size"

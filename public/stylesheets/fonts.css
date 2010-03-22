@@ -7,6 +7,10 @@ p {
 }
 
 .small {
+	font-size:12px;
+}
+
+.xsmall {
 	font-size:10px;
 }
 
@@ -16,4 +20,16 @@ p {
 
 .center {
 	text-align: center;
+}
+
+.align_left {
+	text-align:left;
+}
+
+.align_right {
+	text-align:right;
+}
+
+.font_color {
+	color:#444444;
 }

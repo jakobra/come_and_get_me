@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
-  before_filter :admin_required, :except => :create
+  before_filter :login_required, :except => [:report, :index, :approve, :destroy]
+  before_filter :admin_required, :only => [:index, :approve, :destroy]
   
   def index
     @comments = Comment.all
@@ -26,6 +27,14 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     
     @comment.update_attributes(params[:comment])
+  end
+  
+  def destroy
+    @comment = Comment.find(params[:id])
+    @comment.destroy
+    
+    flash[:notice] = "Successfully destroyed comment."
+    redirect_to comments_url
   end
   
   def approve

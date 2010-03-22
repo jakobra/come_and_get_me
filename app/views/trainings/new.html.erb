@@ -1,18 +1,18 @@
-<% title "New Training"%>
+<% title t("trainings.new.new_training") %>
 <% main_class "large_width" %>
 
-<h1>New training</h1>
+<h1><%= t("trainings.new.new_training") %></h1>
 
 <% form_for(@training, :url => user_trainings_path(@user)) do |f| %>
 	<%= f.error_messages %>
 	
 	<p>
-		<%= f.label :date %><br />
+		<%= f.label :date, t("activerecord.attributes.training.date") %><br />
 		<%= f.date_select :date %>
 	</p>
 	
 	<p>
-		<%= f.label :comment %><br />
+		<%= f.label :comment, t("activerecord.models.comment.one") %><br />
 		<%= f.text_area :comment, :rows => 5 %>
 	</p>
 	
@@ -21,12 +21,11 @@
 	</div>
 	
 	<p class="clear_both">
-		<%= add_race_field_link("Add race") %>
+		<%= add_race_field_link(t("trainings.new.add_race")) %>
 	</p>
 	
 	<p>
-		<%= f.submit 'Create' %>
+		<%= f.submit t("common.create") %> |
+		<%= link_to t("common.cancel"), user_trainings_path(@user), :confirm => t("common.sure") %>
 	</p>
 <% end %>
-
-<p class="clear_both"><%= link_to 'Back', user_trainings_path(@user) %></p>

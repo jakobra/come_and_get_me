@@ -10,7 +10,7 @@ module TracksHelper
     if track.track_file_name.blank?
       "Plot"
     else
-      link_to "#{h(track.name)} (GPX)", track.track.url
+      link_to "#{h(track.title)} (GPX)", track.track.url
     end
   end
 

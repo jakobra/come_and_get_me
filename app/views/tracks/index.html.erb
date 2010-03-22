@@ -1,28 +1,57 @@
-<% title "Tracks" %>
-<% main_class "large_width" %>
+<% title t("activerecord.models.track.other") %>
 
-<h1>Listing tracks</h1>
-
-<table>
-	<tr>
-		<th>Name</th>
-		<th>Track Source</th>
-	</tr>
-
-<% @tracks.each do |track| %>
-	<tr>
-		<td><%= link_to track.name, track %></td>
-		<td><%= track_created_from(track) %></td>
-		<% if logged_in? %>
-			<td><%= link_to 'Edit', edit_track_path(track) %></td>
-			<% if admin? %>
-				<td><%= link_to 'Destroy', track, :confirm => 'Are you sure?', :method => :delete %></td>
+<% content_for :right_side do %>
+	<div class="side_module">
+		<h5><%= t("side_modules.latest_tracks") %></h5>
+		<ul>
+			<% @latest_tracks.each do |track| %>
+				<li><%= link_to track.title, track_path(track) %></li>
 			<% end %>
-		<% end %>
-	</tr>
+		</ul>
+	</div>
 <% end %>
+
+<h1><%= t("activerecord.models.track.other") %></h1>
+
+<div class="area_navigation">
+	<div class="area_select">
+		<%= select("county", "id", County.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.county")}"}, {:onchange => remote_function(:url => tracks_path, :with => "'county_id=' + this.value", :method => :get)}) %>
+
+		<%= select("municipality", "id", Municipality.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.municipality.one")}"}, {:onchange => remote_function(:url => tracks_path, :with => "'municipality_id=' + this.value", :method => :get)}) %>
+	</div>
+	
+	<% if logged_in? %>
+		<div class="new_race_track right">
+			<%= link_to t("tracks.index.new_track"), new_track_path %>
+		</div>
+	<% end %>
+</div>
+
+<div class="race_track_pagination default clear_both left">
+	<%= will_paginate @tracks %>
+</div>
+
+<table class="clear_both">
+	<tr>
+		<th class="align_left"><%= t("activerecord.attributes.track.title") %></th>
+		<th class="align_left"><%= t("tracks.source") %></th>
+	</tr>
+	<% if @tracks.blank? %>
+		<tr>
+			<td><%= t("race_tracks.index.no_tracks") %></td>
+		</tr>
+	<% end %>
+	<tbody id="tracks">
+		<%= render @tracks %>
+	</tbody>
 </table>
 
-<br />
+<div class="race_track_pagination default">
+	<%= will_paginate @tracks %>
+</div>
 
-<%= link_to 'New track', new_track_path %>
+<% if logged_in? %>
+	<p class="default align_right">
+		<%= link_to t("tracks.index.new_track"), new_track_path %>
+	</p>
+<% end %>

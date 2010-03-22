@@ -5,11 +5,12 @@ class County < ActiveRecord::Base
   
   attr_accessible :name, :code, :numeric_code
   
-  def self.find_by_geolocation
+  validates_presence_of :name, :code, :numeric_code
+  
+  def self.find_by_geolocation(remote_ip)
     if @counties.blank?
       @counties = self.all.reject do |c|
-        logger.info "County #{Geolocation.get_county}"
-        Geolocation.translated(c.name) != Geolocation.get_county
+        Geolocation.translated(c.name) != Geolocation.get_county(remote_ip)
       end
     end
     @counties.first

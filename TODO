@@ -5,14 +5,15 @@
 * Layout and Design
 
 * Statistiks and rankings
+	-Add avg time for member on race_track
 
 * Birthday year or max pulse or choose
 
-* Change Mime-types for gpx and kml
-
 * Add way-points to describe specific points
 
-* Implement send-mail functionality to report mail for example
+* Implement send-mail functionality to report comments for example
+
+* Add possibility to create race_track when you create a track
 
 ### CODING ###
 
@@ -23,3 +24,13 @@
 * If possible find a nicer way to find latest tracksegments from association
 
 * Tagging conflict with vestal versions, now solved by renaming Tagging to Taging
+
+* Clean up geocoding regarding ip_address
+
+* Change name from Track title
+
+* Change Mime-types for gpx and kml
+
+* Migrate all authorization to declarative
+
+* Migrate authentication to authlogic

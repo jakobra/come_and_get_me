@@ -2,12 +2,12 @@
 
 one:
   name: MyString
-  gpx_file_name: MyString
-  gpx_content_type: MyString
-  gpx_file_size: 1
+  track_file_name: MyString
+  track_content_type: MyString
+  track_file_size: 1
 
 two:
   name: MyString
-  gpx_file_name: MyString
-  gpx_content_type: MyString
-  gpx_file_size: 1
+  track_file_name: MyString
+  track_content_type: MyString
+  track_file_size: 1

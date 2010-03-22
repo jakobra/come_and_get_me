@@ -1,0 +1,10 @@
+<tr class="<%= cycle "odd", "even" %>">
+	<td><%= link_to track.title, track %></td>
+	<td><%= track_created_from(track) %></td>
+	<% if logged_in? %>
+		<td class="edit"><%= link_to t("common.edit"), edit_track_path(track) %></td>
+		<% if admin? %>
+			<td class="destroy"><%= link_to t("common.destroy"), track, :confirm => t("common.sure"), :method => :delete %></td>
+		<% end %>
+	<% end %>
+</tr>

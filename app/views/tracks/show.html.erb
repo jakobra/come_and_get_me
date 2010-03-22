@@ -8,48 +8,19 @@
 	
 <% end %>
 
-<% content_for :right_side do %>
-	<h2>Info:</h2>
-	<p>
-		Version: <%= @track.version %>
-		<%= link_to "Current", :version => nil if params[:version] %>
-	</p>
-	
-	<%= link_to_function("View History", nil, :id => "track_history_view_link") do |page|
-		page[:track_history].toggle
-		page[:track_history_view_link].hide
-		page[:track_history_hide_link].show
-	end %>
-	
-	<%= link_to_function("Hide History", :style => "display:none;", :id => "track_history_hide_link") do |page|
-		page[:track_history].toggle
-		page[:track_history_hide_link].hide
-		page[:track_history_view_link].show
-	end %>
-	
-	<ul id="track_history" style="display:none;">
-		<li>
-			1. <%= link_to @track.created_at.strftime("%Y-%m-%d"), :version => 1 %>,
-			<%= @track.created_by_user.login unless @track.created_by_user.blank? %>
-		</li>
-		<% @track.versions.each do |version| %>
-			<li>
-				<%= version.number %>. <%= version.tag %>.
-				<%= link_to version.created_at.strftime("%Y-%m-%d"), :version => version.number %>,
-				<%= version.user.login unless version.user.blank? %>
-			</li>
-		<% end %>
-	</ul>
-	
-	<p>
-		Download this track:<br>
-		<%= link_to "#{h(@track.name)} (GPX)", track_points_path(@track, :gpx) %><br>
-		<%= link_to "#{h(@track.name)} (KML)", track_points_path(@track, :kml) %>
-	</p>
-	<p>
-		The Track is made from:<br>
-		<%= track_created_from(@track) %>
-	</p>
+<% content_for :left_side do %>
+	<h3><%= h @track.name %></h3>
+	<div>
+		<p>
+			<%= @track.description %>
+		</p>
+		<p class="bold">
+			<%= @track.municipality.name %>
+		</p>
+		<p>
+			<%= @track.date.strftime("%Y-%m-%d") %>
+		</p>
+	</div>
 	
 	<div class="border_top">
 		<p id="sample_rate">Rate: 5</p>
@@ -57,29 +28,55 @@
 	</div>
 	
 	<div class="border_top">
-		<h4>Description:</h4>
 		<p>
-			<%= @track.description %>
+			<%= link_to "Current", :version => nil if params[:version] %>
 		</p>
-		<h4>Municipality:</h4>
+	
+		<%= link_to_function(t("tracks.show.view_history"), nil, :id => "track_history_view_link") do |page|
+			page[:track_history].toggle
+			page[:track_history_view_link].hide
+			page[:track_history_hide_link].show
+		end %>
+	
+		<%= link_to_function(t("tracks.show.hide_history"), :style => "display:none;", :id => "track_history_hide_link") do |page|
+			page[:track_history].toggle
+			page[:track_history_hide_link].hide
+			page[:track_history_view_link].show
+		end %>
+	
+		<ul id="track_history" style="display:none;">
+			<li>
+				1. <%= link_to @track.created_at.strftime("%Y-%m-%d"), :version => 1 %>,
+				<%= link_to @track.created_by_user.login, users_path(@track.created_by_user) unless @track.created_by_user.blank? %>
+			</li>
+			<% @track.versions.each do |version| %>
+				<li>
+					<%= version.number %>. <%= version.tag %>.
+					<%= link_to version.created_at.strftime("%Y-%m-%d"), :version => version.number %>,
+					<%= version.user.login unless version.user.blank? %>
+				</li>
+			<% end %>
+		</ul>
+	
 		<p>
-			<%= @track.municipality.name %>
+			<%= t("tracks.show.download_track") %>:<br>
+			<%= link_to "#{h(@track.name)} (GPX)", track_points_path(@track, :gpx) %><br>
+			<%= link_to "#{h(@track.name)} (KML)", track_points_path(@track, :kml) %>
 		</p>
-		<h4>Date:</h4>
 		<p>
-			<%= @track.date.strftime("%Y-%m-%d") %>
+			<span class="bold"><%= t("tracks.source") %>:</span><br>
+			<%= track_created_from(@track) %>
 		</p>
 	</div>
 	
-	<div class="border_top">
-		<%= link_to 'Back', tracks_path %>
-		<% if logged_in? %>
-			| <%= link_to 'Edit', edit_track_path(@track) %>
-		<% end %>
-	</div>
+	<% if logged_in? %>
+		<div class="border_top">
+			<%= link_to t("common.edit"), edit_track_path(@track) %>
+		</div>
+	<% end %>
+	
 <% end %>
 
-<h2><%= h @track.name %></h2>
 <div id="map_canvas"></div>
 
 <% if_high_sample_rate @track do %>

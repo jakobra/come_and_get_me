@@ -11,20 +11,21 @@ class RaceTrack < ActiveRecord::Base
   
   belongs_to :municipality
   
-  validates_presence_of :title
+  validates_presence_of :title, :municipality_id
   
   attr_writer :tag_names
   
   after_save :assign_tags
   
+  named_scope :latest, {:limit => 5, :order => "id DESC"}
+  
   def tag_names
     @tag_names || tags.map(&:name).join(", ")
   end
   
-  
-  def self.find_by_geolocation
-    area = Geolocation.find_closest_area
-    area.race_tracks
+  def self.find_by_geolocation(remote_ip)
+    area = Geolocation.find_closest_area(remote_ip)
+    area.race_tracks unless area.nil?
   end
   
   private

@@ -1,0 +1,14 @@
+if params[:county_id]
+  page[:municipality_id].replace_html options_for_select(@municipalities.map { |m| [m.name, m.id] }) unless @tracks.blank?
+  page[:municipality_id].show
+  page[:municipality_id].hide if @tracks.blank?
+end
+
+page[:tracks].replace_html render @tracks
+page.select('.track_pagination').each do |b| 
+  b.replace_html will_paginate @tracks
+end
+
+if @tracks.blank?
+  page[:tracks].replace_html "<tr><td>#{t("tracks.index.no_tracks")}</td></tr>"
+end

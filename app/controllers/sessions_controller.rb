@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
 
   def destroy
     logout_killing_session!
-    flash[:notice] = "You have been logged out."
+    flash[:notice] = t("logout.logged_out")
     redirect_back_or_default('/')
   end
 
@@ -76,7 +76,7 @@ protected
     new_cookie_flag = (params[:remember_me] == "1")
     handle_remember_cookie! new_cookie_flag
     redirect_back_or_default('/')
-    flash[:notice] = "Logged in successfully"
+    flash[:notice] = t("login.logged_in")
   end
   
   def failed_login(msg = "Couldn't log you in as '#{params[:login]}'")

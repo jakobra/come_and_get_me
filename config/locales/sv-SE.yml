@@ -1,0 +1,29 @@
+sv-SE:
+    header:
+        logged_in_as: "Inloggad som"
+        or: "eller"
+        logout: "Logga ut"
+        login: "Logga in"
+        sign_up: "Registrera"
+        menu:
+            home: "Start"
+            race_tracks: "Tävlingsbanor"
+            tracks: "Banor"
+            users: "Medlemmar"
+    footer:
+        about: "Om oss"
+        contact: "Kontakt"
+        privacy: "Villkor"
+    common:
+        create: "Skapa"
+        title: "Come And Get Me"
+        select: "Välj"
+        edit: "Uppdatera"
+        destroy: "Kasta"
+        sure: "Är du säker?"
+        remove: "Ta bort"
+        cancel: "Avbryt"
+        back: "Tillbaka"
+        login_required: "Inloggning krävs"
+        admin_required: "Ej tillräcklig åtkomst"
+        description: "Beskrivning"

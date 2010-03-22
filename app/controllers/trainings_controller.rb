@@ -1,11 +1,11 @@
 class TrainingsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  filter_resource_access :nested_in => :users
   
   # GET /trainings
   # GET /trainings.xml
   def index
-    @user = User.find(params[:user_id])
-    @trainings = @user.trainings.find(:all, :order => "date DESC")
+    @user = User.find_by_login(params[:user_id])
+    @trainings = @user.trainings.paginate(:page => params[:page], :order => "date DESC", :per_page => 25)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -27,7 +27,7 @@ class TrainingsController < ApplicationController
   # GET /trainings/new
   # GET /trainings/new.xml
   def new
-    @user = User.find(params[:user_id])
+    @user = User.find_by_login(params[:user_id])
     @training = @user.trainings.build
 
     respond_to do |format|
@@ -44,7 +44,7 @@ class TrainingsController < ApplicationController
   # POST /trainings
   # POST /trainings.xml
   def create
-    @user = User.find(params[:user_id])
+    @user = User.find_by_login(params[:user_id])
     @training = @user.trainings.build(params[:training])
     
     unless params[:races].blank?
@@ -66,7 +66,7 @@ class TrainingsController < ApplicationController
   # PUT /trainings/1
   # PUT /trainings/1.xml
   def update
-    @training = Training.find(params[:id])
+    #@training = Training.find(params[:id])
 
     respond_to do |format|
       if @training.update_attributes(params[:training])
@@ -90,5 +90,11 @@ class TrainingsController < ApplicationController
       format.html { redirect_to(user_trainings_url(@training.user)) }
       format.xml  { head :ok }
     end
+  end
+  
+  protected
+  
+  def load_user
+    @user = User.find_by_login(params[:user_id])
   end
 end

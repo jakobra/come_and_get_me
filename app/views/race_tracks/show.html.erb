@@ -1,5 +1,4 @@
 <% title @race_track.title%>
-<% main_class "large_width" %>
 
 <% content_for :head do %>
 	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAI7vgMWXyJttIg3zaex8VQBS8AnXYoE8C-F64DtdDJq8UsxjJ0hRgLHNjEsGnhPbSknXTWgAOGMt14g" type="text/javascript"></script>
@@ -9,32 +8,18 @@
 
 <% end %>
 
-<h1><%= @race_track.title %></h1>
-
-<% content_tag :div, :class => "left width_310" do %>
-
+<% content_for :left_side do %>
+	<h3><%= @race_track.title %></h3>
 	<p>
-		<span class="bold">Description:</span><br />
 		<%= @race_track.description %>
 	</p>
 
-	<p>
-		<span class="bold">Municipality:</span><br />
+	<p class="bold">
 		<%= @race_track.municipality.name unless @race_track.municipality.blank? %>
 	</p>
 
-	<p>
-		<span class="bold">Created By:</span><br />
-		<%= @race_track.created_by_user.login %>
-	</p>
-
-	<p>
-		<span class="bold">Last Updated By:</span><br />
-		<%= @race_track.last_updated_by_user.login %>
-	</p>
-
 	<% unless @race_track.race_track_segments.blank? %>
-	<span class="bold">Tracks:</span>
+		<span class="bold"><%= t("activerecord.models.track.other") %>:</span>
 		<ul>
 			<% @race_track.race_track_segments.each do |track_segment| %>
 				<%= content_tag :li, "#{track_segment.quantity} * #{link_to track_segment.track.name, track_path(track_segment.track)}" %>
@@ -43,22 +28,35 @@
 	<% end %>
 
 	<% unless @race_track.tags.blank? %>
-		<h4>Tags:</h4>
+		<h4><%= t("activerecord.models.tag.other") %>:</h4>
 		<ul>
 			<% @race_track.tags.each do |tag| %>
 				<li><%= tag.name %></li>
 			<% end %>
 		</ul>
 	<% end %>
-
-	<%= render "comments/comments_container", :commentable => @race_track, :url => new_race_track_comment_path(@race_track) %>
-
-	<p class="left clear_left">
-		<%= link_to "Back", race_tracks_path %>
-		<% if logged_in? %>
-			| <%= link_to "Edit", edit_race_track_path(@race_track) %>
-		<% end %>
+	
+	<p><%= link_to t("race_tracks.record"), records_race_track_path(@race_track) %></p>
+	
+	<p class="small">
+		<span class="bold"><%= t("race_tracks.show.created_by") %>:</span><br />
+		<%= @race_track.created_by_user.login %>
 	</p>
+	
+	<% unless @race_track.last_updated_by_user.blank? %>
+		<p class="small">
+			<span class="bold"><%= t("race_tracks.show.last_updated_by") %>:</span><br />
+			<%= @race_track.last_updated_by_user.login %>
+		</p>
+	<% end %>
+	
+	<% if logged_in? %>
+		<p class="left clear_left">
+			<%= link_to t("common.edit"), edit_race_track_path(@race_track) %>
+		</p>
+	<% end %>
 <% end %>
 
 <div id="map_canvas" class="right"></div>
+
+<%= render "comments/comments_container", :commentable => @race_track, :url => new_race_track_comment_path(@race_track) %>

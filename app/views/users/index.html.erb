@@ -1,27 +1,16 @@
-<h1>Listing users</h1>
+<h1><%= t("activerecord.models.user.other") %></h1>
 <table id="users">
-	<tr>
-		<th>Login</th>
-		<th>email</th>
+	<% @users.each do |user| %>
+	  <tr class="<%= cycle "odd", "even" %>">
+		<td><%= link_to user.login, member_path(user) %></td>
 		<% if admin? %>
-			<th>Admin</th>
+			<td><%= user.admin %></td>
 		<% end %>
-	</tr>
-
-<% @users.each do |user| %>
-  <tr>
-	<td><%= link_to user.login, user %></td>
-	<td><%= h user.email %></td>
-	<% if admin? %>
-		<td><%= user.admin %></td>
+		<%= content_tag :td, link_to(t("common.edit"), edit_user_path(user)) if permitted_to? :update, user %>
+		<%= content_tag :td, link_to(t("common.destroy"), user, :confirm => t("common.sure"), :method => :delete) if permitted_to? :destroy, user %>
+		<% if admin? %>
+			<td><%= link_to t("users.index.set_unset_admin"), admin_user_path(user), :confirm => t("common.sure"), :method => :put %></td>
+		<% end %>
+	  </tr>
 	<% end %>
-	<% if_authorized?(action_name, user) do %>
-		<td><%= link_to 'Edit', edit_user_path(user) %></td>
-		<td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
-	<% end %>
-	<% if admin? %>
-		<td><%= link_to 'Set/Unset admin', admin_user_path(user), :confirm => 'Are you sure?', :method => :put %></td>
-	<% end %>
-  </tr>
-<% end %>
 </table>

@@ -1,23 +1,52 @@
-<% title "Race Tracks"%>
+<% title t("activerecord.models.race track.other") %>
 
-<h1>RaceTracks</h1>
-
-<table>
-	<tr>
-		<th>Title</th>
-	</tr>
-	
-	<% @race_tracks.each do |race_track| %>
-		<tr>
-			<%= content_tag :td, link_to(race_track.title, race_track) %>
-			<% if logged_in? %>
-				<%= content_tag :td, link_to("Edit", edit_race_track_path(race_track)) unless !logged_in? %>
-				<%= content_tag :td, link_to('Destroy', race_track, :confirm => 'Are you sure?', :method => :delete) unless !logged_in? %>
+<% content_for :right_side do %>
+	<div class="side_module">
+		<h5><%= t("side_modules.latest_race_tracks") %></h5>
+		<ul>
+			<% @latest_race_tracks.each do |race_track| %>
+				<li><%= link_to race_track.title, race_track_path(race_track) %></li>
 			<% end %>
+		</ul>
+	</div>
+<% end %>
+
+<h1><%= t("activerecord.models.race track.other") %></h1>
+
+<div class="area_navigation">
+	
+	<div class="area_select">
+		<%= select("county", "id", County.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.county")}"}, {:onchange => remote_function(:url => race_tracks_path, :with => "'county_id=' + this.value", :method => :get)}) %>
+
+		<%= select("municipality", "id", Municipality.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.municipality.one")}"}, {:onchange => remote_function(:url => race_tracks_path, :with => "'municipality_id=' + this.value", :method => :get)}) %>
+	</div>
+	
+	<% if logged_in? %>
+		<div class="new_race_track right"><%= link_to t("race_tracks.index.new_race_track"), new_race_track_path, :class => "align_right" %></div>
+	<% end %>
+</div>
+
+<div class="race_track_pagination default clear_both left">
+	<%= will_paginate @race_tracks %>
+</div>
+
+<table class="clear_both">	
+	<% if @race_tracks.blank? %>
+		<tr>
+			<td><%= t("race_tracks.index.no_race_tracks") %></td>
 		</tr>
 	<% end %>
+	<tbody id="race_tracks">
+		<%= render @race_tracks %>
+	</tbody>
 </table>
 
+<div class="race_track_pagination default">
+	<%= will_paginate @race_tracks %>
+</div>
+
 <% if logged_in? %>
-	<%= link_to "New Race Track", new_race_track_path %>
+	<p class="default align_right">
+		<%= link_to t("race_tracks.index.new_race_track"), new_race_track_path %>
+	</p>
 <% end %>

@@ -1,12 +1,16 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :except => [:index, :show, :new, :create, :statistics]
+  filter_resource_access
   
   def index
     @users = User.all
   end
   
   def show
-    @user = User.find(params[:id], :include => :races)
+    if params[:login]
+      @user = User.find_by_login(params[:login], :include => :races)
+    else
+      @user = User.find(params[:id], :include => :races)
+    end
   end
   
   def new
@@ -14,7 +18,7 @@ class UsersController < ApplicationController
   end
   
   def edit
-    @user = User.find(params[:id])
+    #@user = User.find_by_login(params[:id])
   end
  
   def create
@@ -22,7 +26,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     success = @user && @user.save
     if success && @user.errors.empty?
-            # Protects against session fixation attacks, causes request forgery
+      # Protects against session fixation attacks, causes request forgery
       # protection if visitor resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.
       # reset session
@@ -36,7 +40,7 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = User.find(params[:id])
+    @user = User.find_by_login(params[:id])
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -53,7 +57,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.xml
   def destroy
-    @user = User.find(params[:id])
+    @user = User.find_by_login(params[:id])
     @user.destroy
 
     respond_to do |format|
@@ -81,6 +85,16 @@ class UsersController < ApplicationController
        format.html
        format.xml  { head :ok }
        format.js
+    end
+  end
+  
+  protected
+  
+  def load_user
+    if params[:login]
+      @user = User.find_by_login(params[:login])
+    else
+      @user = User.find_by_login(params[:id])
     end
   end
 end

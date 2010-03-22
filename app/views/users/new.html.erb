@@ -1,21 +1,23 @@
-<h1>Sign up as a new user</h1>
+<% title t("sign_up.sign_up_as_member") %>
+
+<h1><%= t("sign_up.sign_up_as_member") %></h1>
 <% @user.password = @user.password_confirmation = nil %>
 
-<p>Do you have an OpenID account? If so, <%= link_to "Login through OpenID", login_path%></p>
+<p class="default"><%= t("sign_up.do_you_have_openid") %> <%= link_to t("sign_up.login_through_openid"), login_path%></p>
 
 <%= error_messages_for :user %>
 <% form_for :user, :url => users_path do |f| -%>
-<p><%= label_tag 'login' %><br/>
+<p class="default"><%= label_tag 'login', t("activerecord.attributes.user.login") %><br/>
 <%= f.text_field :login %></p>
 
-<p><%= label_tag 'email' %><br/>
+<p class="default"><%= label_tag 'email', t("activerecord.attributes.user.email") %><br/>
 <%= f.text_field :email %></p>
 
-<p><%= label_tag 'password' %><br/>
+<p class="default"><%= label_tag 'password', t("activerecord.attributes.user.password") %><br/>
 <%= f.password_field :password %></p>
 
-<p><%= label_tag 'password_confirmation', 'Confirm Password' %><br/>
+<p class="default"><%= label_tag 'password_confirmation', t("activerecord.attributes.user.password_confirmation") %><br/>
 <%= f.password_field :password_confirmation %></p>
 
-<p><%= submit_tag 'Sign up' %></p>
+<p class="default"><%= submit_tag t("sign_up.sign_up"), :class => "submit" %></p>
 <% end -%>

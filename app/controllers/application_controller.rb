@@ -55,6 +55,7 @@ class ApplicationController < ActionController::Base
   # Check if user has admin access
   def admin?
     if logged_in?
+      logger.info "Awesome"
       current_user.admin? ? true : false
     end
   end
@@ -87,6 +88,18 @@ class ApplicationController < ActionController::Base
       if name =~ /(.+)_id$/
         return $1.classify.constantize.find(value)
       end
+    end
+  end
+  
+  protected
+  
+  def permission_denied
+    if current_user
+      flash[:error] = t("common.admin_required")
+      redirect_to root_path
+    else
+      flash[:error] = t("common.login_required")
+      redirect_to new_session_path
     end
   end
     

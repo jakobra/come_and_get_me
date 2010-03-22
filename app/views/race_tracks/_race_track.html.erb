@@ -1,0 +1,10 @@
+<tr class="<%= cycle "odd", "even" %>">
+	<%= content_tag :td, link_to(race_track.title, race_track) %>
+	<%= content_tag :td, link_to(t("race_tracks.record"), records_race_track_path(race_track)), :class => "record" %>
+	<% if logged_in? %>
+		<%= content_tag :td, link_to(t("common.edit"), edit_race_track_path(race_track)), :class => "edit" unless !logged_in? %>
+	<% end %>
+	<% if admin? %>
+		<%= content_tag :td, link_to(t("common.destroy"), race_track, :confirm => t("common.sure"), :method => :delete), :class => "destroy" unless !logged_in? %>
+	<% end %>
+</tr>

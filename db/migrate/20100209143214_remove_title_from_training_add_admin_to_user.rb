@@ -3,9 +3,6 @@ class RemoveTitleFromTrainingAddAdminToUser < ActiveRecord::Migration
     remove_column :trainings, :title
     add_column :users, :admin, :boolean
     User.update_all( "admin = false" )
-    user = User.find(2)
-    user.admin = true
-    user.save
   end
 
   def self.down

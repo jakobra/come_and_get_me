@@ -6,6 +6,9 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resources :counties do |county|
+    county.resources :tracks, :only => [:index]
+    county.resources :race_tracks, :only => [:index]
+    
     county.resources :municipalities, :shallow => true do |municipality|
       municipality.resources :tracks, :only => [:index]
       municipality.resources :race_tracks, :only => [:index]
@@ -31,7 +34,7 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   
-  map.resources :race_tracks do |race_tracks|
+  map.resources :race_tracks, :member => {:records => :get} do |race_tracks|
     race_tracks.resources :comments, :only => [:new, :create]
   end
   
@@ -45,16 +48,12 @@ ActionController::Routing::Routes.draw do |map|
     tracks.resources :points, :only => :index
   end
   
-  # Sample resource route within a namespace:
-  #   map.namespace :admin do |admin|
-  #     # Directs /admin/products/* to Admin::ProductsController (app/controllers/admin/products_controller.rb)
-  #     admin.resources :products
-  #   end
-  
   map.root :controller => "home"
   
   map.static "static/:permalink", :controller => :pages, :action => :show
   
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
+  
+  map.member ':login', :controller => :users, :action => :show
 end

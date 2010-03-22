@@ -1,0 +1,11 @@
+sv-SE:
+    side_modules:
+        recent_records: "Senaste rekorden"
+        latest_race: "Senaste tävlingsrundan"
+        reported: "rapporterade"
+        for: "för"
+        ago: "sen"
+        close_race_track: "Tävlingsbanor nära dig"
+        your_own: "din egen"
+        latest_race_tracks: "Senast tillagda tävlingsbanor"
+        latest_tracks: "Senast tillagda banor"

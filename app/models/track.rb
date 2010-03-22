@@ -11,6 +11,7 @@ class Track < ActiveRecord::Base
   belongs_to :municipality
   
   before_destroy :destroy_all_tracksegments
+  after_create :create_race_track
   
   has_attached_file :track,
                     :url => "/assets/:class/:id_:version_:basename.:extension",
@@ -22,11 +23,15 @@ class Track < ActiveRecord::Base
                       :message => ("must be a GPX"),
                       :unless => Proc.new { |track| track.track_file_name.blank? }
   
-  validates_presence_of :municipality, :name
+  validates_presence_of :municipality_id, :title
+  
+  validates_presence_of :tracksegments, :if  => Proc.new { |track| track.track_file_name.blank? }
   
   versioned
   
-  attr_accessor :circle
+  attr_accessor :circle, :create_race_track
+  
+  named_scope :latest, {:limit => 5, :order => "id DESC"}
   
   def save_attached_files_with_parse_file
     dirty = track.dirty?
@@ -38,10 +43,6 @@ class Track < ActiveRecord::Base
   end
         
   alias_method_chain :save_attached_files, :parse_file
-  
-  def title
-    name
-  end
   
   def tracksegment_version
     result = nil
@@ -67,6 +68,10 @@ class Track < ActiveRecord::Base
                                     :latitude => lp.latitude, 
                                     :elevation => lp.elevation)
     logger.info "Finish point appended"
+  end
+  
+  def create_race_track
+    
   end
   
 end

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-		<title><%= h(yield(:title) || "Untitled") %></title>
+		<title><%= h(yield(:title) || t("common.title")) %></title>
 		<%= stylesheet_link_tag :all %>
 		<%= javascript_include_tag :rambo %>
 		<%= yield(:head) %>
@@ -11,23 +11,30 @@
 	<body>
 		<%= render "/application/admin_menu" %>
 		<div id="container">
-			<%= render "/application/menu" %>
+			<%= render "/application/header" %>
 			
 			<%- flash.each do |name, msg| -%>
-				<% content_tag :div, :class => "large_width" do %>
+				<% content_tag :div, :class => "large_width left_side" do %>
 					<%= content_tag :div, msg, :id => "flash_#{name}" %>
 				<% end %>
 			<%- end -%>
 			
-			<% content_tag :div, :class =>  (@class || "medium_width") do %>
+			<% unless @content_for_left_side.blank?  %>
+				<% content_tag :div, :class => "xsmall_width left_side" do %>
+					<%= yield(:left_side) %>
+				<% end %>
+			<% end %>
+			
+			<% content_tag :div, :class =>   "#{"left_side" if @content_for_left_side.blank? } #{(@class || "medium_width")}" do %>
 				<%= yield %>
 			<% end %>
 			
 			<% unless @content_for_right_side.blank?  %>
-				<% content_tag :div, :class => "small_width" do %>
+				<% content_tag :div, :class => "xsmall_width right_side" do %>
 					<%= yield(:right_side) %>
 				<% end %>
 			<% end %>
+			
 			<%= render "/application/footer" %>
     	</div>
 	</body>
