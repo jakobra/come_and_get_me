@@ -46,8 +46,11 @@ module Geolocation
   private
   # Returns RegionName of geolocation
   def self.get_geolocation(remote_ip)
-    #ip = remote_ip
-    ip = "85.224.104.52"
+    if RAILS_ENV == "development"
+      ip = "85.224.104.52"
+    else
+      ip = remote_ip
+    end
     url = "http://ipinfodb.com/ip_query.php?ip=#{ip}&output=json"
     Rails.logger.info "Getting IP-info"
     begin
