@@ -14,6 +14,7 @@
 	<p>
 		<%= f.label :municipality_id, t("activerecord.models.municipality.one") %><br />
 		<%= select("county", "id", County.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.county")}"}, {:onchange => remote_function(:url => {:controller => :municipalities, :action => :index}, :with => "'county_id=' + this.value", :method => :get)}) %>
+		
 		<%= f.collection_select :municipality_id, Municipality.all, :id, :name, {:prompt => "#{t("common.select")} #{t("activerecord.models.municipality.one")}"}, {:id => 'municipality_id'} %>
 	</p>
 	
@@ -23,12 +24,13 @@
 	</p>
 	
 	<h4><%= t("race_tracks.new.race_track_segments") %></h4>
-	
-	<div id="race_track_segments">
-  		<%= render :partial => 'race_track_segment_field', :collection => (@race_track.race_track_segments) %>
-	</div>
-	
-	<%= add_race_track_segment_field_link t("race_tracks.new.add_race_track_segment") %>
+
+	<% f.fields_for :race_track_segments do |builder| %>
+		<%= render "race_track_segment_fields", :f => builder %>
+	<% end %>
+		
+	<p><%= link_to_add_fields t("race_tracks.new.add_race_track_segment"), f, :race_track_segments %></p>
+
 	
 	<p class="margin_top">
 		<%= f.submit submit %> | <%= link_to t("common.cancel"), race_tracks_path, :confirm => t("common.sure") %>

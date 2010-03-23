@@ -21,7 +21,7 @@ class RaceTracksController < ApplicationController
 
   def new
     @race_track = RaceTrack.new
-    @race_track.race_track_segments.build
+    3.times {@race_track.race_track_segments.build}
   end
 
   def edit
@@ -31,12 +31,6 @@ class RaceTracksController < ApplicationController
   def create
     @race_track = RaceTrack.new(params[:race_track])
     @race_track.created_by_user = current_user
-    
-    unless params[:race_track_segments].blank?
-      params[:race_track_segments].each do |race_track_segment|
-        @race_track.race_track_segments.build({:track_id => race_track_segment[:track_id], :quantity => race_track_segment[:quantity]})
-      end
-    end
     
     respond_to do |format|
       if @race_track.save
@@ -54,39 +48,11 @@ class RaceTracksController < ApplicationController
     @race_track = RaceTrack.find(params[:id])
     @race_track.last_updated_by_user = current_user
     
-    unless params[:race_track_segments].blank?
-      race_track_segment_ids = params[:race_track_segments].map { |race_track_segment| race_track_segment[:id] }
-      @race_track.race_track_segments.all(:conditions => ["id NOT IN (?)", race_track_segment_ids]).each { |race_track_segment| race_track_segment.destroy }
-      
-      @race_track_segments = []
-      
-      params[:race_track_segments].each do |race_track_segment|
-        tmp_race_track_segment = RaceTrackSegment.find_or_initialize_by_id(race_track_segment[:id])
-        if tmp_race_track_segment.new_record?
-         @race_track_segments << @race_track.race_track_segments.build({:track_id => race_track_segment[:track_id], :quantity => race_track_segment[:quantity]})
-        else
-          tmp_race_track_segment.update_attributes({:track_id => race_track_segment[:track_id], :quantity => race_track_segment[:quantity]})
-          @race_track_segments << tmp_race_track_segment
-        end
-      end
-    end
-    
     respond_to do |format|
       if @race_track.update_attributes(params[:race_track])
-        if @race_track_segments.blank?
-          flash[:notice] = t("race_tracks.update.updated")
-          format.html { redirect_to(@race_track) }
-          format.xml  { head :ok }
-        else
-          if @race_track_segments.all?(&:valid?)
-            flash[:notice] = t("race_tracks.update.updated")
-            format.html { redirect_to(@race_track) }
-            format.xml  { head :ok }
-          else
-            format.html { render :action => "edit" }
-            format.xml  { render :xml => @race_track.errors, :status => :unprocessable_entity }
-          end
-        end
+        flash[:notice] = t("race_tracks.update.updated")
+        format.html { redirect_to(@race_track) }
+        format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @race_track.errors, :status => :unprocessable_entity }

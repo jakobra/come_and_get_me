@@ -49,6 +49,7 @@ sv-SE:
                 race_track_segments: "Banor"
             race_track_segment:
                 quantity: "Antal"
+                track_id: "Bana"
             training:
                 date: "Datum"
                 races: "Lopp"

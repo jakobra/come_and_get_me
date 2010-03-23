@@ -11,7 +11,7 @@ class RaceTrack < ActiveRecord::Base
   
   belongs_to :municipality
   
-  accepts_nested_attributes_for :race_track_segments
+  accepts_nested_attributes_for :race_track_segments, :reject_if => lambda { |a| a[:quantity].blank? }, :allow_destroy => true
   
   validates_presence_of :title, :municipality_id
   
