@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100322122823) do
+ActiveRecord::Schema.define(:version => 20100323083539) do
 
   create_table "comments", :force => true do |t|
     t.text     "content"
@@ -25,18 +25,6 @@ ActiveRecord::Schema.define(:version => 20100322122823) do
     t.string   "name"
     t.string   "code"
     t.integer  "numeric_code"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "emails", :force => true do |t|
-    t.string   "from"
-    t.string   "to"
-    t.string   "subject"
-    t.text     "body"
-    t.string   "attachment_file_name"
-    t.string   "attachment_content_type"
-    t.integer  "attachment_file_size"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

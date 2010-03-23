@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
-  before_filter :login_required, :except => [:report, :index, :approve, :destroy]
-  before_filter :admin_required, :only => [:index, :approve, :destroy]
+  filter_resource_access
   
   def index
     @comments = Comment.all
@@ -45,6 +44,7 @@ class CommentsController < ApplicationController
   end
   
   def report
+    NotificationMailer.deliver_report_comment(params[:id])
     logger.info "Comment with id = #{params[:id]} has been reported"
     render :text => "Comment reported"
   end

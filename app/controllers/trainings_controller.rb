@@ -53,7 +53,7 @@ class TrainingsController < ApplicationController
 
     respond_to do |format|
       if @training.save
-        flash[:notice] = 'Training was successfully created.'
+        flash[:notice] = t("trainings.create.created", :date => @training.date)
         format.html { redirect_to(@training) }
         format.xml  { render :xml => @training, :status => :created, :location => @training }
       else
@@ -70,7 +70,7 @@ class TrainingsController < ApplicationController
 
     respond_to do |format|
       if @training.update_attributes(params[:training])
-        flash[:notice] = 'Training was successfully updated.'
+        flash[:notice] = t("trainings.update.updated")
         format.html { redirect_to(@training) }
         format.xml  { head :ok }
       else

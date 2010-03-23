@@ -1,5 +1,9 @@
-class CreateEmails < ActiveRecord::Migration
+class RemoveEmails < ActiveRecord::Migration
   def self.up
+    drop_table :emails
+  end
+  
+  def self.down
     create_table :emails do |t|
       t.string :from
       t.string :to
@@ -12,8 +16,5 @@ class CreateEmails < ActiveRecord::Migration
       t.timestamps
     end
   end
-
-  def self.down
-    drop_table :emails
-  end
+  
 end

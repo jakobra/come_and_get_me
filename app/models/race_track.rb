@@ -1,5 +1,5 @@
 class RaceTrack < ActiveRecord::Base
-  has_many :race_track_segments
+  has_many :race_track_segments, :dependent => :destroy
   has_many :races
   has_many :tracks, :through => :race_track_segments
   has_many :comments, :as => :commentable, :dependent => :destroy
@@ -10,6 +10,8 @@ class RaceTrack < ActiveRecord::Base
   belongs_to :last_updated_by_user, :class_name => "User"
   
   belongs_to :municipality
+  
+  accepts_nested_attributes_for :race_track_segments
   
   validates_presence_of :title, :municipality_id
   

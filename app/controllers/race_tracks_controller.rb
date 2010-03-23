@@ -34,7 +34,7 @@ class RaceTracksController < ApplicationController
     
     unless params[:race_track_segments].blank?
       params[:race_track_segments].each do |race_track_segment|
-        tmp_object = @race_track.race_track_segments.build({:track_id => race_track_segment[:track_id], :quantity => race_track_segment[:quantity]})
+        @race_track.race_track_segments.build({:track_id => race_track_segment[:track_id], :quantity => race_track_segment[:quantity]})
       end
     end
     

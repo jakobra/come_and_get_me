@@ -1,9 +1,10 @@
 class Point < ActiveRecord::Base
   belongs_to :tracksegment
   
+  validates_presence_of :latitude, :longitude
+  
   def self.find_with_sample_rate(rate = nil)
     valid_window = window_valid(rate) ? rate : APP_CONFIG["moving_average_window"]
-    #points = find(:all, :conditions =>["mod(points.position, #{valid_rate}) = ? ", 0])
     points = find(:all)
     if (distance / points.length) < APP_CONFIG["lowest_sample_rate"]
       new_points = MovingAverage.track_smoothning(points, valid_window.to_i)

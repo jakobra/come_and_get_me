@@ -87,7 +87,9 @@ class User < ActiveRecord::Base
   end
   
   def role_symbols
-    [:member, :guest]
+    symbols = [:member, :guest]
+    symbols << :admin if id == APP_CONFIG["admin_user"]
+    symbols
   end
   
   protected

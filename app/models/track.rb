@@ -27,9 +27,11 @@ class Track < ActiveRecord::Base
   
   validates_presence_of :tracksegments, :if  => Proc.new { |track| track.track_file_name.blank? }
   
+  # Versioned by vestal versions
   versioned
   
-  attr_accessor :circle, :create_race_track
+  # Boolena attributes for different methods, same_start_and_finish and wheather create a race_track or not 
+  attr_accessor :circle, :new_race_track
   
   named_scope :latest, {:limit => 5, :order => "id DESC"}
   
@@ -54,6 +56,22 @@ class Track < ActiveRecord::Base
     result.nil? ? 1 : result
   end
   
+  def create_tracksegment_from_plot(points, circle)
+    version = new_record? ? 1 : self.version + 1
+    tracksegment = tracksegments.build({:track_version => version, :circle => circle})
+    points.each do |point|
+      new_point = Point.new(:latitude => point[:lat], :longitude => point[:lng], :elevation => point[:ele])
+      tracksegment.points.push(new_point) if new_point.valid?
+    end
+    track_file_name = nil
+    track_content_type = nil
+    track_file_size = nil
+    unless new_record?
+      tracksegment.save
+      update_attribute(:date, Time.now)
+    end
+  end
+  
   private
   
   def destroy_all_tracksegments
@@ -71,7 +89,12 @@ class Track < ActiveRecord::Base
   end
   
   def create_race_track
-    
+    if new_race_track == "1"
+      race_track = RaceTrack.new({:title => title, :description => description, :municipality_id => municipality_id})
+      race_track.created_by_user_id = created_by_user_id
+      race_track.race_track_segments.build({:track_id => id, :quantity => 1})
+      race_track.save
+    end
   end
   
 end

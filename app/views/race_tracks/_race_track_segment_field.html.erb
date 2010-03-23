@@ -1,5 +1,7 @@
 <div class="race_track_segment">
 	<% fields_for race_track_segment_field do |f| %>
+		<%= f.error_messages %>
+		
 		<%= f.hidden_field :id, :name => "race_track_segments[][id]" %>
 		
 		<p style="display:inline;">

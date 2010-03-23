@@ -29,7 +29,7 @@
 	
 	<div class="border_top">
 		<p>
-			<%= link_to "Current", :version => nil if params[:version] %>
+			<%= link_to t("tracks.show.current"), :version => nil if params[:version] %>
 		</p>
 	
 		<%= link_to_function(t("tracks.show.view_history"), nil, :id => "track_history_view_link") do |page|
@@ -69,7 +69,7 @@
 		</p>
 	</div>
 	
-	<% if logged_in? %>
+	<% if permitted_to? :update, @track %>
 		<div class="border_top">
 			<%= link_to t("common.edit"), edit_track_path(@track) %>
 		</div>

@@ -55,7 +55,6 @@ class ApplicationController < ActionController::Base
   # Check if user has admin access
   def admin?
     if logged_in?
-      logger.info "Awesome"
       current_user.admin? ? true : false
     end
   end

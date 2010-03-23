@@ -1,5 +1,6 @@
 class TracksController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  filter_resource_access
+  #before_filter :login_required, :except => [:index, :show]
   include GpsCalculation
   
   # GET /tracks
@@ -20,7 +21,7 @@ class TracksController < ApplicationController
   # GET /tracks/1
   # GET /tracks/1.xml
   def show
-    @track = Track.find(params[:id])
+    #@track = Track.find(params[:id])
     @track.revert_to(params[:version].to_i) if params[:version]
     
     respond_to do |format|
@@ -32,7 +33,7 @@ class TracksController < ApplicationController
   # GET /tracks/new
   # GET /tracks/new.xml
   def new
-    @track = Track.new
+    #@track = Track.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,17 +43,17 @@ class TracksController < ApplicationController
 
   # GET /tracks/1/edit
   def edit
-    @track = Track.find(params[:id])
+    #@track = Track.find(params[:id])
   end
 
   # POST /tracks
   # POST /tracks.xml
   def create
-    @track = Track.new(params[:track])
+    #@track = Track.new(params[:track])
     @track.created_by_user = current_user
     
     if !params[:points].blank? and params[:track][:track].blank?
-      create_tracksegment_from_plot(params[:points], params[:track][:circle])
+      @track.create_tracksegment_from_plot(params[:points], params[:track][:circle])
     end
     
     respond_to do |format|
@@ -70,12 +71,10 @@ class TracksController < ApplicationController
   # PUT /tracks/1
   # PUT /tracks/1.xml
   def update
-    @track = Track.find(params[:id])
+    #@track = Track.find(params[:id])
     
     if !params[:points].blank? and params[:track][:track].blank?
-      tracksegment = create_tracksegment_from_plot(params[:points], params[:track][:circle])
-      tracksegment.save
-      @track.date = Time.now
+      @track.create_tracksegment_from_plot(params[:points], params[:track][:circle])
     end
     
     respond_to do |format|
@@ -93,7 +92,7 @@ class TracksController < ApplicationController
   # DELETE /tracks/1
   # DELETE /tracks/1.xml
   def destroy
-    @track = Track.find(params[:id])
+    #@track = Track.find(params[:id])
     @track.destroy
 
     respond_to do |format|
@@ -102,21 +101,4 @@ class TracksController < ApplicationController
     end
   end
   
-  private
-  
-  def create_tracksegment_from_plot(points, circle)
-    version = @track.new_record? ? 1 : @track.version + 1
-    tracksegment = @track.tracksegments.build({:track_version => version, :circle => circle})
-    points.each do |point| 
-      tracksegment.points.build(:latitude => point[:lat], :longitude => point[:lng], :elevation => point[:ele]) if point_valid?(point)
-    end
-    @track.track_file_name = nil
-    @track.track_content_type = nil
-    @track.track_file_size = nil
-    tracksegment
-  end
-  
-  def point_valid?(point)
-    (point[:lat].blank? or point[:lng].blank?) ? false : true
-  end
 end

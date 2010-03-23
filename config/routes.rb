@@ -40,8 +40,6 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resource :session, :only => [:new, :create, :destroy]
   
-  map.resources :emails, :except => "new", :member => {:parse_gpx => :get}
-  
   map.resources :tracks do |tracks|
     tracks.resources :tracksegments, :only => [:new, :create]
     tracks.resources :comments, :only => [:new, :create]

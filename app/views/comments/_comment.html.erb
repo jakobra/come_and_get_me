@@ -4,13 +4,17 @@
 	<% if comment.updated_at > comment.created_at %>
 		<p class="comment_updated">Updated <%= time_ago_in_words comment.updated_at %> ago</p>
 	<% end %>
-	<% if logged_in? %>
-		<%= link_to_remote "Answer", :url => new_comment_comment_path(comment), :method => :get %> |
+	
+	<% if permitted_to? :create, Comment.new %>
+		<%= link_to_remote t("comments.answer"), :url => new_comment_comment_path(comment), :method => :get %> |
 	<% end %>
-	<%= link_to_remote "Report", :url => report_comment_path(comment), :method => :get, :success => "alert('Comment has been reported');" %>
-	<% if_authorized?(:update, comment) do %>
-		| <%= link_to_remote "Edit", :url => edit_comment_path(comment), :method => :get %>
+	
+	<%= link_to_remote t("comments.report"), :url => report_comment_path(comment), :method => :get, :success => "alert('Comment has been reported');" %>
+	
+	<% if permitted_to? :update, comment %>
+		| <%= link_to_remote t("common.edit"), :url => edit_comment_path(comment), :method => :get %>
 	<% end %>
+	
 	<% div_for(comment, "comments", :class => "comments") do %>
 		<%= render :partial => "comments/comment", :collection => comment.comments.approved %>
 	<% end %>
