@@ -37,6 +37,9 @@ sv-SE:
         post_comment: "Kommentera"
         answer: "Svara"
         report: "Anmäl"
+        posted: "postad för"
+        ago: "sen"
+        updated: "Ändrad för"
     tracks:
         source: "Källa"
         index:

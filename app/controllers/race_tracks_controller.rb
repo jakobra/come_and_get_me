@@ -1,15 +1,16 @@
 class RaceTracksController < ApplicationController
-  before_filter :login_required, :except => [:index, :show, :records]
+  filter_resource_access
+  #before_filter :login_required, :except => [:index, :show, :records]
   
   def index
     if !params[:municipality_id].blank?
-      @race_tracks = Municipality.find(params[:municipality_id]).race_tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
+      @race_tracks = Municipality.find(params[:municipality_id]).race_tracks.paginate(:page => params[:page], :order => :title, :per_page => 10)
     elsif !params[:county_id].blank?
       @county = County.find(params[:county_id], :include => :municipalities)
       @municipalities = @county.municipalities
-      @race_tracks = @county.race_tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
+      @race_tracks = @county.race_tracks.paginate(:page => params[:page], :order => :title, :per_page => 10)
     else
-      @race_tracks = RaceTrack.paginate(:page => params[:page], :order => :title, :per_page => 25)
+      @race_tracks = RaceTrack.paginate(:page => params[:page], :order => :title, :per_page => 10)
     end
     @latest_race_tracks = RaceTrack.latest
   end
@@ -21,7 +22,6 @@ class RaceTracksController < ApplicationController
 
   def new
     @race_track = RaceTrack.new
-    3.times {@race_track.race_track_segments.build}
   end
 
   def edit

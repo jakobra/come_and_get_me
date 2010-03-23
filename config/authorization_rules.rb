@@ -4,11 +4,10 @@ authorization do
     has_permission_on :users, :to => [:new, :create, :statistics]
     has_permission_on :comments, :to => :report
     has_permission_on :pages, :to => :show
-    has_permission_on :tracks, :to => :read
+    has_permission_on [:tracks, :race_tracks], :to => [:read, :records]
   end
   
   role :member do
-    includes :guest
     has_permission_on :races, :to => :manage do
       if_attribute :user => is {user}
     end
@@ -21,7 +20,7 @@ authorization do
       if_attribute :id => is {user.id}
     end
     
-    has_permission_on :tracks, :to => :manage
+    has_permission_on [:tracks, :race_tracks], :to => [:new, :edit, :create, :update]
     has_permission_on :comments, :to => [:new, :create]
     
     has_permission_on :comments, :to => [:edit, :update] do
@@ -31,6 +30,7 @@ authorization do
   
   role :admin do
     has_permission_on [:comments, :pages], :to => [:manage, :read]
+    has_permission_on [:tracks, :race_tracks], :to => [:destroy]
   end
 end
 

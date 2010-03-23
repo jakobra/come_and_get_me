@@ -1,6 +1,5 @@
 class TracksController < ApplicationController
   filter_resource_access
-  #before_filter :login_required, :except => [:index, :show]
   include GpsCalculation
   
   # GET /tracks

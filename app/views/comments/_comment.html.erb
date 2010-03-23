@@ -1,8 +1,8 @@
 <% div_for(comment, :class => "comment_entry") do %>
-	<span class="bold"><%=h comment.user.login %></span>, <span>posted <%= time_ago_in_words comment.created_at %> ago</span>
+	<span class="bold"><%=h comment.user.login %></span>, <span><%= t("comments.posted") %> <%= time_ago_in_words comment.created_at %> <%= t("comments.ago") %></span>
 	<%= simple_format h(comment.content) %>
 	<% if comment.updated_at > comment.created_at %>
-		<p class="comment_updated">Updated <%= time_ago_in_words comment.updated_at %> ago</p>
+		<p class="comment_updated"><%= t("comments.updated") %> <%= time_ago_in_words comment.updated_at %> <%= t("comments.ago") %></p>
 	<% end %>
 	
 	<% if permitted_to? :create, Comment.new %>
