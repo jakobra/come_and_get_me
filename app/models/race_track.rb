@@ -25,11 +25,6 @@ class RaceTrack < ActiveRecord::Base
     @tag_names || tags.map(&:name).join(", ")
   end
   
-  def self.find_by_geolocation(remote_ip)
-    area = Geolocation.find_closest_area(remote_ip)
-    area.race_tracks unless area.nil?
-  end
-  
   private
   
   def assign_tags

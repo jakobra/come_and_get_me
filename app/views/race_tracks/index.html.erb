@@ -26,7 +26,7 @@
 	<% end %>
 </div>
 
-<div id="race_track_pagination" class="default clear_both left">
+<div class="race_track_pagination default clear_both left">
 	<%= will_paginate @race_tracks %>
 </div>
 
@@ -40,6 +40,10 @@
 		<%= render @race_tracks %>
 	</tbody>
 </table>
+
+<div class="race_track_pagination default">
+	<%= will_paginate @race_tracks %>
+</div>
 
 <% if logged_in? %>
 	<p class="default align_right">

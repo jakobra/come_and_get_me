@@ -8,12 +8,12 @@ class County < ActiveRecord::Base
   validates_presence_of :name, :code, :numeric_code
   
   def self.find_by_geolocation(remote_ip)
-    if @counties.blank?
+    if @counties.blank? and Geoinformation.location(remote_ip)['CountryName'] == "Sweden"
       @counties = self.all.reject do |c|
-        Geolocation.translated(c.name) != Geolocation.get_county(remote_ip)
+        Geoinformation.translated(c.name) != Geoinformation.location(remote_ip)['RegionName']
       end
     end
-    @counties.first
+    @counties.blank? ? nil : @counties.first
   end
   
 end

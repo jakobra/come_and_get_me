@@ -20,7 +20,7 @@ class Track < ActiveRecord::Base
                     
   validates_format_of :track_file_name, 
                       :with => %r{\.(gpx)$}i, 
-                      :message => ("must be a GPX"),
+                      :message => (I18n.translate("activerecord.errors.messages.must_be", :name => "en GPX-fil")),
                       :unless => Proc.new { |track| track.track_file_name.blank? }
   
   validates_presence_of :municipality_id, :title

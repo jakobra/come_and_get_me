@@ -22,16 +22,16 @@ class SessionsController < ApplicationController
 protected
 
   def open_id_authentication(openid_url)
-    authenticate_with_open_id(openid_url, :required => [:nickname, :email]) do |result, identity_url, registration| 
+    authenticate_with_open_id(openid_url, :required => [:nickname, :email]) do |result, identity_url, registration|
       case result.status
         when :missing
-          failed_login "Sorry, the OpenID server couldn't be found"
+          failed_login t("login.open_id_missing")
         when :invalid
-          failed_login "Sorry, but this does not appear to be a valid OpenID"
+          failed_login t("login.open_id_invalid")
         when :canceled
-          failed_login "OpenID verification was canceled"
+          failed_login t("login.open_id_canceled")
         when :failed
-          failed_login "Sorry, the OpenID verification failed"
+          failed_login t("login.open_id_failed")
         when :successful
           successful_open_id_login(registration, identity_url)
       end
@@ -40,19 +40,12 @@ protected
   
   def successful_open_id_login(registration, identity_url)
     user = User.find_or_initialize_by_identity_url(identity_url)
-    logger.info "the registration email is ='#{registration['email']}'"
-    logger.info "the registration nickname is ='#{registration['nickname']}'"
-    logger.info "the registration full name is ='#{registration['fullname']}'"
     if user.new_record?
-      unless registration['email'].blank?
-        logger.info "registration email != blank "
-        user.login = (registration['nickname'].eql? "") ? registration['email'] : registration['nickname']
-        user.email = registration['email']
-        user.save(false)
-        successful_login(user)
-      else
-        failed_login "Sorry, your OpenId didn´t provide enough user info"
-      end
+      user.login = registration['nickname'] unless registration['nickname'].eql? ""
+      user.email = registration['email'] unless registration['email'].eql? ""
+      user.save(false)
+      flash[:notice] = t("login.confirm_user_profile")
+      redirect_to edit_user_path(user)
     else
       successful_login(user)
     end
@@ -69,21 +62,25 @@ protected
   end
   
   def successful_login(user)
-    logger.info "Before"
     user.update_attributes(:last_login_at => Time.now, :last_login_ip => (request.remote_ip || "unknown" ))
-    logger.info "After"
     self.current_user = user
     new_cookie_flag = (params[:remember_me] == "1")
     handle_remember_cookie! new_cookie_flag
-    redirect_back_or_default('/')
     flash[:notice] = t("login.logged_in")
+    redirect_back_or_default('/')
   end
   
-  def failed_login(msg = "Couldn't log you in as '#{params[:login]}'")
+  def failed_login(msg = t("login.password_failure", :login => params[:login]))
+    logger.info "Do we go here?"
     @login       = params[:login]
     @remember_me = params[:remember_me]
-    flash.now[:error] = msg
-    render :action => 'new'
+    if using_open_id?
+      flash[:error] = msg
+      redirect_to login_path
+    else
+      flash.now[:error] = msg
+      render :action => :new
+    end
   end
   
 end

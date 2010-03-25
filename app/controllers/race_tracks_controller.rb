@@ -4,13 +4,13 @@ class RaceTracksController < ApplicationController
   
   def index
     if !params[:municipality_id].blank?
-      @race_tracks = Municipality.find(params[:municipality_id]).race_tracks.paginate(:page => params[:page], :order => :title, :per_page => 10)
+      @race_tracks = Municipality.find(params[:municipality_id]).race_tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
     elsif !params[:county_id].blank?
       @county = County.find(params[:county_id], :include => :municipalities)
       @municipalities = @county.municipalities
-      @race_tracks = @county.race_tracks.paginate(:page => params[:page], :order => :title, :per_page => 10)
+      @race_tracks = @county.race_tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
     else
-      @race_tracks = RaceTrack.paginate(:page => params[:page], :order => :title, :per_page => 10)
+      @race_tracks = RaceTrack.paginate(:page => params[:page], :order => :title, :per_page => 25)
     end
     @latest_race_tracks = RaceTrack.latest
   end

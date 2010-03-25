@@ -1,8 +1,6 @@
 ### FUNCTIONALITY ###
 
-* Work on the import via email
-
-* Layout and Design
+* Layout and Design	-- In progess
 
 * Statistiks and rankings
 	- Add avg time for member on race_track
@@ -13,8 +11,6 @@
 
 * Add way-points to describe specific points
 
-* Implement send-mail functionality to report comments for example
-
 ### CODING ###
 
 * Work on the code for comments-container
@@ -23,10 +19,10 @@
 
 * Tagging conflict with vestal versions, now solved by renaming Tagging to Taging
 
-* Clean up geocoding regarding ip_address
+* Clean up geocoding regarding ip_address -- Better but not good .. design problem
 
 * Change Mime-types for gpx and kml
 
-* Migrate all authorization to declarative
+* Migrate all authorization to declarative	-- In progess
 
 * Migrate authentication to authlogic

@@ -1,9 +1,15 @@
 sv-SE:
     login:
         or_use: "eller använd ..."
-        open_id: OpenId
+        open_id: "OpenId"
         login: "Logga in"
         logged_in: "Du är inloggad"
+        confirm_user_profile: "Bekräfta och fyll i saknade uppgifter"
+        password_failure: "Det gick inte att logga som '{{login}}'"
+        open_id_missing: "Det gick inte att hitta den angivna OpenId servern"
+        open_id_invalid: "Det här ser inte ut att vara en giltigt OpenId"
+        open_id_canceled: "OpenId verifieringen avbröts"
+        open_id_failed: "Ledsen, OpenId verifieringen misslyckades"
     sign_up:
         sign_up: "Registrera"
         sign_up_as_member: "Registrera dig som ny medlem"

@@ -6,7 +6,7 @@ end
 
 page[:tracks].replace_html render @tracks
 page.select('.track_pagination').each do |b| 
-  b.replace_html will_paginate @tracks
+  b.update will_paginate @tracks
 end
 
 if @tracks.blank?

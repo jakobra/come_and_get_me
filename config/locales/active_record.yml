@@ -40,6 +40,7 @@ sv-SE:
                 description: "Beskrivning"
                 date: "Datum"
                 track: "GPX-fil"
+                track_file_name: "Filen"
                 municipality_id: "Kommun"
                 tracksegments: "GPS-koordinater eller GPX-fil måste anges"
             race_track:
@@ -91,3 +92,4 @@ sv-SE:
                   odd: "måste vara udda"
                   even: "måste vara jämnt"
                   record_invalid: "Ett fel uppstod: {{errors}}"
+                  must_be: "måste vara {{name}}"

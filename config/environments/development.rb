@@ -23,7 +23,7 @@ config.action_mailer.smtp_settings = {
   :port => 587,
   :domain => "jakobra.com",
   :enable_starttls_auto => true,
-  :authentication => "plain",
+  :authentication => :plain,
   :user_name => "dummy@jakobra.com",
   :password => "swordfish"
 }
