@@ -1,42 +1,26 @@
 <% main_class "small_width" %>
 
 <% content_for :left_side do %>
-	<div class="side_module">
-		<h5><%= t("side_modules.recent_records") %></h5>
-		<p class="small">
-			<% @recent_records.each do |record| %>
-				<%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %>, <%= truncate(record.race_track.title,:length => 25) unless record.race_track.blank? %><br />
-			<% end %>
-		</p>
-	</div>
+	<%= render "side_modules/recent_records", :object => @recent_records %>
 	
-	<div class="side_module bg_test">
-		<h5><%= t("side_modules.latest_race") %></h5>
-		<p class="small">
-			<%= link_to @last_race.training.user.login, @last_race.training.user %> <%= t("side_modules.reported") %>
-			<%= link_to @last_race.event.name, @last_race.training %>
-			<%= t("side_modules.for") %>
-			<%= time_ago_in_words(@last_race.created_at) %> <%= t("side_modules.ago") %>
-		</p>
-	</div>
+	<%= render "side_modules/last_race", :object => @last_race %>
 <% end %>
 
-<% content_for :right_side do %>
-	<% unless @area.nil? %>
-		<div class="side_module close_race_tracks">
-			<h2><%= @area.name %></h2>
-			<h5><%= t("side_modules.close_race_track") %></h5>
-			<% content_tag :ul do %>
-				<% @race_tracks.each do |race_track| %>
-					<% content_tag :li, :class => "small" do %>
-						<%= link_to race_track.title, race_track_path(race_track), :class => "font_color" %>
-					<% end %>
-				<% end%>
-			<% end %>
-			<p class="small">
-				<span class="bold"><%= t("common.create")%></span> <%= t("side_modules.your_own") %>
-				<%= link_to t("activerecord.models.race track.one"), new_race_track_path, :class => "font_color" %>
-			</p>
+<div>
+	<div class="premiere">
+		<div>
+			<h1>Välkommen!</h1>
+			<h2>Premiär 28 mars</h2>
 		</div>
-	<% end %>
+		<div>
+			<p class="bold">Gör din träning roligare med Come And Get Me</p>
+			<p><%= link_to "Läs mer här", static_path(:om), :class => "small" %></p>
+			<%= button_to "#{t("header.sign_up")}", signup_path, :method => "get", :class => "submit" %>
+		</div>
+	</div>
+</div>
+
+
+<% content_for :right_side do %>
+	<%= render "side_modules/local_race_tracks", :area => @area %>
 <% end %>

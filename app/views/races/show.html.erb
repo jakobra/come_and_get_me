@@ -44,7 +44,7 @@
 
 <div class="clear_left">
 	<%= link_to t("common.back"), training_path(@race.training) %>
-	<% if_authorized?(action_name, @race) do %>
-	 | <%= link_to "Edit", edit_race_path(@race) %>
+	<% if permitted_to? :update, @race %>
+	 | <%= link_to t("common.edit"), edit_race_path(@race) %>
 	<% end %>
 </div>

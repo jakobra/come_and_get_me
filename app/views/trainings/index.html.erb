@@ -17,7 +17,7 @@
   </tr>
 
 <% @trainings.each do |training| %>
-  <tr class="<%= cycle "odd", "even" %>">
+  <tr class="<%= cycle "odd", "even" %> small">
     <td><%= link_to training.date, training %></td>
 	<td><%= training.races.size %></td>
 	<% if_authorized?(action_name, training) do %>

@@ -26,3 +26,5 @@
 * Migrate all authorization to declarative	-- In progess
 
 * Migrate authentication to authlogic
+
+* Make it better when taking RaceTrack records through association

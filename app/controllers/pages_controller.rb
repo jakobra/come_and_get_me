@@ -6,12 +6,15 @@ class PagesController < ApplicationController
   end
   
   def show
-    if params[:permalink]
-      @page = Page.find_by_permalink(params[:permalink])
-      raise ActiveRecord::RecordNotFound, "Page Not Found" if @page.nil?
-    else
-      @page = Page.find(params[:id])
-    end
+    # if params[:permalink]
+    #   @page = Page.find_by_permalink(params[:permalink])
+    #   raise ActiveRecord::RecordNotFound, "Page Not Found" if @page.nil?
+    # else
+    #   @page = Page.find(params[:id])
+    # end
+    
+    @area = County.find_by_geolocation(request.remote_ip)
+    @area = @area.municipalities.find_by_geolocation(request.remote_ip) unless @area.blank?
   end
   
   def new

@@ -5,19 +5,8 @@
 
 <p class="default"><%= t("sign_up.do_you_have_openid") %> <%= link_to t("sign_up.login_through_openid"), login_path%></p>
 
-<%= error_messages_for :user %>
-<% form_for :user, :url => users_path do |f| -%>
-<p class="default"><%= label_tag 'login', t("activerecord.attributes.user.login") %><br/>
-<%= f.text_field :login %></p>
+<%= render "form", :submit => t("sign_up.sign_up") %>
 
-<p class="default"><%= label_tag 'email', t("activerecord.attributes.user.email") %><br/>
-<%= f.text_field :email %></p>
-
-<p class="default"><%= label_tag 'password', t("activerecord.attributes.user.password") %><br/>
-<%= f.password_field :password %></p>
-
-<p class="default"><%= label_tag 'password_confirmation', t("activerecord.attributes.user.password_confirmation") %><br/>
-<%= f.password_field :password_confirmation %></p>
-
-<p class="default"><%= submit_tag t("sign_up.sign_up"), :class => "submit" %></p>
-<% end -%>
+<% content_for :right_side do %>
+	<%= render "side_modules/todo", :area => @area %>
+<% end %>

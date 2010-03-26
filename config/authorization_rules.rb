@@ -1,7 +1,10 @@
 authorization do
   role :guest do
-    has_permission_on [:users, :trainings], :to => :read
-    has_permission_on :users, :to => [:new, :create, :statistics]
+    has_permission_on :trainings, :to => :read
+    has_permission_on :users, :to => :read do
+      if_attribute :id => is_not {APP_CONFIG['admin_user']}
+    end
+    has_permission_on :users, :to => [:new, :create, :statistics, :records]
     has_permission_on :comments, :to => :report
     has_permission_on :pages, :to => :show
     has_permission_on [:tracks, :race_tracks], :to => [:read, :records]
@@ -29,6 +32,7 @@ authorization do
   end
   
   role :admin do
+    has_permission_on :users, :to => [:read, :manage]
     has_permission_on [:comments, :pages], :to => [:manage, :read]
     has_permission_on [:tracks, :race_tracks], :to => [:destroy]
   end

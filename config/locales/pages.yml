@@ -74,7 +74,11 @@ sv-SE:
             recent_trainings: "Senaste träningarna"
             new_training: "Ny träning"
             edit_profile: "Uppdatera profil"
-            aka: ", a.k.a."
+        edit:
+            male: "Man"
+            female: "Kvinna"
+        records:
+            pb: "personliga rekord"
     trainings:
         index:
             trainings_for: "Träningar för"
@@ -98,3 +102,7 @@ sv-SE:
             update_races: "Uppdatera Lopp"
         update_individual:
             updateed: "Loppen uppdaterade"
+        edit:
+            edit_race: "Uppdatera lopp"
+        update:
+            updated: "Loppet uppdaterat"

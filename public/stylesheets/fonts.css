@@ -33,3 +33,7 @@ p {
 .font_color {
 	color:#444444;
 }
+
+.margin_left {
+	margin-left:15px !important;
+}

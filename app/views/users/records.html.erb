@@ -1,0 +1,29 @@
+<% title "#{@user.login}s #{t("race_tracks.record").downcase}"%>
+<% main_class "medium_width users_records"%>
+
+<div class="personal_bests">
+	<h2><%= @user.login %>s <%= t("users.records.pb") %></h2>
+
+	<table>
+		<% @pbs.each do |record| %>
+		  <tr class="<%= cycle "odd", "even", :name => "row_class" %> small">
+		    <td><%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %></td>
+			<td><%= record.race_track.title unless record.race_track.blank? %></td>
+		  </tr>
+		<% end %>
+	</table>
+</div>
+
+<% reset_cycle("colors") %>
+
+<div class="records">
+	<h2><%= @user.login %>s <%= t("race_tracks.record").downcase %></h2>
+	<table>
+		<% @records.each do |record| %>
+		  <tr class="<%= cycle "odd", "even" %> small">
+		    <td><%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %></td>
+			<td><%= record.race_track.title unless record.race_track.blank? %></td>
+		  </tr>
+		<% end %>
+	</table>
+</div>

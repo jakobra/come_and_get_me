@@ -13,9 +13,20 @@ class Race < ActiveRecord::Base
   validates_numericality_of :hr_max, :hr_avg, :allow_nil => true, :less_than => 250, :only_integer => true
   validates_format_of :time_string, :with => /^\d{2}:\d{2}:\d{2}$/, :message => "must be in format of hh:mm:ss"
   
+  def self.personal_bests(options = {})
+    race_tracks = calculate(:min, :time, :group => "race_track_id", :conditions => "race_track_id IS NOT NULL")
+    from_times(race_tracks.values, options)
+  end
+  
   def self.recent_records
-    race_tracks = calculate(:min, :time, :group => "race_track_id", :conditions => "race_track_id IS NOT NULL", :include => :training)
-    find_all_by_time(race_tracks.values, :order => "trainings.date DESC", :joins => :training, :limit => 5)
+    self.records(:limit => 5)
+  end
+  
+  def self.records(options = {})
+    race_tracks = find_by_sql("SELECT min(`races`.time) AS min_time, race_track_id AS race_track_id FROM `races` INNER JOIN `trainings` ON `races`.training_id = `trainings`.id WHERE (race_track_id IS NOT NULL) GROUP BY race_track_id")
+    #race_tracks = calculate(:min, :time, :group => "race_track_id", :conditions => "race_track_id IS NOT NULL")
+    
+    from_times(race_tracks.map { |race_track| race_track['min_time']}, options)
   end
   
   def time_string
@@ -38,6 +49,19 @@ class Race < ActiveRecord::Base
   
   def create_event_from_name
     build_event(:name => new_event_name, :description => new_event_description) unless new_event_name.blank?
+  end
+  
+  private
+  
+  def self.from_times(times, options)
+    with_scope :find => options do
+      begin
+        find_all_by_time(times, :order => "trainings.date DESC", :joins => :training)
+      rescue
+        # Having an rescue so that we don´t run join training twice, don´t know a better way
+        find_all_by_time(times, :order => "trainings.date DESC")
+      end
+    end
   end
   
 end

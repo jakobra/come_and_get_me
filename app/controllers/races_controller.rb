@@ -44,7 +44,7 @@ class RacesController < ApplicationController
 
     respond_to do |format|
       if @race.update_attributes(params[:race])
-        flash[:notice] = 'Race was successfully updated.'
+        flash[:notice] = t("races.update.updated")
         format.html { redirect_to(training_path(@race.training)) }
         format.xml  { head :ok }
       else

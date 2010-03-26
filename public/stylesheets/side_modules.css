@@ -8,10 +8,10 @@
 	Color Lover		#eeeef0
 */
 
-.right_side ul, .left_side ul {
+.side_module ul {
 	margin:0px;
 	padding:0px;
-	list-style:none;
+	list-style-type:none;
 }
 
 .left_side {
@@ -33,9 +33,9 @@
 	color:#F10879;
 }
 
-.side_module h2 {
+.side_module h3 {
 	color:#C98A3B;
-	margin-bottom:4px;
+	margin-bottom:2px;
 }
 
 .side_module h5 {
@@ -46,4 +46,10 @@
 .side_module td {
 	margin:0px;
 	padding:2px;
+}
+
+.comming_up > ul {
+	list-style-type:disc;
+	padding-left:20px;
+	color:#f10879;
 }

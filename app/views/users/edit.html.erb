@@ -1,37 +1,5 @@
-<% title "Editing '#{@user.login}'" %>
+<% title "#{t("users.show.edit_profile")} '#{@user.login}'" %>
 
-<h1>Editing user "<%= @user.login %>"</h1>
+<h1><%= t("users.show.edit_profile") %> "<%= @user.login %>"</h1>
 
-<% form_for(@user) do |f| %>
-	<%= f.error_messages %>
-	
-	<p>
-		<%= f.label :name %><br />
-		<%= f.text_field :name %>
-	</p>
-	<p>
-		<%= f.label :email %><br />
-		<%= f.text_field :email %>
-	</p>
-	<p>
-		<%= f.label :birthday_year %><br />
-		<%= f.text_field :birthday_year, :size => 4 %>
-	</p>
-	<p>
-		<%= f.label :password %><br />
-		<%= f.password_field :password %>
-	</p>
-	<p>
-		<%= f.label :password_confirmation %><br />
-		<%= f.password_field :password_confirmation %>
-	</p>
-	<p>or OpenID url ...</p>
-	<p>
-		<%= f.label :identity_url %><br />
-		<%= f.text_field :identity_url, :id => "openid_url" %>
-	</p>
-	
-	<p>
-		<%= f.submit 'Update', :class => :submit %> | <%= link_to t("common.cancel"), users_path %>
-	</p>
-<% end %>
+<%= render "form", :submit => t("common.edit") %>

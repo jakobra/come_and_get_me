@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
 protected
 
   def open_id_authentication(openid_url)
-    authenticate_with_open_id(openid_url, :required => [:nickname, :email]) do |result, identity_url, registration|
+    authenticate_with_open_id(openid_url, :optional => [:nickname, :email, :fullname]) do |result, identity_url, registration|
       case result.status
         when :missing
           failed_login t("login.open_id_missing")
@@ -43,6 +43,7 @@ protected
     if user.new_record?
       user.login = registration['nickname'] unless registration['nickname'].eql? ""
       user.email = registration['email'] unless registration['email'].eql? ""
+      user.name = registration['fullname'] unless registration['fullname'].eql? ""
       user.save(false)
       flash[:notice] = t("login.confirm_user_profile")
       redirect_to edit_user_path(user)

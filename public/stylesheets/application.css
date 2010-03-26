@@ -353,3 +353,40 @@ td.destroy {
 	float:left;
 }
 
+
+/* USERS RECORDS */
+.users_records > .personal_bests, .users_records > .records {
+	width:360px;
+	float:left;
+}
+
+.users_records > .records {
+	margin-left:20px;
+}
+
+/* FRONTPAGE */
+.premiere {
+	background-image:url("/images/premiere.png");
+	width:440px;
+	height:110px;
+	padding:20px;
+}
+
+.premiere div h2 {
+	margin-top:15px;
+}
+
+.premiere div p {
+	text-align:left;
+	margin-left:10px;
+}
+
+.premiere div {
+	float:left;
+	width:220px;
+	text-align:center;
+}
+
+.premiere .submit {
+	margin-top:15px;
+}

@@ -1,0 +1,57 @@
+<% form_for(@user) do |f| %>
+	<%= f.error_messages %>
+	
+	<% if @user.login.blank? %>
+		<p class="left clear_left">
+			<%= f.label :login, t("activerecord.attributes.user.login") %><br />
+			<%= f.text_field :login %>
+		</p>
+	<% end %>
+	
+	<p class="left clear_left">
+		<%= f.label :name, t("activerecord.attributes.user.name") %><br />
+		<%= f.text_field :name %>
+	</p>
+	
+	<p class="left clear_left">
+		<%= f.label :email, t("activerecord.attributes.user.email") %><br />
+		<%= f.text_field :email %>
+	</p>
+	
+	<p class="left clear_left">
+		<%= f.label :birthday_year, t("activerecord.attributes.user.birthday_year") %><br />
+		<%= f.text_field :birthday_year, :size => 4 %>
+	</p>
+	
+	<p class="margin_left left">
+		<%= f.label :municipality_id, t("activerecord.attributes.user.municipality_id") %><br />
+		<%= f.collection_select :municipality_id, Municipality.all, :id, :name, {:prompt => "#{t("common.select")} #{t("activerecord.models.municipality.one")}"}, {:id => 'municipality_id'} %>
+	</p>
+	
+	<p class="left margin_left">
+		<%= f.label :gender, t("activerecord.attributes.user.gender") %><br />
+		<%= t("users.edit.male") %>: <%= f.radio_button :gender, 0, :checked => (@user.gender == false) %>
+		<%= t("users.edit.female") %>: <%= f.radio_button :gender, 1, :checked => (@user.gender == true) %>
+	</p>
+	
+	<p class="left clear_left">
+		<%= f.label :password, t("activerecord.attributes.user.password") %><br />
+		<%= f.password_field :password %>
+	</p>
+	
+	<p class="left clear_left">
+		<%= f.label :password_confirmation, t("activerecord.attributes.user.password_confirmation") %><br />
+		<%= f.password_field :password_confirmation %>
+	</p>
+	
+	<p class="left clear_left"><%= "#{t("header.or")} #{t("login.open_id")}" %>...</p>
+	
+	<p class="left clear_left">
+		<%= f.label :identity_url, t("activerecord.attributes.user.identity_url") %><br />
+		<%= f.text_field :identity_url, :id => "openid_url" %>
+	</p>
+	
+	<p class="left clear_left">
+		<%= f.submit submit, :class => :submit %>
+	</p>
+<% end %>

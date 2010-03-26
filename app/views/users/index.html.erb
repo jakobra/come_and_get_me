@@ -1,16 +1,31 @@
 <h1><%= t("activerecord.models.user.other") %></h1>
 <table id="users">
 	<% @users.each do |user| %>
-	  <tr class="<%= cycle "odd", "even" %>">
-		<td><%= link_to user.login, member_path(user) %></td>
-		<% if admin? %>
-			<td><%= user.admin %></td>
-		<% end %>
-		<%= content_tag :td, link_to(t("common.edit"), edit_user_path(user)) if permitted_to? :update, user %>
-		<%= content_tag :td, link_to(t("common.destroy"), user, :confirm => t("common.sure"), :method => :delete) if permitted_to? :destroy, user %>
-		<% if admin? %>
-			<td><%= link_to t("users.index.set_unset_admin"), admin_user_path(user), :confirm => t("common.sure"), :method => :put %></td>
-		<% end %>
-	  </tr>
+		<tr class="<%= cycle "odd", "even" %>">
+			<% if permitted_to? :read, user %>
+				<td><%= link_to user.login, member_path(user) %></td>
+				<td><%= link_to t("race_tracks.record"), records_user_path(user) %></td>
+		
+				<% if permitted_to? :admin, user %>
+					<td><%= user.admin %></td>
+				<% end %>
+		
+				<% if permitted_to? :update, user %>
+					<%= content_tag :td, link_to(t("common.edit"), edit_user_path(user)) %>
+				<% else %>
+					<td></td>
+				<% end %>
+		
+				<%= content_tag :td, link_to(t("common.destroy"), user, :confirm => t("common.sure"), :method => :delete) if permitted_to? :destroy, user %>
+		
+				<% if permitted_to? :admin, user %>
+					<td><%= link_to t("users.index.set_unset_admin"), admin_user_path(user), :confirm => t("common.sure"), :method => :put %></td>
+				<% end %>
+			<% end %>
+		</tr>
 	<% end %>
 </table>
+
+<% content_for :right_side do %>
+	<%= render "side_modules/todo" %>
+<% end %>

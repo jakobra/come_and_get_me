@@ -1,16 +1,12 @@
 class UsersController < ApplicationController
-  filter_resource_access
+  filter_resource_access :additional_member => [:statistics, :records]
   
   def index
     @users = User.all
   end
   
   def show
-    if params[:login]
-      @user = User.find_by_login(params[:login], :include => :races)
-    else
-      @user = User.find(params[:id], :include => :races)
-    end
+    #@user = User.find_by_login(params[:id])
   end
   
   def new
@@ -23,7 +19,7 @@ class UsersController < ApplicationController
  
   def create
     logout_keeping_session!
-    @user = User.new(params[:user])
+    #@user = User.new(params[:user])
     success = @user && @user.save
     if success && @user.errors.empty?
       # Protects against session fixation attacks, causes request forgery
@@ -40,7 +36,7 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = User.find_by_login(params[:id])
+    #@user = User.find_by_login(params[:id])
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -57,7 +53,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.xml
   def destroy
-    @user = User.find_by_login(params[:id])
+    #@user = User.find_by_login(params[:id])
     @user.destroy
 
     respond_to do |format|
@@ -68,7 +64,7 @@ class UsersController < ApplicationController
   
   # PUT /users/1/admin
   def admin
-    @user = User.find(params[:id])
+    #@user = User.find(params[:id])
     @user.toggle!(:admin)
 
     redirect_to(users_url)
@@ -77,7 +73,7 @@ class UsersController < ApplicationController
   # GET /users/1/statistics
   # GET /users/1/statistics.xml
   def statistics
-     @user = User.find(params[:id])
+     #@user = User.find(params[:id])
      @start_date = Date.civil(params[:from][:year].to_i, params[:from][:month].to_i, params[:from][:day].to_i)
      @end_date = Date.civil(params[:to][:year].to_i, params[:to][:month].to_i, params[:to][:day].to_i)
      
@@ -86,6 +82,12 @@ class UsersController < ApplicationController
        format.xml  { head :ok }
        format.js
     end
+  end
+  
+  def records
+    #@user = User.find(params[:id])
+    @records = @user.races.records
+    @pbs = @user.races.personal_bests
   end
   
   protected

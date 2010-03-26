@@ -35,6 +35,10 @@ sv-SE:
                 email: "E-post"
                 password_confirmation: "Lösenords bekräftelse"
                 birthday_year: "Födelse år"
+                name: "Namn"
+                gender: "Kön"
+                municipality_id: "Kommun"
+                identity_url: "OpenId url"
             track:
                 title: "Namn"
                 description: "Beskrivning"

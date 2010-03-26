@@ -2,6 +2,7 @@ class Municipality < ActiveRecord::Base
   belongs_to :county
   has_many :tracks
   has_many :race_tracks
+  has_many :users
   
   attr_accessible :name, :code, :county
   

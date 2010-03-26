@@ -25,7 +25,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.open_id_complete 'session', :controller => 'sessions', :action => 'create', :requirements => {:method => :get}
   
-  map.resources :users, :member => {:statistics => :get, :admin => :put} do |users|
+  map.resources :users, :member => {:statistics => :get, :admin => :put, :records => :get} do |users|
     users.resources :trainings, :shallow => true do |trainings|
       trainings.resources :comments, :only => [:new, :create]
       trainings.resources :races, :shallow => true, :collection => {:edit_individual => :post, :update_individual => :put} do |races| 
@@ -48,7 +48,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.root :controller => "home"
   
-  map.static "static/:permalink", :controller => :pages, :action => :show
+  map.static "info/:permalink", :controller => :pages, :action => :show
   
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'

@@ -1,14 +1,14 @@
 <% title @race.training.date.strftime("%e %b - %Y") %>
 <% main_class "large_width" %>
 
-<h1>Edit Race</h1>
+<h1><%= t("races.edit.edit_race") %></h1>
 
 <% form_for @race do |f| %>
 	<%= render "fields", :f => f %>
 	
 	<p class="clear_left">
-		<%= f.submit 'Update' %>
+		<%= f.submit t("common.edit"), :class => "submit" %>
 	</p>
 <% end %>
 
-<%= link_to "Back", training_path(@race.training) %>
+<%= link_to t("activerecord.models.training.one"), training_path(@race.training) %>

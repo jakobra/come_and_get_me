@@ -19,10 +19,25 @@
 	
 	<div class="side_module">
 		<p class="small">
+			<span class="bold"><%= t("activerecord.attributes.user.name") %>:</span>
+			<%= @user.name %>
+		</p>
+		
+		<p class="small">
 			<span class="bold"><%= t("activerecord.attributes.user.birthday_year") %>:</span>
 			<%= @user.birthday_year %>
 		</p>
-
+		
+		<p class="small">
+			<span class="bold"><%= t("activerecord.attributes.user.gender") %>:</span>
+			<%= @user.gender ? t("users.edit.female") : t("users.edit.male") unless @user.gender.nil?%>
+		</p>
+		
+		<p class="small">
+			<span class="bold"><%= t("activerecord.attributes.user.municipality_id") %>:</span>
+			<%= @user.municipality.name unless @user.municipality.blank? %>
+		</p>
+		
 		<p class="small">
 			<span class="bold"><%= t("users.show.last_login") %>:</span>
 			<%= @user.last_login_at.strftime("%e %b - %Y") %>
@@ -30,7 +45,7 @@
 	</div>
 <% end %>
 
-<h2><%= @user.name %><%= t("users.show.aka") %> <%= @user.login %></h2>
+<h2><%= @user.login %></h2>
 
 
 
@@ -41,7 +56,10 @@
 	<% if permitted_to? :create, @user.trainings %>
 		<%= link_to t("users.show.new_training"), new_user_training_path(@user) %> | 
 	<% end %>
-	<%= link_to t("activerecord.models.training.other"), user_trainings_path(@user) %>
+	<% if permitted_to? :read, @user.trainings %>
+		<%= link_to t("activerecord.models.training.other"), user_trainings_path(@user) %> |
+		<%= link_to t("race_tracks.record"), records_user_path(@user) %>
+	<% end %>
 </p>
 
 

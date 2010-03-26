@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :trainings, :dependent => :destroy
   has_many :races, :through => :trainings
   has_many :comments
+  belongs_to :municipality
   
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
@@ -27,7 +28,7 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :identity_url, :birthday_year, :last_login_at, :last_login_ip
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :identity_url, :birthday_year, :last_login_at, :last_login_ip, :municipality_id, :gender
 
 
 
