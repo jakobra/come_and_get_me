@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   helper_method :admin?
   
   include AuthenticatedSystem
+  include SideModules
   
   SHALLOW_ACTIONS = ['edit', 'update', 'destroy']
   
@@ -88,6 +89,10 @@ class ApplicationController < ActionController::Base
         return $1.classify.constantize.find(value)
       end
     end
+  end
+  
+  def load_side_module(side_module)
+    send(side_module)
   end
   
   protected

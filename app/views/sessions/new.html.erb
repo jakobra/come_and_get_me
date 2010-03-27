@@ -1,5 +1,9 @@
 <% title "Login" %>
-<% main_class %>
+<% main_class "small_width" %>
+
+<% content_for :left_side do %>
+	<%= render "side_modules/todo" %>
+<% end %>
 
 <h1><%= t("login.login") %></h1>
 
@@ -25,3 +29,7 @@
 
 <p><%= submit_tag t("login.login"), :class => "submit" %></p>
 <% end -%>
+
+<% content_for :right_side do %>
+	<%= render "side_modules/local_race_tracks", :area => @area %>
+<% end %>

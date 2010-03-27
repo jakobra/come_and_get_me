@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
   
   def new
     # render new.html.erb
+    load_side_module("local_race_tracks")
   end
 
   def create
@@ -79,6 +80,7 @@ protected
       flash[:error] = msg
       redirect_to login_path
     else
+      load_side_module("local_race_tracks")
       flash.now[:error] = msg
       render :action => :new
     end

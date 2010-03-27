@@ -47,16 +47,17 @@ div.default {
 
 #flash_notice, #flash_error {
 	padding: 5px 8px;
+	margin-bottom:20px;
+	background-color: #eeeef0;
+	color:#444444;
 }
 
 #flash_notice {
-  background-color: #eeeef0;
-  border: solid 2px #6C6;
+  border: solid 2px #444444;
 }
 
 #flash_error {
-  background-color: #eeeef0;
-  border: solid 2px red;
+  border: solid 2px #f10879;
 }
 
 .fieldWithErrors {

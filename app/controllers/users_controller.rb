@@ -11,6 +11,8 @@ class UsersController < ApplicationController
   
   def new
     @user = User.new
+    
+    load_side_module("local_race_tracks")
   end
   
   def edit

@@ -13,12 +13,6 @@
 		<div id="container">
 			<%= render "/application/header" %>
 			
-			<%- flash.each do |name, msg| -%>
-				<% content_tag :div, :class => "large_width left_side" do %>
-					<%= content_tag :div, msg, :id => "flash_#{name}" %>
-				<% end %>
-			<%- end -%>
-			
 			<% unless @content_for_left_side.blank?  %>
 				<% content_tag :div, :class => "xsmall_width left_side" do %>
 					<%= yield(:left_side) %>
@@ -26,6 +20,10 @@
 			<% end %>
 			
 			<% content_tag :div, :class =>   "#{"left_side" if @content_for_left_side.blank? } #{(@class || "medium_width")}" do %>
+				<%- flash.each do |name, msg| -%>
+					<%= content_tag :div, msg, :id => "flash_#{name}" %>
+				<%- end -%>
+				
 				<%= yield %>
 			<% end %>
 			

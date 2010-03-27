@@ -13,8 +13,7 @@ class PagesController < ApplicationController
     #   @page = Page.find(params[:id])
     # end
     
-    @area = County.find_by_geolocation(request.remote_ip)
-    @area = @area.municipalities.find_by_geolocation(request.remote_ip) unless @area.blank?
+    load_side_module("local_race_tracks")
   end
   
   def new

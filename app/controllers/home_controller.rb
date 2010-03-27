@@ -1,11 +1,11 @@
 class HomeController < ApplicationController
   
   def index
-    @area = County.find_by_geolocation(request.remote_ip)
-    @area = @area.municipalities.find_by_geolocation(request.remote_ip) unless @area.blank?
+    load_side_module("local_race_tracks")
     
-    @last_race = Race.find(:last)
-    @recent_records = Race.recent_records
+    load_side_module("last_race")
+    
+    load_side_module("recent_records")
   end
   
 end

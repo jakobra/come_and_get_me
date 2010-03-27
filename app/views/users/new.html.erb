@@ -1,6 +1,11 @@
 <% title t("sign_up.sign_up_as_member") %>
+<% main_class "small_width" %>
 
-<h1><%= t("sign_up.sign_up_as_member") %></h1>
+<% content_for :left_side do %>
+	<%= render "side_modules/todo" %>
+<% end %>
+
+<h2><%= t("sign_up.sign_up_as_member") %></h2>
 <% @user.password = @user.password_confirmation = nil %>
 
 <p class="default"><%= t("sign_up.do_you_have_openid") %> <%= link_to t("sign_up.login_through_openid"), login_path%></p>
@@ -8,5 +13,5 @@
 <%= render "form", :submit => t("sign_up.sign_up") %>
 
 <% content_for :right_side do %>
-	<%= render "side_modules/todo", :area => @area %>
+	<%= render "side_modules/local_race_tracks", :area => @area %>
 <% end %>
