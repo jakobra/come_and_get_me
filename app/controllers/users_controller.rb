@@ -32,7 +32,6 @@ class UsersController < ApplicationController
       redirect_back_or_default('/')
       flash[:notice] = t("users.create.created")
     else
-      flash[:error]  = t("users.create.failed")
       render :action => 'new'
     end
   end
