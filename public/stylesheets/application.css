@@ -37,6 +37,10 @@ a:hover {
 	margin-top:20px;
 }
 
+.inline {
+	display:inline;
+}
+
 p.default {
 	margin:1em 0;
 }
@@ -390,4 +394,21 @@ td.destroy {
 
 .premiere .submit {
 	margin-top:15px;
+}
+
+.beta h1 {
+	margin-top:8px;
+	font-size:1.8em;
+}
+
+.beta {
+	overflow:hidden;
+}
+
+.beta img {
+	margin-left:10px;
+}
+
+.beta p {
+	margin-top:7px;
 }

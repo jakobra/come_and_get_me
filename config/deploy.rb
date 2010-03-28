@@ -1,18 +1,20 @@
+set :stages, %w(staging production)
+
+set :default_stage, "staging"
+
+require 'capistrano/ext/multistage'
+
 set :application, "come_and_get_me"
 
 set :host, "jakobra.se"
 
 set :user, "deploy"
 set :use_sudo, false
-set :deploy_to, "/var/www/#{application}"
 set :ssh_options, {:forward_agent => true}
 
 set :scm, :git
 set :repository,  "git@github.com:jakobra/Come-And-Get-Me.git"
-set :branch, "master"
 set :deploy_via, :remote_cache
-
-set :rails_env, "staging"
 
 role :web, "jakobra.se"                   # Your HTTP server, Apache/etc
 role :app, "jakobra.se"                   # This may be the same as your `Web` server
