@@ -49,6 +49,10 @@ div.default {
 	margin:1em 0;
 }
 
+.clear_both {
+	clear:both;
+}
+
 #flash_notice, #flash_error {
 	padding: 5px 8px;
 	margin-bottom:20px;
@@ -65,11 +69,11 @@ div.default {
 }
 
 .fieldWithErrors {
-	display: inline;
+	clear:both;
 }
 
 #errorExplanation {
-  width: 500px;
+  width: 476px;
   border: 2px solid #CF0000;
   padding: 0px;
   padding-bottom: 12px;

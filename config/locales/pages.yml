@@ -79,6 +79,9 @@ sv-SE:
             female: "Kvinna"
         records:
             pb: "personliga rekord"
+        create:
+            created: "Tack för att du registrerade dig!"
+            failed: "Vi kunde inte skapa ditt konto =( ... testa gärna igen"
     trainings:
         index:
             trainings_for: "Träningar för"

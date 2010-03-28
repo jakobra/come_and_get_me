@@ -1,7 +1,7 @@
 <% form_for(@user) do |f| %>
 	<%= f.error_messages %>
 	
-	<% if @user.login.blank? %>
+	<% if action_name == "create" or action_name == "new" or @user.login.blank?%>
 		<p class="left clear_left">
 			<%= f.label :login, t("activerecord.attributes.user.login") %><br />
 			<%= f.text_field :login %>
@@ -13,7 +13,7 @@
 		<%= f.text_field :name %>
 	</p>
 	
-	<p class="left clear_left">
+	<p class="left clear_both">
 		<%= f.label :email, t("activerecord.attributes.user.email") %><br />
 		<%= f.text_field :email %>
 	</p>

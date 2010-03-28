@@ -40,7 +40,7 @@
 		
 		<p class="small">
 			<span class="bold"><%= t("users.show.last_login") %>:</span>
-			<%= @user.last_login_at.strftime("%e %b - %Y") %>
+			<%= @user.last_login_at.strftime("%e %b - %Y") unless @user.last_login_at.blank? %>
 		</p>
 	</div>
 <% end %>
