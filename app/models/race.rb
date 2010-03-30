@@ -9,9 +9,9 @@ class Race < ActiveRecord::Base
   attr_accessor :new_event_name, :new_event_description
   before_validation :create_event_from_name
   
-  validates_presence_of :distance, :event
+  validates_presence_of :distance, :event_id
   validates_numericality_of :hr_max, :hr_avg, :allow_nil => true, :less_than => 250, :only_integer => true
-  validates_format_of :time_string, :with => /^\d{2}:\d{2}:\d{2}$/, :message => "must be in format of hh:mm:ss"
+  validates_format_of :time_string, :with => /^\d{2}:\d{2}:\d{2}$/, :message => "must be in format of hh:mm:ss", :unless => Proc.new { |user| user.time.blank? }
   
   def self.personal_bests(options = {})
     race_tracks = calculate(:min, :time, :group => "race_track_id", :conditions => "race_track_id IS NOT NULL")
@@ -31,7 +31,7 @@ class Race < ActiveRecord::Base
   
   def time_string
     if @time_string.blank?
-       time.blank? ? "" : time.strftime("%H:%M:%S")
+      time.blank? ? "" : time.strftime("%H:%M:%S")
     else
       @time_string
     end
@@ -43,7 +43,7 @@ class Race < ActiveRecord::Base
   
   def time_string=(time_str)
     @time_string = time_str
-    self.time = Time.parse(time_str)
+    self.time = time_str.blank? ? nil : Time.parse(time_str)
   rescue ArgumentError
   end
   

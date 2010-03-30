@@ -4,7 +4,7 @@ class TrainingsController < ApplicationController
   # GET /trainings
   # GET /trainings.xml
   def index
-    @user = User.find_by_login(params[:user_id])
+    #@user = User.find_by_login(params[:user_id])
     @trainings = @user.trainings.paginate(:page => params[:page], :order => "date DESC", :per_page => 25)
 
     respond_to do |format|
@@ -16,7 +16,7 @@ class TrainingsController < ApplicationController
   # GET /trainings/1
   # GET /trainings/1.xml
   def show
-    @training = Training.find(params[:id])
+    #@training = Training.find(params[:id])
     
     respond_to do |format|
       format.html # show.html.erb
@@ -27,7 +27,7 @@ class TrainingsController < ApplicationController
   # GET /trainings/new
   # GET /trainings/new.xml
   def new
-    @user = User.find_by_login(params[:user_id])
+    #@user = User.find_by_login(params[:user_id])
     @training = @user.trainings.build
 
     respond_to do |format|
@@ -38,18 +38,14 @@ class TrainingsController < ApplicationController
 
   # GET /trainings/1/edit
   def edit
-    @training = Training.find(params[:id])
+    #@training = Training.find(params[:id])
   end
 
   # POST /trainings
   # POST /trainings.xml
   def create
-    @user = User.find_by_login(params[:user_id])
+    #@user = User.find_by_login(params[:user_id])
     @training = @user.trainings.build(params[:training])
-    
-    unless params[:races].blank?
-      params[:races].each { |race| @training.races.build(race) }
-    end
 
     respond_to do |format|
       if @training.save
@@ -70,7 +66,7 @@ class TrainingsController < ApplicationController
 
     respond_to do |format|
       if @training.update_attributes(params[:training])
-        flash[:notice] = t("trainings.update.updated")
+        flash[:notice] = t("trainings.update.updated", :date => @training.date)
         format.html { redirect_to(@training) }
         format.xml  { head :ok }
       else
@@ -83,7 +79,7 @@ class TrainingsController < ApplicationController
   # DELETE /trainings/1
   # DELETE /trainings/1.xml
   def destroy
-    @training = Training.find(params[:id])
+    #@training = Training.find(params[:id])
     @training.destroy
 
     respond_to do |format|

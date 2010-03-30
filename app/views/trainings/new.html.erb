@@ -3,29 +3,4 @@
 
 <h1><%= t("trainings.new.new_training") %></h1>
 
-<% form_for(@training, :url => user_trainings_path(@user)) do |f| %>
-	<%= f.error_messages %>
-	
-	<p>
-		<%= f.label :date, t("activerecord.attributes.training.date") %><br />
-		<%= f.date_select :date %>
-	</p>
-	
-	<p>
-		<%= f.label :comment, t("activerecord.models.comment.one") %><br />
-		<%= f.text_area :comment, :rows => 5 %>
-	</p>
-	
-	<div id="races">
-		<%= render "race_fields", :object => @training.races.build %>
-	</div>
-	
-	<p class="clear_both">
-		<%= add_race_field_link(t("trainings.new.add_race")) %>
-	</p>
-	
-	<p>
-		<%= f.submit t("common.create") %> |
-		<%= link_to t("common.cancel"), user_trainings_path(@user), :confirm => t("common.sure") %>
-	</p>
-<% end %>
+<%= render :partial => 'form', :locals => {:submit => t("common.create")} %>

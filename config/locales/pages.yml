@@ -90,21 +90,29 @@ sv-SE:
             show_hide_form: "Visa/Dölj nytt lopp"
             edit_selected: "Uppdatera"
             all_fields: "Alla fält"
+            view_all_race_tracks: "Visa alla tävlingsbanor"
+            time_html: "Tid<br />(tt:mm:ss)"
+            hr_max_html: "Max-<br />puls"
+            hr_avg_html: "Medel-<br />puls"
+            distance_html: "Distans<br />(km)"
         new:
+            new_event: "Ny gren"
             new_event_name: "Gren"
             new_event_description: "Gren beskrivning"
-            or_create_one: "eller skapa en ny"
+            new_comment: "Lägg till kommentar"
             add_race: "Lägg till nytt lopp"
             new_training: "Ny träning"
         create:
             created: "Träningen skapad"
+        edit:
+            edit_training: "Uppdatera träning"
         update:
             updated: "Träningen {{date}} uppdaterad"
     races:
         edit_individual:
             update_races: "Uppdatera Lopp"
         update_individual:
-            updateed: "Loppen uppdaterade"
+            updated: "Loppen uppdaterade"
         edit:
             edit_race: "Uppdatera lopp"
         update:

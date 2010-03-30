@@ -1,13 +1,14 @@
-<%= f.error_messages :object_name => "Race" %>
-
 <% if form_input_field?("event_id") %>
 	<p class="left">
 		<%= f.label :event_id, t("activerecord.models.event.one") %><br />
 		<%= f.collection_select :event_id, Event.all, :id, :name, :include_blank => true %>
-		<%= t("trainings.new.or_create_one") %>:
+		
+		<%= link_to_function(t("trainings.new.new_event"), nil) do |page|
+		    page[:new_event].toggle
+		  end %>
 	</p>
-
-	<div class="left">
+	
+	<div id="new_event" class="left" style="display:none;">
 		<p>
 			<%= f.label :new_event_name, t("trainings.new.new_event_name") %><br />
 			<%= f.text_field :new_event_name %>
@@ -19,13 +20,6 @@
 	</div>
 <% end %>
 
-<% if form_input_field?("comment") %>
-	<p class="left">
-		<%= f.label :comment, t("activerecord.attributes.race.comment") %><br />
-		<%= f.text_area :comment, :rows => 4, :cols => 30 %>
-	</p>
-<% end %>
-
 <% if form_input_field?("distance") %>
 	<p class="left  clear_left">
 		<%= f.label :distance, t("activerecord.attributes.race.distance") %><br />
@@ -34,26 +28,42 @@
 <% end %>
 	
 <% if form_input_field?("time") %>
-	<p class="left">
+	<p class="left margin_left">
 		<%= f.label :time_string, t("activerecord.attributes.race.time") %><br />
 		<%= f.text_field :time_string, :size => 8 %>
 	</p>
 <% end %>
 	
 <% if form_input_field?("hr") %>
-	<p class="left">
+	<p class="left margin_left">
 		<%= f.label :hr_max, t("activerecord.attributes.race.hr_max") %><br />
 		<%= f.text_field :hr_max, :size => 4 %>
 	</p>
-	<p class="left">
+	<p class="left margin_left">
 		<%= f.label :hr_avg, t("activerecord.attributes.race.hr_avg") %><br />
 		<%= f.text_field :hr_avg, :size => 4 %>
 	</p>
 <% end %>
 	
 <% if form_input_field?("race_track_id") %>
-	<p class="left">
+	<p class="left margin_left">
 		<%= f.label :race_track_id, t("activerecord.models.race track.one") %><br />
-		<%= f.collection_select :race_track_id, RaceTrack.all, :id, :title, :include_blank => true %>
+		<%= f.collection_select :race_track_id, current_user.municipality.race_tracks, :id, :title, :prompt => "Lokala spår" %>
+		<%= link_to_function(t("trainings.show.view_all_race_tracks"), nil) do |page|
+			page[:race_race_track_id].replace_html options_from_collection_for_select(RaceTrack.all, :id, :title)
+			page.insert_html :top, :race_race_track_id, "<option value=\"\">Alla spår</option>"
+		end %>
+	</p>
+<% end %>
+
+<% if form_input_field?("comment") %>
+	<p class="left clear_left">
+		<%= link_to_function(t("trainings.new.new_comment"), nil) do |page|
+	    	page[:new_comment].toggle
+	  	end %>
+	</p>
+	<p class="left clear_left" id="new_comment" style="display:none;" >
+		<%= f.label :comment, t("activerecord.attributes.race.comment") %><br />
+		<%= f.text_area :comment, :rows => 4, :cols => 30 %>
 	</p>
 <% end %>

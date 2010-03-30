@@ -1,5 +1,5 @@
 <% unless race.new_record? %>
-	<tr>
+	<tr class="<%= cycle("odd", "even") %>">
 		<% if permitted_to? :update, race %>
 			<td><%= check_box_tag "race_ids[]", race.to_param %></td>
 		<% end %>

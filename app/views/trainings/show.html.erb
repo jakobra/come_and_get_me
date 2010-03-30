@@ -4,20 +4,21 @@
 
 <p class="bold"><%=h @training.date %></p>
 
-<p>
-  <%=simple_format h @training.comment %>
-</p>
+<div class="text_width">
+	<%= simple_format h @training.comment %>
+</div>
+
 
 <% form_tag edit_individual_training_races_path(@training) do %>
-<table id="races">
+<table id="races" class="small">
 	<tr>
 		<%= content_tag :th if permitted_to? :update, @training.races.first %>
 		<th><%= t("activerecord.attributes.race.event_id") %></th>
-		<th><%= t("activerecord.attributes.race.distance") %></th>
+		<th><%= t("trainings.show.distance_html") %></th>
 		<th><%= t("activerecord.attributes.race.race_track_id") %></th>
-		<th><%= t("activerecord.attributes.race.time") %></th>
-		<th><%= t("activerecord.attributes.race.hr_max") %></th>
-		<th><%= t("activerecord.attributes.race.hr_avg") %></th>
+		<th><%= t("trainings.show.time_html") %></th>
+		<th><%= t("trainings.show.hr_max_html") %></th>
+		<th><%= t("trainings.show.hr_avg_html") %></th>
 	</tr>
 	<%= render :partial => @training.races %>
 </table>
@@ -43,15 +44,7 @@
 	</p>
 	
 	<fieldset id="race_form" style="display:none;">
-		<% remote_form_for(@training.races.build, :url => training_races_path(@training)) do |f|  %>
-			<%= error_messages_for 'race', :object => @training.races %>
-		
-			<%= render "races/fields", :f => f %>
-			
-			<p class="clear_left">
-				<%= f.submit t("common.create") %>
-			</p>
-		<% end %>
+		<%= render "new_race_form", :race => @training.races.build %>
 	</fieldset>
 <% end %>
 

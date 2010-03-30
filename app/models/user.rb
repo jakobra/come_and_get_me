@@ -71,9 +71,9 @@ class User < ActiveRecord::Base
         end
       end
     end
-    hours = times.map { |time| time[:hours] }
-    minutes = times.map { |time| time[:minutes] }
-    seconds = times.map { |time| time[:seconds] }
+    hours = times.map { |t| t[:hours] }
+    minutes = times.map { |t| t[:minutes] }
+    seconds = times.map { |t| t[:seconds] }
     seconds = eval seconds.join('+') 
     seconds += get_seconds_from_hours_and_minutes(hours, minutes)
     get_time_from_seconds seconds

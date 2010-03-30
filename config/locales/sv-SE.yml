@@ -27,3 +27,4 @@ sv-SE:
         login_required: "Inloggning krävs"
         admin_required: "Ej tillräcklig åtkomst"
         description: "Beskrivning"
+        show: "Visa"

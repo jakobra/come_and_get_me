@@ -37,6 +37,14 @@ a:hover {
 	margin-top:20px;
 }
 
+.margin_top_small {
+	margin-top:4px;
+}
+
+.margin_left {
+	margin-left:20px;
+}
+
 .inline {
 	display:inline;
 }
@@ -53,6 +61,13 @@ div.default {
 	clear:both;
 }
 
+.text_width {
+	width:480px;
+	margin-bottom:10px;
+}
+
+/* ERROR STYLES */
+
 #flash_notice, #flash_error {
 	padding: 5px 8px;
 	margin-bottom:20px;
@@ -61,11 +76,11 @@ div.default {
 }
 
 #flash_notice {
-  border: solid 2px #444444;
+	border: solid 2px #444444;
 }
 
 #flash_error {
-  border: solid 2px #f10879;
+	border: solid 2px #f10879;
 }
 
 .fieldWithErrors {
@@ -73,37 +88,38 @@ div.default {
 }
 
 #errorExplanation {
-  width: 476px;
-  border: 2px solid #CF0000;
-  padding: 0px;
-  padding-bottom: 12px;
-  margin-bottom: 20px;
-  background-color: #f0f0f0;
+	width: 476px;
+	border: 2px solid #CF0000;
+	padding: 0px;
+	padding-bottom: 12px;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	background-color: #f0f0f0;
 }
 
 #errorExplanation h2 {
-  text-align: left;
-  font-weight: bold;
-  padding: 5px 5px 5px 15px;
-  font-size: 12px;
-  margin: 0;
-  background-color: #c00;
-  color: #fff;
+	text-align: left;
+	font-weight: bold;
+	padding: 5px 5px 5px 15px;
+	font-size: 12px;
+	margin: 0;
+	background-color: #c00;
+	color: #fff;
 }
 
 #errorExplanation p {
-  color: #333;
-  margin-bottom: 0;
-  padding: 8px;
+	color: #333;
+	margin-bottom: 0;
+	padding: 8px;
 }
 
 #errorExplanation ul {
-  margin: 2px 24px;
+	margin: 2px 24px;
 }
 
 #errorExplanation ul li {
-  font-size: 12px;
-  list-style: disc;
+	font-size: 12px;
+	list-style: disc;
 }
 
 /* HEADER STYLES */
@@ -179,6 +195,16 @@ textarea {
 
 .fieldWithErrors select {
 	border:2px solid red;
+}
+
+.fields {
+	border-bottom:1px solid #cccccc;
+	padding-bottom:10px;
+}
+
+fieldset {
+	border:1px solid #cccccc;
+	margin-bottom:10px;
 }
 
 /* OPENID LOGIN*/
@@ -268,6 +294,12 @@ ul {
 
 .comments {
 	margin-left:20px;
+}
+
+.comments_container {
+	margin-bottom:10px;
+	padding:10px;
+	border:1px solid #cccccc;
 }
 
 .comments_container > .comments {
