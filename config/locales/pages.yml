@@ -18,6 +18,8 @@ sv-SE:
     logout:
         logged_out: "Du är utloggad"
     race_tracks:
+        info:
+            quantity: "Varv betyder hur många varv av Banan som gäller ..."
         record: "Rekord"
         index:
             no_race_tracks: "Inga tävlingsbanor funna"

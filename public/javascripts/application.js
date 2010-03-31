@@ -21,10 +21,15 @@ Event.observe(window, 'load', function() {
 		});
 	}
 	
+	render_tooltips();
+	
+});
+
+function render_tooltips() {
 	$$("img.info").each( function(img) {
 		new Tooltip(img);
 	});
-});
+}
 
 function add_show_comment_form_observer(el, box) {
 	$(el).observe('click', function(event) {
@@ -70,4 +75,5 @@ function add_fields(link, association, content) {
 	$(link).up().insert({
 		before: content.replace(regexp, new_id)
 	});
+	render_tooltips();
 }

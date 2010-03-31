@@ -53,7 +53,7 @@ sv-SE:
                 municipality_id: "Kommun"
                 race_track_segments: "Banor"
             race_track_segment:
-                quantity: "Antal"
+                quantity: "Varv"
                 track_id: "Bana"
             training:
                 date: "Datum"
