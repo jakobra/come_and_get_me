@@ -46,7 +46,7 @@ sv-SE:
                 track: "GPX-fil"
                 track_file_name: "Filen"
                 municipality_id: "Kommun"
-                tracksegments: "GPS-koordinater eller GPX-fil måste anges"
+                tracksegments: "GPS-koordinater eller GPX-fil"
             race_track:
                 title: "Namn"
                 description: "Beskrivning"

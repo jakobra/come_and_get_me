@@ -28,3 +28,7 @@
 * Migrate authentication to authlogic
 
 * Make it better when taking RaceTrack records through association
+
+* Rewrite de code for creating and updating Tracks
+
+* Javascript for removing last point when ploting Track

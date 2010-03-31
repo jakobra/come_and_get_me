@@ -45,6 +45,10 @@ a:hover {
 	margin-left:20px;
 }
 
+.margin_left_large {
+	margin-left:40px;
+}
+
 .inline {
 	display:inline;
 }
@@ -64,6 +68,10 @@ div.default {
 .text_width {
 	width:480px;
 	margin-bottom:10px;
+}
+
+img.info {
+	cursor:pointer;
 }
 
 /* ERROR STYLES */

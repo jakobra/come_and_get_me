@@ -27,4 +27,8 @@ module ApplicationHelper
     link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"))
   end
   
+  def info_tag(info)
+    image_tag "icons/info_icon.png", :class => "info", :title => info
+  end
+    
 end

@@ -20,6 +20,10 @@ Event.observe(window, 'load', function() {
 			add_show_comment_form_observer(element, ".edit_comment_box");
 		});
 	}
+	
+	$$("img.info").each( function(img) {
+		new Tooltip(img);
+	});
 });
 
 function add_show_comment_form_observer(el, box) {
@@ -62,8 +66,8 @@ function remove_fields(link) {
 
 function add_fields(link, association, content) {
 	var new_id = new Date().getTime();
-	var regexp = RegExp("new_" + association, "g")
+	var regexp = RegExp("new_" + association, "g");
 	$(link).up().insert({
 		before: content.replace(regexp, new_id)
-	})
+	});
 }

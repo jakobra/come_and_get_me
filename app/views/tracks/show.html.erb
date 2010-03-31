@@ -14,12 +14,6 @@
 		<p>
 			<%= @track.description %>
 		</p>
-		<p class="bold">
-			<%= @track.municipality.name %>
-		</p>
-		<p>
-			<%= @track.date.strftime("%Y-%m-%d") %>
-		</p>
 	</div>
 	
 	<div class="border_top">
@@ -60,12 +54,17 @@
 	
 		<p>
 			<%= t("tracks.show.download_track") %>:<br>
-			<%= link_to "#{h(@track.title)} (GPX)", track_points_path(@track, :gpx) %><br>
+			<%= link_to "#{h(@track.title)} (GPX)", track_points_path(@track, :gpx) %><br />
 			<%= link_to "#{h(@track.title)} (KML)", track_points_path(@track, :kml) %>
 		</p>
 		<p>
-			<span class="bold"><%= t("tracks.source") %>:</span><br>
+			<span class="bold"><%= t("tracks.source") %>:</span><br />
 			<%= track_created_from(@track) %>
+		</p>
+		
+		<p>
+			<span class="bold"><%= t("activerecord.models.municipality.one") %>:</span><br />
+			<%= @track.municipality.name %>
 		</p>
 	</div>
 	

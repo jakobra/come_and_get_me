@@ -33,7 +33,8 @@ class TracksController < ApplicationController
   # GET /tracks/new.xml
   def new
     #@track = Track.new
-
+    @track.tracksegments.build
+    
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @track }
@@ -49,11 +50,14 @@ class TracksController < ApplicationController
   # POST /tracks.xml
   def create
     #@track = Track.new(params[:track])
-    @track.created_by_user = current_user
     
-    if !params[:points].blank? and params[:track][:track].blank?
-      @track.create_tracksegment_from_plot(params[:points], params[:track][:circle])
+    unless params[:track][:track].blank?
+      params[:track][:tracksegments_attributes]["0"][:points_attributes] = nil
+      params[:track][:tracksegments_attributes]["0"][:circle] = params[:track][:circle] unless params[:track][:tracksegments_attributes]["0"][:points_attributes].blank?
     end
+    
+    @track = Track.new(params[:track])
+    @track.created_by_user = current_user
     
     respond_to do |format|
       if @track.save
@@ -71,13 +75,26 @@ class TracksController < ApplicationController
   # PUT /tracks/1.xml
   def update
     #@track = Track.find(params[:id])
+    attributes = params[:track]
+    attributes[:updated_by] = current_user
     
-    if !params[:points].blank? and params[:track][:track].blank?
-      @track.create_tracksegment_from_plot(params[:points], params[:track][:circle])
+    if attributes[:track].blank?
+      unless attributes[:tracksegments_attributes]["0"][:points_attributes].blank?
+        attributes[:track] = nil
+        attributes[:tracksegments_attributes]["0"][:circle] = attributes[:circle]
+        attributes["date(1i)"] = Date.today.year.to_s
+        attributes["date(2i)"] = Date.today.month.to_s
+        attributes["date(3i)"] = Date.today.day.to_s
+        attributes["date(4i)"] = Time.now.hour.to_s
+        attributes["date(5i)"] = Time.now.min.to_s
+        attributes["date(6i)"] = Time.now.sec.to_s
+      end
+    else
+      attributes[:tracksegments_attributes]["0"][:points_attributes] = nil
     end
     
     respond_to do |format|
-      if @track.update_attributes({:updated_by => current_user}.merge(params[:track]))
+      if @track.update_attributes(attributes)
         flash[:notice] = t("tracks.update.updated", :name => @track.title)
         format.html { redirect_to(@track) }
         format.xml  { head :ok }

@@ -47,6 +47,9 @@ sv-SE:
         ago: "sen"
         updated: "Ändrad för"
     tracks:
+        info:
+            same_start_finish: "Betyder att banan börjar och slutar på samma ställe."
+            new_race_track: "Innebär att även en Tävlingsbana kommer att sparas"
         source: "Källa"
         index:
             new_track: "Ny bana"
@@ -55,7 +58,7 @@ sv-SE:
             view_history: "Visa historia"
             hide_history: "Dölj historia"
             download_track: "Ladda ner banan"
-            current: "Nuvarande"
+            current: "Senaste versionen"
         new:
             new_track: "Ny bana"
             plot_track: "... eller plotta en bana på kartan"

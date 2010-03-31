@@ -10,6 +10,8 @@ class Track < ActiveRecord::Base
   belongs_to :created_by_user, :class_name => "User"
   belongs_to :municipality
   
+  accepts_nested_attributes_for :tracksegments, :allow_destroy => true, :reject_if => lambda { |a| a[:points_attributes].blank? }
+  
   before_destroy :destroy_all_tracksegments
   after_create :create_race_track
   
@@ -30,7 +32,7 @@ class Track < ActiveRecord::Base
   # Versioned by vestal versions
   versioned
   
-  # Boolena attributes for different methods, same_start_and_finish and wheather create a race_track or not 
+  # Boolean attributes, same_start_and_finish and wheather create a race_track or not 
   attr_accessor :circle, :new_race_track
   
   named_scope :latest, {:limit => 5, :order => "id DESC"}
@@ -40,46 +42,25 @@ class Track < ActiveRecord::Base
     save_attached_files_without_parse_file
     if dirty
       parse_file(self)
-      set_finish_point if circle
+      set_finish_point if circle == "1"
     end
   end
-        
-  alias_method_chain :save_attached_files, :parse_file
   
+  alias_method_chain :save_attached_files, :parse_file
+    
   def tracksegment_version
     result = nil
     Tracksegment.find(:all, :conditions => ["track_id = ?", self.id], :order => "track_version DESC").each do |tracksegment|
-      logger.info "Track_version: #{tracksegment.track_version}"
       result = tracksegment.track_version <= version ? tracksegment.track_version : nil
       break unless result.nil?
     end
     result.nil? ? 1 : result
   end
   
-  def create_tracksegment_from_plot(points, circle)
-    version = new_record? ? 1 : self.version + 1
-    tracksegment = tracksegments.build({:track_version => version, :circle => circle})
-    points.each do |point|
-      new_point = Point.new(:latitude => point[:lat], :longitude => point[:lng], :elevation => point[:ele])
-      tracksegment.points.push(new_point) if new_point.valid?
-    end
-    track_file_name = nil
-    track_content_type = nil
-    track_file_size = nil
-    unless new_record?
-      tracksegment.save
-      update_attribute(:date, Time.now)
-    end
-  end
-  
   private
   
-  def destroy_all_tracksegments
-    Tracksegment.destroy_all(:track_id => self.id)
-  end
-  
+  # Appends a gps point so that a track starts and stops at the same position if user choosen so through :circle
   def set_finish_point
-    logger.info "Version: #{self.version}"
     self.reload
     lp = points.first
     tracksegments.last.points.create(:longitude => lp.longitude, 
@@ -88,6 +69,7 @@ class Track < ActiveRecord::Base
     logger.info "Finish point appended"
   end
   
+  # Creates new race_track if user choosen so through :new_race_track
   def create_race_track
     if new_race_track == "1"
       race_track = RaceTrack.new({:title => title, :description => description, :municipality_id => municipality_id})

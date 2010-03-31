@@ -8,19 +8,15 @@
 	<%= render "side_modules/last_race", :object => @last_race %>
 <% end %>
 
-<div>
-	<div class="premiere">
-		<div>
-			<h1>Välkommen!</h1>
-			<h2>Premiär 28 mars</h2>
-		</div>
-		<div>
-			<p class="bold">Gör din träning roligare med Come And Get Me</p>
-			<p><%= link_to "Läs mer här", static_path(:om), :class => "small" %></p>
-			<%= button_to "#{t("header.sign_up")}", signup_path, :method => "get", :class => "submit" %>
-		</div>
-	</div>
-</div>
+<% unless @index_page.blank? %>
+	<%= RedCloth.new(@index_page.content).to_html %>
+<% end %>
+
+<% if permitted_to? :update, @index_page %>
+	<p>
+		<%= link_to "Edit", edit_page_path(@index_page) %>
+	</p>
+<% end %>
 
 
 <% content_for :right_side do %>

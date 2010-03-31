@@ -9,7 +9,6 @@
 
 <%= RedCloth.new(@page.content).to_html %>
 
-
 <% if permitted_to? :manage, @page %>
 	<p>
 		<%= link_to "Edit", edit_page_path(@page) %> |

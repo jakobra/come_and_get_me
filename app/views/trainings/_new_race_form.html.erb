@@ -1,0 +1,9 @@
+<% remote_form_for([@training, race]) do |f|  %>
+	<%= f.error_messages %>
+
+	<%= render "races/fields", :f => f %>
+	
+	<p class="clear_left">
+		<%= f.submit t("common.create") %>
+	</p>
+<% end %>

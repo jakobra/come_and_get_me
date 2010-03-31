@@ -13,6 +13,10 @@ class PagesController < ApplicationController
     #   @page = Page.find(params[:id])
     # end
     
+    if !@page.public and params[:permalink]
+      raise ActiveRecord::RecordNotFound, "Page Not Found"
+    end
+    
     load_side_module("local_race_tracks")
   end
   
@@ -22,11 +26,11 @@ class PagesController < ApplicationController
   
   def create
     #@page = Page.new(params[:page])
-    if @page.save
+    if params[:preview_button] or !@page.save
+      render :action => 'new'
+    else
       flash[:notice] = "Successfully created page."
       redirect_to @page
-    else
-      render :action => 'new'
     end
   end
   
@@ -36,11 +40,12 @@ class PagesController < ApplicationController
   
   def update
     #@page = Page.find(params[:id])
-    if @page.update_attributes(params[:page])
+    if params[:preview_button] or !@page.update_attributes(params[:page])
+      @page.attributes = params[:page]
+      render :action => 'edit'
+    else
       flash[:notice] = "Successfully updated page."
       redirect_to @page
-    else
-      render :action => 'edit'
     end
   end
   

@@ -33,14 +33,15 @@ Map.Methods = {
 		colors: ['0000ff', '00ff00', 'ff00ff', 'ff0000', 'ffff00', '00ffff'], // Colors for the different tracks
 		sample_rate: 5, // Default samplerate for points
 		tracks: [], // Which tracks to display
-		track_version: 1,
+		track_version: 0,
 		zoom_level: 4,
 		center_lat: 61.845, // Swedens center latitude
 		center_long: 17.7, // Swedens center longitude
 		distance: false, // Don´t view distance as default
 		distance_prefix: "", // Extends the id of the distance element, default is track_(id)
 		map_element: "map_canvas", //Default map element
-		click_listener: false
+		click_listener: false,
+		points_reference_element: "tracksegment_reference_holder"
 	},
 	
 	set_options: function(options) {
@@ -86,8 +87,8 @@ Map.Methods = {
 		this.map.setCenter(center, this.options.zoom_level);
 	},
 	
-	_load_track_points: function(track, index) {
-		GDownloadUrl("/tracks/" + track + "/points.js?rate=" + this.options.sample_rate + "&version=" + this.options.track_version, function(data, responseCode) {
+	_load_track_points: function(track_id, index) {
+		GDownloadUrl("/tracks/" + track_id + "/points.js?rate=" + this.options.sample_rate + "&version=" + this.options.track_version, function(data, responseCode) {
 			var json_points = eval("(" + data + ")");
 			Map.track_points = new Array();
 			
@@ -164,6 +165,7 @@ Map.CreateMethods = {
 	
 	add_click_listener: function(options) {
 		if(!this.initialized) throw "Map must be initilized first"; // Check for is already initialized
+		this._reload_markers();
 		GEvent.addListener(this.map, "click", function(overlay, point) { 
 			Map.add_marker_to_map(point);
 			Map.track_points.push(point);
@@ -182,7 +184,11 @@ Map.CreateMethods = {
 	},
 	
 	remove_last_point: function() {
-		$('new_tracksegment_points').update("");
+		var parent_element = $(this.options.points_reference_element).up(1);
+		parent_element.update("");
+		parent_element.insert({
+			top: '<input id="track_tracksegments_attributes_0_track_version" name="track[tracksegments_attributes][0][track_version]" type="hidden" value="'+(this.options.track_version + 1)+'" /><div><input type="hidden" id="tracksegment_reference_holder" /></div>'
+		});
 		this.track_points.splice(this.track_points.length-1,1);
 		this.current_point = null;
 		this._clear_map_from_overlays();
@@ -196,23 +202,20 @@ Map.CreateMethods = {
 	},
 	
 	_insert_hidden_fields: function(point) {
-		$('new_tracksegment_points').insert(new Element("input", {type: "hidden", name: "points[][lat]", value: point.lat()}));
-		$('new_tracksegment_points').insert(new Element("input", {type: "hidden", name: "points[][lng]", value: point.lng()}));
-		this._set_elevation_field(point);
+		// Url to get the elevation ... never used
+		var url = "http://ws.geonames.org/gtopo30JSON?lat=" + point.lat() + "&lng=" + point.lng();
+		
+		var fields = '<input type="hidden" id="track_tracksegments_attributes_0_points_attributes_new_points_latitude" name="track[tracksegments_attributes][0][points_attributes][new_points][latitude]" value="' + point.lat() + '" />';
+		fields += '<input type="hidden" id="track_tracksegments_attributes_0_points_attributes_new_points_longitude" name="track[tracksegments_attributes][0][points_attributes][new_points][longitude]" value="' + point.lng() + '" />';
+		fields += '<input type="hidden" id="track_tracksegments_attributes_0_points_attributes_new_points_elevation" name="track[tracksegments_attributes][0][points_attributes][new_points][elevation]" value="0" />';
+		var element = $(this.options.points_reference_element);
+		add_fields(element, "points", fields);
 		
 		if(this.current_point != null) {
 			var polyline = new GPolyline([this.current_point, point], "#0000ff", 3);
 			this.map.addOverlay(polyline);
 		}
 		this.current_point = point;
-	},
-	
-	_set_elevation_field: function(point) {
-		var url = "http://ws.geonames.org/gtopo30JSON?lat=" + point.lat() + "&lng=" + point.lng();
-		GDownloadUrl(url, function(data, responseCode) {
-			var json_info = eval("(" + data + ")");
-			$('new_tracksegment_points').insert(new Element("input", {type: "hidden", name: "points[][ele]", value: json_info['gtopo30']}));
-		});
 	}
 }
 

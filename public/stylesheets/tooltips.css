@@ -1,0 +1,17 @@
+/* Tooltips CSS definitions */	
+
+.tooltip {
+	position: absolute!important;
+	overflow:hidden;
+	font-size: 12px;
+	z-index: 10000!important;
+}
+
+.tooltip .xboxcontent {
+	padding:5px;
+	margin: 0;
+	color: #000;
+	word-wrap:break-word;
+	border: 1px solid #444444;
+	background-color: #eeeef0;
+}

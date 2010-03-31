@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100325204700) do
+ActiveRecord::Schema.define(:version => 20100331114715) do
 
   create_table "comments", :force => true do |t|
     t.text     "content"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20100325204700) do
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "public"
   end
 
   create_table "points", :force => true do |t|

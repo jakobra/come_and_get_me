@@ -1,44 +1,67 @@
 <% form_for(@track, :html => {:multipart => true}) do |f| %>
 	<%= f.error_messages %>
-
-	<p>
-		<%= f.label :title, t("activerecord.attributes.track.title") %><br />
-		<%= f.text_field :title, :size => 22 %>
-	</p>
 	
-	<p>
-		<%= f.label :description, t("activerecord.attributes.track.description") %><br />
-		<%= f.text_area :description, :rows => 4, :cols => 20 %>
-	</p>
-	
-	<p>
-		<%= f.label :municipality_id, t("activerecord.models.municipality.one") %><br />
-		<%= select("county", "id", County.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.county")}"}, {:onchange => remote_function(:url => {:controller => :municipalities, :action => :index}, :with => "'county_id=' + this.value", :method => :get)}) %>
-		<%= f.collection_select :municipality_id, Municipality.all, :id, :name, {:prompt => "#{t("common.select")} #{t("activerecord.models.municipality.one")}"}, {:id => 'municipality_id'} %>
-	</p>
-	
-	<p>
-		<%= f.label :date, t("activerecord.attributes.track.date") %><br />
-		<%= f.date_select :date %>
-	</p>
-	
-	<p>
-		<%= f.label :track, t("activerecord.attributes.track.track") %><br />
-		<%= f.file_field :track %><%= t("tracks.new.plot_track") %><br /><br />
-		<%= f.label :circle, t("tracks.new.same_start_finish") %>
-		<%= f.check_box :circle %>
-	</p>
-	
-	<% if @track.new_record? %>
-		<p>
-			<%= f.label :new_race_track, t("tracks.new.new_race_track") %>
-			<%= f.check_box :new_race_track, :checked => true %>
+	<div class="left">
+		<p class="default">
+			<%= f.label :title, t("activerecord.attributes.track.title") %><br />
+			<%= f.text_field :title, :size => 30 %>
 		</p>
-	<% end %>
+
+		<p class="default">
+			<%= f.label :description, t("activerecord.attributes.track.description") %><br />
+			<%= f.text_area :description, :rows => 4, :cols => 28 %>
+		</p>
+	</div>
+	<div class="left margin_left_large">
+		<p class="default">
+			<%= f.label :municipality_id, t("activerecord.models.municipality.one") %><br />
+			<%= select("county", "id", County.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.county")}"}, {:onchange => remote_function(:url => {:controller => :municipalities, :action => :index}, :with => "'county_id=' + this.value", :method => :get)}) %>
+			<%= f.collection_select :municipality_id, Municipality.all, :id, :name, {:prompt => "#{t("common.select")} #{t("activerecord.models.municipality.one")}"}, {:id => 'municipality_id'} %>
+		</p>
+		
+		<p class="default">
+			<%= f.label :circle, t("tracks.new.same_start_finish") %>
+			<%= f.check_box :circle %>
+			<%= info_tag t("tracks.info.same_start_finish") %>
+		</p>
+
+		<% if @track.new_record? %>
+			<p>
+				<%= f.label :new_race_track, t("tracks.new.new_race_track") %>
+				<%= f.check_box :new_race_track, :checked => true %>
+				<%= info_tag t("tracks.info.new_race_track") %>
+			</p>
+		<% end %>
+		
+		<p  class="default">
+			<%= f.label :track, t("activerecord.attributes.track.track") %><br />
+			<%= f.file_field :track %>
+		</p>
+		
+		<p><%= t("tracks.new.plot_track") %></p>
+
+		<!-- Tracksegments-->
+		<div>
+			<% if @track.new_record? %>
+				<% f.fields_for :tracksegments do |builder| %>
+					<%= builder.hidden_field :track_version, :value => 1 %>
+				<% end %>
+			<% else %>
+				<input id="track_tracksegments_attributes_0_track_version" name="track[tracksegments_attributes][0][track_version]" type="hidden" value="<%= @track.version + 1 %>" />
+			<% end %>
+			<div>
+				<input type="hidden" id="tracksegment_reference_holder">
+			</div>
+		</div>
+		<!-- /Tracksegments-->
+	</div>
 	
-	<div id="new_tracksegment_points"></div>
+	<div id="map_canvas" class="left"></div>
+	<p class="left">
+		<%= link_to_function t("tracks.new.remove_last_point"), "Map.remove_last_point()" %>
+	</p>
 	
-	<p>
+	<p class="left clear_both">
 		<%= f.submit submit %> | <%= link_to t("common.cancel"), tracks_path %>
 	</p>
 <% end %>
