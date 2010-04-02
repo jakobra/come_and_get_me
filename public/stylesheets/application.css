@@ -149,6 +149,7 @@ img.info {
 
 .header img {
 	margin-left:45px;
+	float:left;
 }
 
 /* Samplerate slide */
