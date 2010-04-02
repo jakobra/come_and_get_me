@@ -9,6 +9,8 @@
 		<%= yield(:head) %>
 	</head>
 	<body>
+		<%= render "application/no_more_ie6" %>
+		
 		<%= render "/application/admin_menu" %>
 		<div id="container">
 			<%= render "/application/header" %>
