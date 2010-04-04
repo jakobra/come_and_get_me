@@ -2,7 +2,7 @@ module Geoinformation
   require 'open-uri'
   
   def self.location(remote_ip)
-    @location ||= get_location
+    @location ||= get_location(remote_ip)
   end
   
   # Translate so that you can compare Countys with RegionName from geolocation()
@@ -15,11 +15,11 @@ module Geoinformation
   
   private
   # Returns RegionName of geolocation
-  def self.get_location
+  def self.get_location(remote_ip)
     if RAILS_ENV == "development"
       ip = "85.224.104.52"
     else
-      ip = @remote_ip
+      ip = remote_ip
     end
     url = "http://ipinfodb.com/ip_query.php?ip=#{ip}&output=json"
     Rails.logger.info "Getting IP-info"
@@ -29,6 +29,7 @@ module Geoinformation
     rescue
       result = {}
     end
+    
     result
   end
   
