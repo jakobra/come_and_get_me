@@ -52,6 +52,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
+  map.connect ':controller/:action.:format'
   
   map.member ':login', :controller => :users, :action => :show
 end

@@ -1,7 +1,5 @@
 class PointsController < ApplicationController
   
-  # GET /points
-  # GET /points.xml
   def index
     @track = Track.find(params[:track_id])
     @track.revert_to(params[:version].to_i) if params[:version]
