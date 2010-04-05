@@ -111,6 +111,8 @@ sv-SE:
             created: "Träningen skapad"
         edit:
             edit_training: "Uppdatera träning"
+            local_race_tracks: "Lokala banor"
+            all_race_tracks: "Alla banor"
         update:
             updated: "Träningen {{date}} uppdaterad"
     races:

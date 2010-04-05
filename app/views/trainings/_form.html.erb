@@ -19,6 +19,6 @@
 	
 	<p>
 		<%= f.submit submit %> |
-		<%= link_to t("common.cancel"), user_trainings_path(@user), :confirm => t("common.sure") %>
+		<%= link_to t("common.cancel"), user_trainings_path(current_user), :confirm => t("common.sure") %>
 	</p>
 <% end %>

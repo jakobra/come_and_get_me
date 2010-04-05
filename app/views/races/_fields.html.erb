@@ -48,7 +48,7 @@
 <% if form_input_field?("race_track_id") %>
 	<p class="left margin_left">
 		<%= f.label :race_track_id, t("activerecord.models.race track.one") %><br />
-		<%= f.collection_select :race_track_id, current_user.municipality.race_tracks, :id, :title, :prompt => "Lokala spår" %>
+		<%= f.collection_select :race_track_id, current_user.municipality.race_tracks, :id, :title, :prompt => t("trainings.edit.local_race_tracks") %>
 		<%= link_to (t("trainings.show.view_all_race_tracks"), nil, :class => "view_all_tracks") %>
 	</p>
 <% end %>

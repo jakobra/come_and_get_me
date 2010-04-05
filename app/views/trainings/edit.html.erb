@@ -6,6 +6,3 @@
 <h1><%= t("trainings.edit.edit_training") %></h1>
 
 <%= render :partial => 'form', :locals => {:submit => t("common.create")} %>
-
-<%= link_to t("common.show"), @training %> |
-<%= link_to t("common.back"), user_path(@training.user) %>
