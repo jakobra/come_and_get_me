@@ -1,5 +1,5 @@
 <% content_tag :div, :class => "modalbox_content new_comment_box" do %>
-	<p><%= link_to "close", "#", :class => "MB_close" %></p>
+	<p><%= link_to t("common.cancel"), "#", :class => "MB_close" %></p>
 	<% remote_form_for [commentable, Comment.new] do |f| %>
 		<%= f.error_messages %>
 	
@@ -8,6 +8,6 @@
 			<%= f.text_area :content, :rows => 5, :cols => 20, :tabindex => 1 %>
 		</p>
 	
-		<p><%= f.submit "Submit" %></p>
+		<p><%= f.submit t("common.submit") %></p>
 	<% end %>
 <% end %>

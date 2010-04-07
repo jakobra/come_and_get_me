@@ -8,7 +8,13 @@
 
 <h1><%= "#{t("trainings.index.trainings_for")} #{@user.login}" %></h1>
 
-<p><%= will_paginate @trainings %></p>
+<% if permitted_to? :create, @user.trainings %>
+	<p class="right">
+		<%= link_to t("trainings.index.new_training"), new_user_training_path(@user) %>
+	</p>
+<% end %>
+
+<p class="left"><%= will_paginate @trainings %></p>
 
 <table>
   <tr>
@@ -28,6 +34,11 @@
 <% end %>
 </table>
 
-<br />
-<%= link_to t("common.back"), user_path(@user) %> |
-<%= link_to t("trainings.index.new_training"), new_user_training_path(@user) %>
+
+<p class="margin_top">
+	<%= link_to t("common.back"), user_path(@user) %>
+	<% if permitted_to? :create, @user.trainings %>
+		| <%= link_to t("trainings.index.new_training"), new_user_training_path(@user) %>
+	<% end %>
+</p>
+

@@ -8,7 +8,7 @@
 			<%= content_tag(:p, t("comments.no_comments")) %>
 		<% end %>
 	<% end %>
-	<% if logged_in? %>
+	<% if permitted_to? :create, Comment.new %>
 		<div class="left clear_left">
 			<%= link_to_remote t("comments.post_comment"), :url => url, :method => :get %>
 		</div>

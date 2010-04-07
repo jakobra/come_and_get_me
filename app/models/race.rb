@@ -13,6 +13,8 @@ class Race < ActiveRecord::Base
   validates_numericality_of :hr_max, :hr_avg, :allow_nil => true, :less_than => 250, :only_integer => true
   validates_format_of :time_string, :with => /^\d{2}:\d{2}:\d{2}$/, :message => "must be in format of hh:mm:ss", :unless => Proc.new { |user| user.time.blank? }
   
+  EPOCH = 946684800
+  
   def self.personal_bests(options = {})
     race_tracks = calculate(:min, :time, :group => "race_track_id", :conditions => "race_track_id IS NOT NULL")
     from_times(race_tracks.values, options)
@@ -49,6 +51,14 @@ class Race < ActiveRecord::Base
   
   def create_event_from_name
     build_event(:name => new_event_name, :description => new_event_description) unless new_event_name.blank?
+  end
+  
+  def time_per_km
+    seconds_per_km = (self.time.tv_sec - EPOCH) / self.distance
+    logger.info self.time
+    logger.info Time.now
+    time = Time.at(seconds_per_km + EPOCH)
+    time.getgm
   end
   
   private

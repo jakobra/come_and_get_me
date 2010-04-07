@@ -97,6 +97,7 @@ sv-SE:
             all_fields: "Alla fält"
             view_all_race_tracks: "Visa alla tävlingsbanor"
             time_html: "Tid<br />(tt:mm:ss)"
+            time_per_km: "Km tid<br />(mm:ss)"
             hr_max_html: "Max-<br />puls"
             hr_avg_html: "Medel-<br />puls"
             distance_html: "Distans<br />(km)"
@@ -116,6 +117,8 @@ sv-SE:
         update:
             updated: "Träningen {{date}} uppdaterad"
     races:
+        show: 
+            time_per_km: "Km tid (mm:ss)"
         edit_individual:
             update_races: "Uppdatera Lopp"
         update_individual:

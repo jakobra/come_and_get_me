@@ -1,44 +1,52 @@
 <% title "#{@race.training.date} // #{@race.event.name}"  %>
-<% main_class "large_width" %>
+<% main_class "small_width" %>
 
-<div class="left width_200">
-	<p>
+<% content_for :left_side do %>
+	<%= render "side_modules/beta" %>
+<% end %>
+
+<h2><%= @race.training.date %></h2>
+
+<div class="left">
+	<p class="default">
 		<span class="bold"><%= t("activerecord.attributes.race.event_id") %>:</span><br />
 		<%= @race.event.name %>
 	</p>
-	<p>
-		<span class="bold"><%= t("activerecord.attributes.race.distance") %>:</span><br />
+	<p class="default">
+		<span class="bold"><%= t("activerecord.attributes.race.distance") %>:</span>
 		<%= @race.distance %>
 	</p>
-	<p>
-		<span class="bold"><%= t("activerecord.attributes.race.time") %>:</span><br />
+	<p class="default">
+		<span class="bold"><%= t("activerecord.attributes.race.time") %>:</span>
 		<%= @race.time.strftime("%H:%M:%S") unless @race.time.blank? %>
 	</p>
-	<p>
-		<span class="bold"><%= t("activerecord.attributes.race.hr_max") %>:</span><br />
-		<%= @race.hr_max unless @race.hr_max.blank? %>
+	<p class="default">
+		<span class="bold"><%= t("races.show.time_per_km") %>:</span>
+		<%= @race.time_per_km.strftime("%M:%S") unless @race.time.blank? %>
 	</p>
-	<p>
-		<span class="bold"><%= t("activerecord.attributes.race.hr_avg") %>:</span><br />
-		<%= @race.hr_avg unless @race.hr_avg.blank? %>
-	</p>
+</div>
 
-	<p>
+<div class="left margin_left_large">
+	<p class="default">
 		<span class="bold"><%= t("activerecord.attributes.race.race_track_id") %>:</span><br />
 		<%= link_to @race.race_track.title, race_track_path(@race.race_track) unless @race.race_track.blank? %>
 	</p>
-	
-	<p>
-		<span class="bold"><%= t("activerecord.attributes.training.date") %>:</span><br />
-		<%= @race.training.date %>
+	<p class="default">
+		<span class="bold"><%= t("activerecord.attributes.race.hr_max") %>:</span><br />
+		<%= @race.hr_max unless @race.hr_max.blank? %>
 	</p>
-	
-	<p>
-		<span class="bold"><%= t("activerecord.attributes.race.comment") %>:</span><br />
-		<%= @race.comment unless @race.comment.blank? %>
+	<p class="default">
+		<span class="bold"><%= t("activerecord.attributes.race.hr_avg") %>:</span><br />
+		<%= @race.hr_avg unless @race.hr_avg.blank? %>
 	</p>
-	
 </div>
+
+<% unless @race.comment.blank? %>
+	<p class="clear_both">
+		<%= @race.comment %>
+	</p>
+<% end %>
+
 
 <%= render "comments/comments_container", :commentable => @race, :url => new_race_comment_path(@race) %>
 
@@ -48,3 +56,8 @@
 	 | <%= link_to t("common.edit"), edit_race_path(@race) %>
 	<% end %>
 </div>
+
+
+<% content_for :right_side do %>
+	<%= render "side_modules/todo" %>
+<% end %>

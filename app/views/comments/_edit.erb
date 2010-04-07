@@ -1,13 +1,9 @@
 <% content_tag :div, :class => "edit_comment_box" do %>
-	<p><%= link_to "close", "#", :class => "MB_close" %></p>
 	<% remote_form_for comment do |f| %>
 		<%= f.error_messages %>
+
+		<%= f.text_area :content, :rows => 5, :cols => 20, :tabindex => 1 %>
 	
-		<p>
-			<%= f.label :content %><br />
-			<%= f.text_area :content, :rows => 5, :cols => 20, :tabindex => 1 %>
-		</p>
-	
-		<p><%= f.submit "Update" %></p>
+		<p><%= f.submit t("common.edit") %> <%= link_to t("common.cancel"), "#", :class => "MB_close" %></p>
 	<% end %>
 <% end %>

@@ -406,7 +406,7 @@ td.destroy {
 
 /* USERS RECORDS */
 .users_records > .personal_bests, .users_records > .records {
-	width:360px;
+	width:490px;
 	float:left;
 }
 

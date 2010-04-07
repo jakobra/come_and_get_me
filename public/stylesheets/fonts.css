@@ -1,3 +1,13 @@
+/* COLORS
+	http://www.colourlovers.com/palette/144642/Cherry_Cub
+	almost pure		#fffcfc
+	Linen			#f0dfab
+	Cold Coffee		#c98a3b
+	Sour Cherry		#f10879
+	Golden Crumb	#e0a421
+	Color Lover		#eeeef0
+*/
+
 h1, h2, h3, h4, h5, h6 {
 	margin:0px 0px;
 }
@@ -40,4 +50,8 @@ p {
 
 .margin_left {
 	margin-left:15px !important;
+}
+
+.sour_cherry {
+	color:#f10879;
 }

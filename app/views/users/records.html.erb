@@ -1,15 +1,21 @@
 <% title "#{@user.login}s #{t("race_tracks.record").downcase}"%>
-<% main_class "medium_width users_records"%>
+<% main_class "large_width users_records"%>
 
 <div class="personal_bests">
 	<h2><%= @user.login %>s <%= t("users.records.pb") %></h2>
 
 	<table>
+		<tr class="small">
+			<th><%= t("trainings.show.time_html") %></th>
+			<th><%= t("trainings.show.time_per_km") %></th>
+			<th><%= t("activerecord.attributes.race.race_track_id") %></th>
+		</tr>
 		<% @pbs.each do |record| %>
-		  <tr class="<%= cycle "odd", "even", :name => "row_class" %> small">
-		    <td><%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %></td>
-			<td><%= record.race_track.title unless record.race_track.blank? %></td>
-		  </tr>
+			<tr class="<%= cycle "odd", "even", :name => "row_class" %> small">
+				<td><%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %></td>
+				<td><%= record.time_per_km.strftime("%M:%S") %></td>
+				<td><%= link_to record.race_track.title, record.race_track unless record.race_track.blank? %></td>
+			</tr>
 		<% end %>
 	</table>
 </div>
@@ -19,11 +25,17 @@
 <div class="records">
 	<h2><%= @user.login %>s <%= t("race_tracks.record").downcase %></h2>
 	<table>
+		<tr class="small">
+			<th><%= t("trainings.show.time_html") %></th>
+			<th><%= t("trainings.show.time_per_km") %></th>
+			<th><%= t("activerecord.attributes.race.race_track_id") %></th>
+		</tr>
 		<% @records.each do |record| %>
-		  <tr class="<%= cycle "odd", "even" %> small">
-		    <td><%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %></td>
-			<td><%= record.race_track.title unless record.race_track.blank? %></td>
-		  </tr>
+			<tr class="<%= cycle "odd", "even" %> small">
+				<td><%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %></td>
+				<td><%= record.time_per_km.strftime("%M:%S") %></td>
+				<td><%= link_to record.race_track.title, record.race_track unless record.race_track.blank? %></td>
+			</tr>
 		<% end %>
 	</table>
 </div>

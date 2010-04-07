@@ -7,6 +7,7 @@
 		<td class="center"><%= race.distance %></td>
 		<td class="center"><%= link_to race.race_track.title, race_track_path(race.race_track) unless race.race_track.blank? %></td>
 		<td class="center"><%= race.time.strftime("%H:%M:%S") unless race.time.blank? %></td>
+		<td class="center"><%= race.time_per_km.strftime("%M:%S") unless race.time.blank? %></td>
 		<td class="center"><%= race.hr_max unless race.hr_max.blank? %></td>
 		<td class="center"><%= race.hr_avg unless race.hr_avg.blank? %></td>
 		<% if permitted_to? :update, race %>
