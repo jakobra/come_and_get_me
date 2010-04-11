@@ -1,15 +1,13 @@
 <% main_class "small_width" %>
 
 <% content_for :left_side do %>
-	<%= render "side_modules/beta" %>
-
 	<%= render "side_modules/recent_records", :object => @recent_records %>
 	
 	<%= render "side_modules/last_race", :object => @last_race %>
 <% end %>
 
 <% unless @index_page.blank? %>
-	<%= RedCloth.new(@index_page.content).to_html %>
+	<%= render_html_content @index_page %>
 <% end %>
 
 <% if permitted_to? :update, @index_page %>

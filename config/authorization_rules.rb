@@ -32,8 +32,7 @@ authorization do
   end
   
   role :admin do
-    has_permission_on :users, :to => [:read, :manage]
-    has_permission_on [:comments, :pages], :to => [:manage, :read]
+    has_permission_on [:users, :comments, :pages, :side_modules, :menu_nodes], :to => [:manage, :read]
     has_permission_on [:tracks, :race_tracks], :to => [:destroy]
   end
 end

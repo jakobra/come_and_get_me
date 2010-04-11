@@ -5,7 +5,7 @@ sv-SE:
         login: "Logga in"
         logged_in: "Du är inloggad"
         confirm_user_profile: "Bekräfta och fyll i saknade uppgifter"
-        password_failure: "Det gick inte att logga som '{{login}}'"
+        password_failure: "Det gick inte att logga in som '{{login}}'"
         open_id_missing: "Det gick inte att hitta den angivna OpenId servern"
         open_id_invalid: "Det här ser inte ut att vara en giltigt OpenId"
         open_id_canceled: "OpenId verifieringen avbröts"

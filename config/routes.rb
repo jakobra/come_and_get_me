@@ -1,4 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :images
+
+  map.resources :menu_nodes
+
+  map.resources :side_modules
+
   map.resources :pages
 
   map.resources :comments, :only => [:index, :edit, :update], :member => {:approve => :put, :report => :get} do |comments|

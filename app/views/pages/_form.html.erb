@@ -17,6 +17,10 @@
 		<%= f.text_area :content %>
 	</p>
 	<p>
+		<%= f.label :style %><br />
+		<%= f.text_area :style, :rows => 4 %>
+	</p>
+	<p>
 		<%= f.submit "Submit" %>
 		<%= f.submit "Preview", :name => "preview_button" %>
 	</p>

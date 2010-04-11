@@ -1,0 +1,37 @@
+<% title "Menu Node" %>
+<% main_class "small_width" %>
+
+<% content_for :left_side do %>
+	<% @menu_node.menu_node_side_modules.left.each do |menu_node_side_module| %>
+		<%= render_html_content menu_node_side_module.side_module %>
+	<% end %>
+<% end %>
+
+<p>
+	<span class="bold">Title:</span>
+	<%=h @menu_node.title %>
+</p>
+<p>
+	<span class="bold">Url:</span>
+	<%=h @menu_node.url %>
+</p>
+<p>
+	<span class="bold">Position:</span>
+	<%=h @menu_node.position %>
+</p>
+<p>
+	<span class="bold">Parent:</span>
+	<%=h @menu_node.parent_id %>
+</p>
+
+<% content_for :right_side do %>
+	<% @menu_node.menu_node_side_modules.right.each do |menu_node_side_module| %>
+		<%= render_html_content menu_node_side_module.side_module %>
+	<% end %>
+<% end %>
+
+<p>
+	<%= link_to "Edit", edit_menu_node_path(@menu_node) %> |
+	<%= link_to "Destroy", @menu_node, :confirm => 'Are you sure?', :method => :delete %> |
+	<%= link_to "View All", menu_nodes_path %>
+</p>

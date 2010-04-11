@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100331114715) do
+ActiveRecord::Schema.define(:version => 20100411155654) do
 
   create_table "comments", :force => true do |t|
     t.text     "content"
@@ -36,6 +36,36 @@ ActiveRecord::Schema.define(:version => 20100331114715) do
     t.datetime "updated_at"
   end
 
+  create_table "images", :force => true do |t|
+    t.string   "title"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "menu_node_side_modules", :force => true do |t|
+    t.integer  "menu_node_id"
+    t.integer  "side_module_id"
+    t.boolean  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "position_y"
+  end
+
+  create_table "menu_nodes", :force => true do |t|
+    t.string   "title"
+    t.string   "url"
+    t.integer  "position"
+    t.integer  "parent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "viewable"
+    t.string   "side_module_regex"
+  end
+
   create_table "municipalities", :force => true do |t|
     t.string   "name"
     t.integer  "code"
@@ -51,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20100331114715) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "public"
+    t.text     "style"
   end
 
   create_table "points", :force => true do |t|
@@ -91,6 +122,14 @@ ActiveRecord::Schema.define(:version => 20100331114715) do
     t.integer  "training_id"
     t.integer  "race_track_id"
     t.text     "comment"
+  end
+
+  create_table "side_modules", :force => true do |t|
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "style"
+    t.string   "title"
   end
 
   create_table "taggings", :force => true do |t|

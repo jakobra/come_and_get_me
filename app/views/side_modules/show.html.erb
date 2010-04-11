@@ -1,0 +1,16 @@
+<% title "Side Modules" %>
+<% main_class "small_width" %>
+
+<% content_for :left_side do %>
+	<%= render_html_content @side_module %>
+<% end %>
+
+<p>
+	<%= link_to "Edit", edit_side_module_path(@side_module) %> |
+	<%= link_to "Destroy", @side_module, :confirm => 'Are you sure?', :method => :delete %> |
+	<%= link_to "View All", side_modules_path %>
+</p>
+
+<% content_for :right_side do %>
+	<%= render_html_content @side_module %>
+<% end %>

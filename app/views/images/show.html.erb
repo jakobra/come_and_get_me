@@ -1,0 +1,16 @@
+<p>
+	<b>Title:</b>
+	<%=h @image.title %><br />
+
+	<%= image_tag @image.image.url(:thumb) %>
+	
+	<%= image_tag @image.image.url(:xsmall) %>
+	
+	<%= image_tag @image.image.url(:small) %>
+	
+	<%= image_tag @image.image.url(:original) %>
+</p>
+
+
+<%= link_to 'Edit', edit_image_path(@image) %> |
+<%= link_to 'Back', images_path %>

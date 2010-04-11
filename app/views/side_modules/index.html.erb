@@ -1,0 +1,16 @@
+<% title "Side Modules" %>
+
+<table>
+	<tr>
+		<th>Title</th>
+	</tr>
+	<% for side_module in @side_modules %>
+		<tr>
+      		<td><%= link_to h(side_module.title), side_module %></td>
+			<td><%= link_to "Edit", edit_side_module_path(side_module) %></td>
+			<td><%= link_to "Destroy", side_module, :confirm => 'Are you sure?', :method => :delete %></td>
+		</tr>
+	<% end %>
+</table>
+
+<p><%= link_to "New Side Modules", new_side_module_path %></p>

@@ -5,14 +5,12 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
-  helper_method :admin?
+  before_filter :load_side_modules
+  
+  helper_method :admin?, :menu_roots
   
   include AuthenticatedSystem
   include SideModules
-  
-  SHALLOW_ACTIONS = ['edit', 'update', 'destroy']
-  
-  SPECIAL_AUTHORIZATION_CONTROLLERS = ['trainings', 'races']
   
   # Overrides access_denied in lib/authenticated_system.rb
   def access_denied(msg = "Login required!")
@@ -32,23 +30,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # Overrides authorized() in lib/authenticated_system.rb
-  def authorized?(action = action_name, resource = nil)
-    if logged_in?
-      if admin?
-        true
-      elsif !resource.eql? nil
-       authorized_object?(resource)
-      elsif SPECIAL_AUTHORIZATION_CONTROLLERS.include?(controller_name)
-        @authorize_controller_action ||= authorize_controller_action
-      else
-        true
-      end
-    else
-      false
-    end
-  end
-  
   def admin_required
     admin? || access_denied("Admin auhorization required!")
   end
@@ -60,36 +41,42 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
-  
-  private
-  
-  def authorized_object?(object)
-    if object.class.eql? current_user.class
-      current_user == object ? true : false
-    else
-      user_resource = object.class.to_s.downcase.pluralize
-      current_user.send(user_resource).include?(object) ? true : false
-    end
+  def menu_roots
+    MenuNode.roots(:order => :position, :conditions => {:viewable => true})
   end
   
-  def authorize_controller_action
-    if SHALLOW_ACTIONS.include?(action_name)
-      object = controller_name.singularize.classify.constantize.find(params[:id])
-    else
-      object = get_owner_object
+  def load_side_modules
+    MenuNode.all.each do |menu_node|
+      if /^#{menu_node.side_module_regex}$/ =~ request.path
+        logger.info request.path
+        @current_menu_node = menu_node
+        logger.info "True"
+        logger.info @current_menu_node.url
+        break
+      end
     end
-    authorized_object?(object)
-  end
-  
-  def get_owner_object
-    params.each do |name, value|
-      if name =~ /(.+)_id$/
-        return $1.classify.constantize.find(value)
+    @current_menu_node = MenuNode.find_by_url("default") if @current_menu_node.blank?
+    
+    @current_menu_node.menu_node_side_modules.left_before.each do |menu_node_side_module|
+      if @content_for_left_side.blank?
+        @content_for_left_side = render_html_content_to_string menu_node_side_module.side_module
+      else
+        @content_for_left_side += render_html_content_to_string menu_node_side_module.side_module
+      end
+    end
+    @current_menu_node.menu_node_side_modules.right_before.each do |menu_node_side_module|
+      if @content_for_right_side.blank?
+        @content_for_right_side = render_html_content_to_string menu_node_side_module.side_module
+      else
+        @content_for_right_side += render_html_content_to_string menu_node_side_module.side_module
       end
     end
   end
+  
+  # Scrub sensitive parameters from your log
+  filter_parameter_logging :password
+  
+  private
   
   def load_side_module(side_module)
     send(side_module)
@@ -105,6 +92,18 @@ class ApplicationController < ActionController::Base
       flash[:error] = t("common.login_required")
       redirect_to new_session_path
     end
+  end
+  
+  def render_html_content_to_string(item)
+    unless item.style.blank?
+      head_content = ["<style type=\"text/css\" media=\"screen\">", item.style, "</style>"]
+      if @content_for_head.blank?
+        @content_for_head = head_content.join
+      else
+        @content_for_head += head_content.join
+      end
+    end
+    RedCloth.new(item.content).to_html
   end
     
 end

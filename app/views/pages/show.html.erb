@@ -1,13 +1,9 @@
 <% title @page.title %>
 <% main_class "small_width page" %>
 
-<% content_for :left_side do %>
-	<%= render "side_modules/todo" %>
-<% end %>
-
 <h1><%=h @page.title %></h1>
 
-<%= RedCloth.new(@page.content).to_html %>
+<%= render_html_content @page %>
 
 <% if permitted_to? :manage, @page %>
 	<p>

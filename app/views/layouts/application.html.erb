@@ -1,3 +1,5 @@
+<%= render "application/side_modules" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -21,7 +23,7 @@
 				<% end %>
 			<% end %>
 			
-			<% content_tag :div, :class =>   "#{"left_side" if @content_for_left_side.blank? } #{(@class || "medium_width")}" do %>
+			<% content_tag :div, :class => "#{"left_side" if @content_for_left_side.blank? } #{(@class || "medium_width")}" do %>
 				<%- flash.each do |name, msg| -%>
 					<%= content_tag :div, msg, :id => "flash_#{name}" %>
 				<%- end -%>

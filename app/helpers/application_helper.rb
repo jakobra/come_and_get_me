@@ -30,5 +30,15 @@ module ApplicationHelper
   def info_tag(info)
     image_tag "icons/info_icon.png", :class => "info", :title => info
   end
+  
+  def render_html_content(page)
+    unless page.style.blank?
+      head_content = ["<style type=\"text/css\" media=\"screen\">", page.style, "</style>"]
+      content_for :head do
+      	head_content.join 
+      end
+    end
+    RedCloth.new(page.content).to_html
+  end
     
 end
