@@ -19,13 +19,17 @@
 	border-bottom:2px solid #F10879;
 }
 
-#menu {
+#menu, #user_menu {
 	float:left;
 	margin:0;
 	padding:0;
 }
 
-#menu > li {
+#user_menu {
+	float:right;
+}
+
+#menu > li, #user_menu > li {
 	list-style:none;
 	float:left;
 	margin:0 3px;
@@ -36,7 +40,11 @@
 	margin:0 3px 0 0;
 }
 
-#menu > li > a {
+#user_menu > li:first-child {
+	margin:0 0 0 3px;
+}
+
+#menu > li > a, #user_menu > li > a {
 	text-decoration:none;
 	color:#E0A421;
 	display:block;
@@ -44,10 +52,10 @@
 	float:left;
 }
 
-#menu > li:hover {
+#menu > li:hover, #user_menu > li:hover {
 	background:#E0A421;
 }
 
-#menu > li:hover > a {
+#menu > li:hover > a, #user_menu > li:hover > a {
 	color:white;
 }

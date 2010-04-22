@@ -6,4 +6,10 @@
 		<% end %>
 	<% end %>
 	
+	<% if current_user
+		content_tag :ul, :id => "user_menu" do %>
+			<li><%= link_to t("users.show.new_training"), new_user_training_path(current_user) %></li>
+		<% end %>
+	<% end %>
+	
 <% end %>

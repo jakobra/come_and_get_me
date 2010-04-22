@@ -32,3 +32,9 @@
 * Rewrite de code for creating and updating Tracks
 
 * Better layout for pb:s and records
+
+* Migrate all javascript to JQuery
+
+* County Resolver
+
+### BUGS ###

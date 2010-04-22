@@ -23,7 +23,19 @@ Event.observe(window, 'load', function() {
 	
 	render_tooltips();
 	
+	$(document).observe('click', function(e){
+		if (e.element().match('.toggle_comment')) { 
+			e.element().up().next('.new_comment').toggle();
+			e.stop();
+		}
+		else if (e.element().match('.toggle_event')) { 
+			e.element().up().next('.new_event').toggle();
+			e.stop();
+		}
+	});
+	
 });
+
 
 function render_tooltips() {
 	$$("img.info").each( function(img) {

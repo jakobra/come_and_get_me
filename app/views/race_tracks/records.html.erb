@@ -4,7 +4,7 @@
 
 <ol>
 	<% @race_track.races.find(:all, :order => "time").each do |race| %>
-		<li><%= link_to race.user.login, user_path(race.user) %>, <%= "#{race.event.name}, #{race.time.strftime("%H:%M:%S")}" %></li>
+		<li><%= link_to race.user.login, user_path(race.user) %>, <%= race.event.name %><%=", #{race.time.strftime("%H:%M:%S")}" unless race.time.blank? %></li>
 	<% end %>
 </ol>
 

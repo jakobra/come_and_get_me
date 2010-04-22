@@ -17,7 +17,8 @@ module Geoinformation
   # Returns RegionName of geolocation
   def self.get_location(remote_ip)
     if RAILS_ENV == "development"
-      ip = "85.224.104.52"
+      #ip = "85.224.104.52"
+      ip = "194.237.179.38"
     else
       ip = remote_ip
     end
@@ -29,7 +30,6 @@ module Geoinformation
     rescue
       result = {}
     end
-    
     result
   end
   
