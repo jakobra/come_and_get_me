@@ -5,20 +5,12 @@ module Geoinformation
     @location ||= get_location(remote_ip)
   end
   
-  # Translate so that you can compare Countys with RegionName from geolocation()
-  def self.translated(geo_object)
-    geo_object = geo_object.gsub(/Ö/, 'O')
-    geo_object = geo_object.gsub(/ö/, 'o')
-    geo_object = geo_object.gsub(/[ÅÄ]/, 'A')
-    geo_object = geo_object.gsub(/[åä]/, 'a')
-  end
-  
   private
   # Returns RegionName of geolocation
   def self.get_location(remote_ip)
     if RAILS_ENV == "development"
-      #ip = "85.224.104.52"
-      ip = "194.237.179.38"
+      ip = "85.224.104.52"
+      #ip = "194.237.179.38"
     else
       ip = remote_ip
     end

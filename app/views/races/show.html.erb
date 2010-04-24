@@ -1,5 +1,4 @@
 <% title "#{@race.training.date} // #{@race.event.name}"  %>
-<% main_class "small_width" %>
 
 <h2><%= @race.training.date %></h2>
 
@@ -52,8 +51,3 @@
 	 | <%= link_to t("common.edit"), edit_race_path(@race) %>
 	<% end %>
 </div>
-
-
-<% content_for :right_side do %>
-	<%= render "side_modules/todo" %>
-<% end %>

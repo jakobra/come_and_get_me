@@ -3,6 +3,11 @@
 		<h5><%= t("side_modules.close_race_track") %></h5>
 		<h3><%= area.name %></h3>
 		<% content_tag :ul do %>
+			<% if area.race_tracks.blank? %>
+			<% content_tag :li, :class => "small" do %>
+				<%= t("home.index.no_race_tracks") %>
+			<% end %>
+			<% end %>
 			<% area.race_tracks.each do |race_track| %>
 				<% content_tag :li, :class => "small" do %>
 					<%= link_to race_track.title, race_track_path(race_track), :class => "font_color" %>
@@ -10,7 +15,7 @@
 			<% end%>
 		<% end %>
 		<p class="small">
-			<span class="bold"><%= t("common.create")%></span> <%= t("side_modules.your_own") %>
+			<span class="bold"><%= t("home.index.add_race_track")%></span> <%= t("side_modules.your_own") %>
 			<%= link_to t("activerecord.models.race track.one"), new_race_track_path, :class => "font_color" %>
 		</p>
 	</div>

@@ -17,6 +17,10 @@ sv-SE:
         login_through_openid: "Logga in med OpenID"
     logout:
         logged_out: "Du är utloggad"
+    home:
+        index:
+            no_race_tracks: "Inga tävlingsbanor funna i ditt område"
+            add_race_track: "Lägg till"
     race_tracks:
         info:
             quantity: "Varv betyder hur många varv av Banan som gäller ..."

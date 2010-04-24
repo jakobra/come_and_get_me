@@ -6,12 +6,10 @@ class Municipality < ActiveRecord::Base
   
   attr_accessible :name, :code, :county
   
-  
   def self.find_by_geolocation(remote_ip)
     if @municipalities.blank? and Geoinformation.location(remote_ip)['CountryName'] == "Sweden"
       @municipalities = self.all.reject do |c|
-        #Geoinformation.translated(c.name) != Geoinformation.location(remote_ip)['City']
-        c.name != Geoinformation.location(remote_ip)['City']
+        AreaResolver.new(c.name, Geoinformation.location(remote_ip)['City']).match?
       end
     end
     @municipalities.blank? ? nil : @municipalities.first
