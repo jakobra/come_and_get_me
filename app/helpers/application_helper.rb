@@ -8,15 +8,7 @@ module ApplicationHelper
   end
   
   def display_readable_time(times = {})
-    (times.map { |time| "#{pluralize(time[1], time[0])}" }).join(" ")
-  end
-  
-  def admin_menu(&block)
-    if admin?
-      content_for :admin_menu do
-        content_tag :div, capture(&block), :id => "admin_menu"
-      end
-    end
+    (times.map { |time| "#{t("datetime.time."+time[0], :count => time[1])}" }).join(" ")
   end
   
   def link_to_add_fields(name, f, association)

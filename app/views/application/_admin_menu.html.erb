@@ -1,4 +1,4 @@
-<% if admin? %>
+<% if permitted_to? :create, Page.new %>
 	<% content_tag :div, :id => "admin_menu" do %>
 		<ul>
 			<li><%= link_to "Comments", comments_path %></li> |

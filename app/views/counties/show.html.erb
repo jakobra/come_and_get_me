@@ -14,8 +14,10 @@
 </p>
 
 <p>
-	<% if admin? %>
+	<% if permitted_to? :update, @county %>
 		<%= link_to "Edit", edit_county_path(@county) %> |
+	<% end %>
+	<% if permitted_to? :destroy, @county %>
 		<%= link_to "Destroy", @county, :confirm => 'Are you sure?', :method => :delete %> |
 	<% end %>
 	<%= link_to "View All", counties_path %>

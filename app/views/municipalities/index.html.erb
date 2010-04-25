@@ -12,14 +12,16 @@
 			<td><%=h municipality.code %></td>
 			<td><%=h municipality.county.name %></td>
 			<td><%= link_to "Show", municipality %></td>
-			<% if admin? %>
+			<% if permitted_to? :update, municipality %>
 				<td><%= link_to "Edit", edit_municipality_path(municipality) %></td>
+			<% end %>
+			<% if permitted_to? :destroy, municipality %>
 				<td><%= link_to "Destroy", municipality, :confirm => 'Are you sure?', :method => :delete %></td>
 			<% end %>
 		</tr>
 	<% end %>
 </table>
 
-<% if admin? %>
+<% if permitted_to? :create, Municipality.new %>
 	<p><%= link_to "New Municipality", counties_path %></p>
 <% end %>

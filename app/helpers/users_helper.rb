@@ -89,5 +89,21 @@ module UsersHelper
       link_to_login_with_IP content_text, options
     end
   end
+  
+  def link_to_one_month_ago(user)
+    today = Date.today
+    one_month_ago = today - 1.month
+    statistics_link(user, t("users.show.last_month"), {:year => one_month_ago.year, :month => one_month_ago.month, :day => one_month_ago.day}, {:year => today.year, :month => today.month, :day => today.day})
+  end
+  
+  def link_to_one_week_ago(user)
+    today = Date.today
+    one_week_ago = today - 1.week
+    statistics_link(user, t("users.show.last_week"), {:year => one_week_ago.year, :month => one_week_ago.month, :day => one_week_ago.day}, {:year => today.year, :month => today.month, :day => today.day})
+  end
+  
+  def statistics_link(user, title, from, to)
+    link_to_remote title, :url => statistics_user_path(user, :id => user.id, :from => from, :to => to), :method => :get, :html => {:class => "small"}
+  end
 
 end

@@ -87,7 +87,24 @@ sv-SE:
       hour:   "Timme"
       minute: "Minut"
       second: "Sekund"
-
+    time:
+      year: "År"
+      month:
+          one: "1 månad"
+          other: "{{count}} månader"
+      day:
+          one: "1 dag"
+          other: "{{count}} dagar"
+      hour:
+          one: "1 timme"
+          other: "{{count}} timmar"
+      minute:
+          one: "1 minut"
+          other: "{{count}} minuter"
+      second:
+          one: "1 sekund"
+          other: "{{count}} sekunder"
+    
   activemodel:
     errors:
       template:

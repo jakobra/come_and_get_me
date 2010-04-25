@@ -3,7 +3,7 @@
 	<td><%= track_created_from(track) %></td>
 	<% if logged_in? %>
 		<td class="edit"><%= link_to t("common.edit"), edit_track_path(track) %></td>
-		<% if admin? %>
+		<% if permitted_to? :destroy, track %>
 			<td class="destroy"><%= link_to t("common.destroy"), track, :confirm => t("common.sure"), :method => :delete %></td>
 		<% end %>
 	<% end %>

@@ -29,3 +29,6 @@ sv-SE:
         admin_required: "Ej tillräcklig åtkomst"
         description: "Beskrivning"
         show: "Visa"
+        from: "Från"
+        to: "Till"
+        send: "Skicka"

@@ -23,8 +23,6 @@
 
 * Change Mime-types for gpx and kml
 
-* Migrate all authorization to declarative	-- In progess
-
 * Migrate authentication to authlogic
 
 * Make it better when taking RaceTrack records through association
@@ -35,6 +33,6 @@
 
 * Migrate all javascript to JQuery
 
-* County Resolver
+* Remove race_tracks and only use tracks
 
 ### BUGS ###

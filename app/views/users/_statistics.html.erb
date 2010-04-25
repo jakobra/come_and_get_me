@@ -1,8 +1,8 @@
-<p>
-	<span class="bold">Total distance:</span><br />
+<p class="small">
+	<span class="bold"><%= t("users.show.total_distance") %>:</span><br />
 	<%= statistics.total_distance(from, to) %> km
 </p>
-<p>
-	<span class="bold">Total time:</span><br />
+<p class="small">
+	<span class="bold"><%= t("users.show.total_time") %>:</span><br />
 	<%= display_readable_time statistics.total_time(from, to) %>
 </p>

@@ -32,6 +32,11 @@ Event.observe(window, 'load', function() {
 			e.element().up().next('.new_event').toggle();
 			e.stop();
 		}
+		else if (e.element().match('.toggle_user_statistics')) {
+			Effect.toggle(e.element().up().down('form'), 'blind')
+			//e.element().up().down('form').toggle('slide');
+			e.stop();
+		}
 	});
 	
 });
