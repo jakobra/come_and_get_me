@@ -77,7 +77,8 @@ class UsersController < ApplicationController
      #@user = User.find(params[:id])
      @start_date = Date.civil(params[:from][:year].to_i, params[:from][:month].to_i, params[:from][:day].to_i)
      @end_date = Date.civil(params[:to][:year].to_i, params[:to][:month].to_i, params[:to][:day].to_i)
-     
+     logger.info @start_date
+     logger.info @end_date
      respond_to do |format|
        format.html
        format.xml  { head :ok }

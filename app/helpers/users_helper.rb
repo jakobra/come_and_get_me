@@ -90,10 +90,9 @@ module UsersHelper
     end
   end
   
-  def link_to_one_month_ago(user)
+  def link_to_current_month(user)
     today = Date.today
-    one_month_ago = today - 30.days
-    statistics_link(user, t("users.show.last_month"), {:year => one_month_ago.year, :month => one_month_ago.month, :day => one_month_ago.day}, {:year => today.year, :month => today.month, :day => today.day})
+    statistics_link(user, t("users.show.current_month"), {:year => today.year, :month => today.month, :day => 1}, {:year => today.year, :month => today.month, :day => today.day})
   end
   
   def link_to_one_week_ago(user)

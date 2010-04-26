@@ -67,7 +67,7 @@
 <% content_for :right_side do %>
 	<% unless @user.trainings.blank? %>
 		<h2><%= t("users.show.statistics") %></h2>
-		<%= link_to_one_month_ago @user %> | <%= link_to_one_week_ago @user %><br />
+		<%= link_to_current_month @user %> | <%= link_to_one_week_ago @user %><br />
 		<%= link_to t("users.show.customize"), "", :class => "toggle_user_statistics small" %>
 		<% form_remote_tag :url => {:action => :statistics, :id => @user.id}, :method => :get, :html => {:style => "display:none;"} do %>
 			<p>

@@ -84,7 +84,7 @@ sv-SE:
             new_training: "Ny träning"
             edit_profile: "Uppdatera profil"
             statistics: "Statistik"
-            last_month: "Senaste månaden"
+            current_month: "Nuvarande månad"
             last_week: "Senaste veckan"
             customize: "Anpassa"
             total_distance: "Total distans"

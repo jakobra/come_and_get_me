@@ -9,7 +9,7 @@ class Race < ActiveRecord::Base
   attr_accessor :new_event_name, :new_event_description
   before_validation :create_event_from_name
   
-  validates_presence_of :distance, :event_id
+  validates_presence_of :distance, :time_string, :event_id
   validates_numericality_of :hr_max, :hr_avg, :allow_nil => true, :less_than => 250, :only_integer => true
   validates_numericality_of :distance
   validates_format_of :time_string, :with => /^\d{2}:\d{2}:\d{2}$/, :message => "must be in format of hh:mm:ss", :unless => Proc.new { |user| user.time.blank? }

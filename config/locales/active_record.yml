@@ -64,6 +64,7 @@ sv-SE:
                 distance: "Distans (km)"
                 race_track_id: "Tävlingsbana"
                 time: "Tid (tt:mm:ss)"
+                time_string: "Tid (tt:mm:ss)"
                 hr_max: "Max puls"
                 hr_avg: "Medel puls"
                 comment: "Kommentar"
