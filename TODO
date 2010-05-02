@@ -11,6 +11,8 @@
 
 * Add way-points to describe specific points
 
+* Make it possible to import race from external sites like runkeeper through api or screen-scrape
+
 ### CODING ###
 
 * Work on the code for comments-container
@@ -36,5 +38,7 @@
 * Remove race_tracks and only use tracks
 
 ### BUGS ###
+
+* Promotion areas
 
 * Rambo rocks is showing on new training validation error

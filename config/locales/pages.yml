@@ -85,18 +85,21 @@ sv-SE:
             edit_profile: "Uppdatera profil"
             statistics: "Statistik"
             current_month: "Nuvarande månad"
-            last_week: "Senaste veckan"
+            last_week: "Senaste v."
             customize: "Anpassa"
             total_distance: "Total distans"
             total_time: "Total tid"
+            pb: "Personliga rekord"
         edit:
             male: "Man"
             female: "Kvinna"
         records:
-            pb: "personliga rekord"
+            stat: "Statistik"
         create:
             created: "Tack för att du registrerade dig!"
             failed: "Vi kunde inte skapa ditt konto =( ... testa gärna igen"
+        race_track_statistics:
+            time_per_km: "Km tid (mm:ss)"
     trainings:
         index:
             trainings_for: "Träningar för"

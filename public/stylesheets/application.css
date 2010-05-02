@@ -254,9 +254,13 @@ table tbody tr.even a{
 	color:#444444;
 }
 
-table td {
+table td, table th {
 	margin:0px;
 	padding:3px 10px;
+}
+
+th {
+	text-align:left;
 }
 
 td.records {
@@ -291,6 +295,10 @@ ul {
 .new_comment_box, .edit_comment_box {
 	background-image:url("/images/transparent/trans_black_06.png");
 	padding:10px;
+}
+
+.personal_bests h3 {
+	margin-top:20px;
 }
 
 /* COMMENTS */
@@ -403,15 +411,8 @@ td.destroy {
 	float:left;
 }
 
-
-/* USERS RECORDS */
-.users_records > .personal_bests, .users_records > .records {
-	width:490px;
-	float:left;
-}
-
-.users_records > .records {
-	margin-left:20px;
+div.race_track_statistics th {
+	text-align:left;
 }
 
 /* MENU_NODES STYLE */

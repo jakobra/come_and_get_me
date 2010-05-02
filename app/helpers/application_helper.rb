@@ -8,7 +8,7 @@ module ApplicationHelper
   end
   
   def display_readable_time(times = {})
-    (times.map { |time| "#{t("datetime.time."+time[0], :count => time[1])}" }).join(" ")
+    (times.map { |time| "#{t("datetime.time."+time[0], :count => time[1])}" unless time.blank?}).join(" ")
   end
   
   def link_to_add_fields(name, f, association)

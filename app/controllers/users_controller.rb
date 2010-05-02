@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  filter_resource_access :additional_member => [:statistics, :records]
+  filter_resource_access :additional_member => [:statistics, :records, :race_track_statistics]
   
   def index
     @users = User.all
@@ -7,11 +7,11 @@ class UsersController < ApplicationController
   
   def show
     #@user = User.find_by_login(params[:id])
+    @pbs = @user.races.personal_bests
   end
   
   def new
     @user = User.new
-    
     load_side_module("local_race_tracks")
   end
   
@@ -77,8 +77,7 @@ class UsersController < ApplicationController
      #@user = User.find(params[:id])
      @start_date = Date.civil(params[:from][:year].to_i, params[:from][:month].to_i, params[:from][:day].to_i)
      @end_date = Date.civil(params[:to][:year].to_i, params[:to][:month].to_i, params[:to][:day].to_i)
-     logger.info @start_date
-     logger.info @end_date
+     
      respond_to do |format|
        format.html
        format.xml  { head :ok }
@@ -89,7 +88,15 @@ class UsersController < ApplicationController
   def records
     #@user = User.find(params[:id])
     @records = @user.races.records
-    @pbs = @user.races.personal_bests
+  end
+  
+  def race_track_statistics
+    begin
+      @races = @user.races.find_all_by_race_track_id(params[:race_track_id], :order => params[:order])
+    rescue
+      @races = @user.races.find_all_by_race_track_id(params[:race_track_id])
+    end
+    @race_track = RaceTrack.find(params[:race_track_id])
   end
   
   protected

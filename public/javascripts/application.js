@@ -24,17 +24,29 @@ Event.observe(window, 'load', function() {
 	render_tooltips();
 	
 	$(document).observe('click', function(e){
-		if (e.element().match('.toggle_comment')) { 
-			e.element().up().next('.new_comment').toggle();
+		var element = e.element()
+		if (element.match('.toggle_comment')) { 
+			element.up().next('.new_comment').toggle();
 			e.stop();
 		}
-		else if (e.element().match('.toggle_event')) { 
-			e.element().up().next('.new_event').toggle();
+		else if (element.match('.toggle_event')) { 
+			element.up().next('.new_event').toggle();
 			e.stop();
 		}
-		else if (e.element().match('.toggle_user_statistics')) {
+		else if (element.match('.toggle_user_statistics')) {
 			Effect.toggle(e.element().up().down('form'), 'blind')
-			//e.element().up().down('form').toggle('slide');
+			e.stop();
+		}
+		else if (element.match('div.user_race_track_statistics a.order')) {
+			var href = element.readAttribute('href');
+			new Ajax.Request(href, {
+				onComplete: function(transport) {
+					if (200 == transport.status) {
+						element.up('table').update(transport.responseText)
+					}
+				}
+			});
+			
 			e.stop();
 		}
 	});

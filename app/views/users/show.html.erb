@@ -1,5 +1,4 @@
 <% title @user.login %>
-<% main_class "small_width" %>
 
 <% content_for :left_side do %>
 	<div class="side_module">
@@ -16,6 +15,31 @@
 			<% end %>
 		</table>
 	</div>
+	
+	<% unless @user.trainings.blank? %>
+		<div class="side_module">
+			<h2><%= t("users.show.statistics") %></h2>
+			<%= link_to_current_month @user %> | <%= link_to_one_week_ago @user %><br />
+			<%= link_to t("users.show.customize"), "", :class => "toggle_user_statistics small" %>
+			<% form_remote_tag :url => {:action => :statistics, :id => @user.id}, :method => :get, :html => {:style => "display:none;"} do %>
+				<p>
+					<span class="bold small"><%= t("common.from") %></span><br />
+					<%= select_date (@user.trainings.first.date), {:prefix => "from"} %>
+				</p>
+	
+				<p>
+					<span class="bold small"><%= t("common.to") %></span><br />
+					<%= select_date Time.now, {:prefix => "to"} %>
+				</p>
+		
+				<p><%= submit_tag t("common.send"), :class => "submit" %></p>
+			<% end %>
+	
+			<div id="user_statistics">
+				<%= render :partial => "statistics", :object => @user, :locals => {:from => @user.trainings.first.date, :to => nil} %>
+			</div>
+		</div>
+	<% end %>
 	
 	<div class="side_module">
 		<p class="small">
@@ -47,8 +71,6 @@
 
 <h2><%= @user.login %></h2>
 
-
-
 <p>
 	<% if permitted_to? :update, @user %>
 		<%= link_to t("users.show.edit_profile"), edit_user_path(@user) %> | 
@@ -62,29 +84,22 @@
 	<% end %>
 </p>
 
+<div class="personal_bests">
+	<h3><%= t("users.show.pb") %></h3>
 
-
-<% content_for :right_side do %>
-	<% unless @user.trainings.blank? %>
-		<h2><%= t("users.show.statistics") %></h2>
-		<%= link_to_current_month @user %> | <%= link_to_one_week_ago @user %><br />
-		<%= link_to t("users.show.customize"), "", :class => "toggle_user_statistics small" %>
-		<% form_remote_tag :url => {:action => :statistics, :id => @user.id}, :method => :get, :html => {:style => "display:none;"} do %>
-			<p>
-				<span class="bold small"><%= t("common.from") %></span><br />
-				<%= select_date (@user.trainings.first.date), {:prefix => "from"} %>
-			</p>
-	
-			<p>
-				<span class="bold small"><%= t("common.to") %></span><br />
-				<%= select_date Time.now, {:prefix => "to"} %>
-			</p>
-		
-			<p><%= submit_tag t("common.send"), :class => "submit" %></p>
+	<table>
+		<tr class="small">
+			<th><%= t("trainings.show.time_html") %></th>
+			<th><%= t("trainings.show.time_per_km") %></th>
+			<th><%= t("activerecord.attributes.race.race_track_id") %></th>
+		</tr>
+		<% @pbs.each do |record| %>
+			<tr class="<%= cycle "odd", "even", :name => "row_class" %> small">
+				<td><%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %></td>
+				<td><%= record.time_per_km.strftime("%M:%S") %></td>
+				<td><%= link_to record.race_track.title, record.race_track unless record.race_track.blank? %></td>
+				<td><%= link_to t("users.records.stat"), user_race_track_statistics_path(@user, record.race_track.id) %></td>
+			</tr>
 		<% end %>
-	
-		<div id="user_statistics">
-			<%= render :partial => "statistics", :object => @user, :locals => {:from => @user.trainings.first.date, :to => nil} %>
-		</div>
-	<% end %>
-<% end %>
+	</table>
+</div>

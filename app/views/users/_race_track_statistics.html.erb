@@ -1,0 +1,7 @@
+<tr class="<%= cycle "odd", "even" %> small">
+	<td><%= race_track_statistics.training.date.strftime("%Y-%m-%d") %></td>
+	<td><%= link_to race_track_statistics.time.strftime("%H:%M:%S"), race_path(race_track_statistics) unless race_track_statistics.time.blank? %></td>
+	<td><%= race_track_statistics.time_per_km.strftime("%M:%S") %></td>
+	<td><%= race_track_statistics.hr_max %></td>
+	<td><%= race_track_statistics.hr_avg %></td>
+</tr>

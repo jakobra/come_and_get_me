@@ -1,5 +1,13 @@
 module UsersHelper
   
+  def order(param)
+    if params[:order] != param
+      param
+    else
+      param + " DESC"
+    end
+  end
+  
   #
   # Use this to wrap view elements that the user can't access.
   # !! Note: this is an *interface*, not *security* feature !!

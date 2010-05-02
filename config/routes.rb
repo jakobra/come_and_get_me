@@ -40,6 +40,8 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   
+  map.user_race_track_statistics '/users/:login/race_track_statistics/:race_track_id', :controller => 'users', :action => 'race_track_statistics'
+  
   map.resources :race_tracks, :member => {:records => :get} do |race_tracks|
     race_tracks.resources :comments, :only => [:new, :create]
   end

@@ -1,11 +1,13 @@
-<% content_for :left_side do %>
-	<% @current_menu_node.menu_node_side_modules.left_after.each do |menu_node_side_module| %>
+<% content_for side_modules.to_sym do %>
+	<% after_side_content.each do |menu_node_side_module| %>
 		<%= render_html_content menu_node_side_module.side_module %>
 	<% end %>
 <% end %>
 
-<% content_for :right_side do %>
-	<% @current_menu_node.menu_node_side_modules.right_after.each do |menu_node_side_module| %>
-		<%= render_html_content menu_node_side_module.side_module %>
+<% unless instance_variable_get("@content_for_#{side_modules}").blank?  %>
+
+	<% content_tag :div, :class => "xsmall_width #{side_module_class}" do %>
+		<%= yield(side_modules) %>
 	<% end %>
+	
 <% end %>
