@@ -80,7 +80,7 @@
 	<% end %>
 	<% if permitted_to? :read, @user.trainings %>
 		<%= link_to t("activerecord.models.training.other"), user_trainings_path(@user) %> |
-		<%= link_to t("race_tracks.record"), records_user_path(@user) %>
+		<%= link_to t("tracks.record"), records_user_path(@user) %>
 	<% end %>
 </p>
 
@@ -91,14 +91,14 @@
 		<tr class="small">
 			<th><%= t("trainings.show.time_html") %></th>
 			<th><%= t("trainings.show.time_per_km") %></th>
-			<th><%= t("activerecord.attributes.race.race_track_id") %></th>
+			<th><%= t("activerecord.attributes.race.track_id") %></th>
 		</tr>
 		<% @pbs.each do |record| %>
 			<tr class="<%= cycle "odd", "even", :name => "row_class" %> small">
 				<td><%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %></td>
 				<td><%= record.time_per_km.strftime("%M:%S") %></td>
-				<td><%= link_to record.race_track.title, record.race_track unless record.race_track.blank? %></td>
-				<td><%= link_to t("users.records.stat"), user_race_track_statistics_path(@user, record.race_track.id) %></td>
+				<td><%= link_to record.track.title, record.track unless record.track.blank? %></td>
+				<td><%= link_to t("users.records.stat"), user_track_statistics_path(@user, record.track.id) %></td>
 			</tr>
 		<% end %>
 	</table>

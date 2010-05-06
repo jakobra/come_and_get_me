@@ -23,8 +23,8 @@
 
 <div class="left margin_left_large">
 	<p class="default">
-		<span class="bold"><%= t("activerecord.attributes.race.race_track_id") %>:</span><br />
-		<%= link_to @race.race_track.title, race_track_path(@race.race_track) unless @race.race_track.blank? %>
+		<span class="bold"><%= t("activerecord.attributes.race.track_id") %>:</span><br />
+		<%= link_to @race.track.title, track_path(@race.track) unless @race.track.blank? %>
 	</p>
 	<p class="default">
 		<span class="bold"><%= t("activerecord.attributes.race.hr_max") %>:</span><br />
@@ -36,9 +36,9 @@
 	</p>
 </div>
 
-<% unless @race.comment.blank? %>
+<% unless @race.note.blank? %>
 	<p class="clear_both">
-		<%= @race.comment %>
+		<%= @race.note.content %>
 	</p>
 <% end %>
 

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  filter_resource_access :additional_member => [:statistics, :records, :race_track_statistics]
+  filter_resource_access :additional_member => [:statistics, :records, :track_statistics]
   
   def index
     @users = User.all
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   
   def new
     @user = User.new
-    load_side_module("local_race_tracks")
+    load_side_module("local_tracks")
   end
   
   def edit
@@ -90,13 +90,13 @@ class UsersController < ApplicationController
     @records = @user.races.records
   end
   
-  def race_track_statistics
+  def track_statistics
     begin
-      @races = @user.races.find_all_by_race_track_id(params[:race_track_id], :order => params[:order])
+      @races = @user.races.find_all_by_track_id(params[:track_id], :order => params[:order])
     rescue
-      @races = @user.races.find_all_by_race_track_id(params[:race_track_id])
+      @races = @user.races.find_all_by_track_id(params[:track_id])
     end
-    @race_track = RaceTrack.find(params[:race_track_id])
+    @track = Track.find(params[:track_id])
   end
   
   protected

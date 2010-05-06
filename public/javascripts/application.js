@@ -24,7 +24,7 @@ Event.observe(window, 'load', function() {
 	render_tooltips();
 	
 	$(document).observe('click', function(e){
-		var element = e.element()
+		var element = e.element();
 		if (element.match('.toggle_comment')) { 
 			element.up().next('.new_comment').toggle();
 			e.stop();
@@ -34,10 +34,10 @@ Event.observe(window, 'load', function() {
 			e.stop();
 		}
 		else if (element.match('.toggle_user_statistics')) {
-			Effect.toggle(e.element().up().down('form'), 'blind')
+			Effect.toggle(element.up().down('form'), 'blind')
 			e.stop();
 		}
-		else if (element.match('div.user_race_track_statistics a.order')) {
+		else if (element.match('div.user_track_statistics a.order')) {
 			var href = element.readAttribute('href');
 			new Ajax.Request(href, {
 				onComplete: function(transport) {
@@ -46,7 +46,6 @@ Event.observe(window, 'load', function() {
 					}
 				}
 			});
-			
 			e.stop();
 		}
 	});

@@ -21,7 +21,7 @@
 	</div>
 	
 	<% if permitted_to? :create, Track.new %>
-		<div class="new_race_track right">
+		<div class="new_track right">
 			<%= link_to t("tracks.index.new_track"), new_track_path %>
 		</div>
 	<% end %>
@@ -31,14 +31,13 @@
 	<%= will_paginate @tracks %>
 </div>
 
-<table class="clear_both">
+<table class="clear_both small">
 	<tr>
 		<th class="align_left"><%= t("activerecord.attributes.track.title") %></th>
-		<th class="align_left"><%= t("tracks.source") %></th>
 	</tr>
 	<% if @tracks.blank? %>
 		<tr>
-			<td><%= t("race_tracks.index.no_tracks") %></td>
+			<td><%= t("tracks.index.no_tracks") %></td>
 		</tr>
 	<% end %>
 	<tbody id="tracks">

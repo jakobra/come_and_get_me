@@ -4,10 +4,10 @@ authorization do
     has_permission_on :users, :to => :read do
       if_attribute :id => is_not {APP_CONFIG['admin_user']}
     end
-    has_permission_on :users, :to => [:new, :create, :statistics, :records, :race_track_statistics]
+    has_permission_on :users, :to => [:new, :create, :statistics, :records, :track_statistics]
     has_permission_on :comments, :to => :report
     has_permission_on :pages, :to => :show
-    has_permission_on [:tracks, :race_tracks], :to => [:read, :records]
+    has_permission_on :tracks, :to => [:read, :records]
   end
   
   role :member do
@@ -23,7 +23,7 @@ authorization do
       if_attribute :id => is {user.id}
     end
     
-    has_permission_on [:tracks, :race_tracks], :to => [:new, :edit, :create, :update]
+    has_permission_on :tracks, :to => [:new, :edit, :create, :update]
     has_permission_on :comments, :to => [:new, :create]
     
     has_permission_on :comments, :to => [:edit, :update] do
@@ -32,9 +32,9 @@ authorization do
   end
   
   role :admin do
-    has_permission_on [:users, :comments, :pages, :side_modules, :menu_nodes], :to => [:manage, :read]
+    has_permission_on [:users, :comments, :pages, :side_modules, :menu_nodes, :trainings], :to => [:manage, :read]
     has_permission_on [:municipalities, :counties], :to => :manage
-    has_permission_on [:tracks, :race_tracks], :to => :destroy
+    has_permission_on :tracks, :to => :destroy
   end
 end
 

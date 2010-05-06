@@ -1,0 +1,7 @@
+<div class="fields">
+	<%= render "races/fields", :f => f %>
+	<p class="clear_both">
+		<%= f.hidden_field :_destroy %>
+		<%= link_to_function t("common.remove"), "remove_fields(this)" %>
+	</p>
+</div>

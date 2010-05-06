@@ -1,0 +1,22 @@
+<% unless area.nil? %>
+	<div class="side_module close_tracks">
+		<h5><%= t("side_modules.close_track") %></h5>
+		<h3><%= area.name %></h3>
+		<% content_tag :ul do %>
+			<% if area.tracks.blank? %>
+			<% content_tag :li, :class => "small" do %>
+				<%= t("home.index.no_tracks") %>
+			<% end %>
+			<% end %>
+			<% area.tracks.each do |track| %>
+				<% content_tag :li, :class => "small" do %>
+					<%= link_to track.title, track_path(track), :class => "font_color" %>
+				<% end %>
+			<% end%>
+		<% end %>
+		<p class="small">
+			<span class="bold"><%= t("home.index.add_track")%></span> <%= t("side_modules.your_own") %>
+			<%= link_to t("activerecord.models.track.one"), new_track_path, :class => "font_color" %>
+		</p>
+	</div>
+<% end %>

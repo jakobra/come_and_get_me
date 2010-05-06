@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100411155654) do
+ActiveRecord::Schema.define(:version => 20100505193038) do
 
   create_table "comments", :force => true do |t|
     t.text     "content"
@@ -74,6 +74,14 @@ ActiveRecord::Schema.define(:version => 20100411155654) do
     t.datetime "updated_at"
   end
 
+  create_table "notes", :force => true do |t|
+    t.text     "content"
+    t.integer  "noteable_id"
+    t.string   "noteable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "pages", :force => true do |t|
     t.string   "title"
     t.string   "permalink"
@@ -93,24 +101,6 @@ ActiveRecord::Schema.define(:version => 20100411155654) do
     t.datetime "updated_at"
   end
 
-  create_table "race_track_segments", :force => true do |t|
-    t.integer  "track_id"
-    t.integer  "race_track_id"
-    t.integer  "quantity"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "race_tracks", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "municipality_id"
-    t.integer  "created_by_user_id"
-    t.integer  "last_updated_by_user_id"
-  end
-
   create_table "races", :force => true do |t|
     t.integer  "event_id"
     t.float    "distance"
@@ -120,8 +110,7 @@ ActiveRecord::Schema.define(:version => 20100411155654) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "training_id"
-    t.integer  "race_track_id"
-    t.text     "comment"
+    t.integer  "track_id"
   end
 
   create_table "side_modules", :force => true do |t|
@@ -133,7 +122,7 @@ ActiveRecord::Schema.define(:version => 20100411155654) do
   end
 
   create_table "taggings", :force => true do |t|
-    t.integer  "race_track_id"
+    t.integer  "track_id"
     t.integer  "tag_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -167,7 +156,6 @@ ActiveRecord::Schema.define(:version => 20100411155654) do
 
   create_table "trainings", :force => true do |t|
     t.date     "date"
-    t.text     "comment"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"

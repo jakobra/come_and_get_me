@@ -2,11 +2,6 @@
 
 * Layout and Design	-- In progess
 
-* Statistiks and rankings
-	- Add avg time for member on race_track
-	
-	- Change user statistics
-
 * Birthday year or max pulse or choose
 
 * Add way-points to describe specific points
@@ -33,9 +28,7 @@
 
 * Better layout for pb:s and records
 
-* Migrate all javascript to JQuery
-
-* Remove race_tracks and only use tracks
+* Migrate all javascript to JQuery -- In progess
 
 ### BUGS ###
 

@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   
   def new
     # render new.html.erb
-    load_side_module("local_race_tracks")
+    load_side_module("local_tracks")
   end
 
   def create
@@ -73,14 +73,13 @@ protected
   end
   
   def failed_login(msg = t("login.password_failure", :login => params[:login]))
-    logger.info "Do we go here?"
     @login       = params[:login]
     @remember_me = params[:remember_me]
     if using_open_id?
       flash[:error] = msg
       redirect_to login_path
     else
-      load_side_module("local_race_tracks")
+      load_side_module("local_tracks")
       flash.now[:error] = msg
       render :action => :new
     end

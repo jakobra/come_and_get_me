@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :notes
+
   map.resources :images
 
   map.resources :menu_nodes
@@ -13,11 +15,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :counties do |county|
     county.resources :tracks, :only => [:index]
-    county.resources :race_tracks, :only => [:index]
     
     county.resources :municipalities, :shallow => true do |municipality|
       municipality.resources :tracks, :only => [:index]
-      municipality.resources :race_tracks, :only => [:index]
     end
   end
   
@@ -34,21 +34,17 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :member => {:statistics => :get, :admin => :put, :records => :get} do |users|
     users.resources :trainings, :shallow => true do |trainings|
       trainings.resources :comments, :only => [:new, :create]
-      trainings.resources :races, :shallow => true, :collection => {:edit_individual => :post, :update_individual => :put} do |races| 
+      trainings.resources :races, :shallow => true do |races| 
         races.resources :comments, :only => [:new, :create]
       end
     end
   end
   
-  map.user_race_track_statistics '/users/:login/race_track_statistics/:race_track_id', :controller => 'users', :action => 'race_track_statistics'
-  
-  map.resources :race_tracks, :member => {:records => :get} do |race_tracks|
-    race_tracks.resources :comments, :only => [:new, :create]
-  end
+  map.user_track_statistics '/users/:login/track_statistics/:track_id', :controller => 'users', :action => 'track_statistics'
   
   map.resource :session, :only => [:new, :create, :destroy]
   
-  map.resources :tracks do |tracks|
+  map.resources :tracks, :member => {:records => :get} do |tracks|
     tracks.resources :tracksegments, :only => [:new, :create]
     tracks.resources :comments, :only => [:new, :create]
     tracks.resources :points, :only => :index

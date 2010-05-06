@@ -1,0 +1,22 @@
+<div class="fields">
+	<p style="display:inline;">
+		<%= f.collection_select :side_module_id, SideModule.all, :id, :title, {:prompt => "Select Side Module"} %>
+	</p>
+
+	<p>
+		<%= f.label :position %><br />
+		Left: <%= f.radio_button :position, false  %>
+		Right: <%= f.radio_button :position, true  %>
+	</p>
+	
+	<p>
+		<%= f.label :position_y %><br />
+		Top: <%= f.radio_button :position_y, false  %>
+		Bottom: <%= f.radio_button :position_y, true  %>
+	</p>
+
+	<p>
+		<%= f.hidden_field :_destroy %>
+		<%= link_to_function t("common.remove"), "remove_fields(this)" %>
+	</p>
+</div>

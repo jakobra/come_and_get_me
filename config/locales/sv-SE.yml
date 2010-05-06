@@ -7,7 +7,6 @@ sv-SE:
         sign_up: "Registrera"
         menu:
             home: "Start"
-            race_tracks: "Tävlingsbanor"
             tracks: "Banor"
             users: "Medlemmar"
     footer:

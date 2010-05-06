@@ -1,0 +1,16 @@
+
+1. Run rake task :create_track_from_race_track
+
+2. Manully migrate race_tracks that has more than 1 track (Klinken 12 km)
+
+3. Run rake task :remove_race_track_segments to remove tracksegments no more used
+
+4. Run rake task :remove_unused_tracks to remove tracks no more used
+
+5. Run rake task :move_tags to move tag to track instead of race_track
+
+6. Run rake task :update_races
+
+
+
+

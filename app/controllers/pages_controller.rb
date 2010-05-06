@@ -17,7 +17,7 @@ class PagesController < ApplicationController
       raise ActiveRecord::RecordNotFound, "Page Not Found"
     end
     
-    load_side_module("local_race_tracks")
+    load_side_module("local_tracks")
   end
   
   def new

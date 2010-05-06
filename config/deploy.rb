@@ -50,6 +50,14 @@ namespace :deploy do
     system "scp -r config/database.yml #{user}@#{host}:/#{deploy_to}/shared/config/database.yml"
   end
   
+  task :close do
+    run "cp public/closed.html public/maintenance.html"
+  end
+  
+  task :open do
+    run "rm public/maintenance.html"
+  end
+  
 end
 
 after "deploy:update_code", "deploy:symlink_shared"

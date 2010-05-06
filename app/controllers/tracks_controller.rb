@@ -117,4 +117,8 @@ class TracksController < ApplicationController
     end
   end
   
+  def records
+    @track = Track.find(params[:id])
+  end
+  
 end

@@ -1,15 +1,18 @@
 <% unless race.new_record? %>
 	<tr class="<%= cycle("odd", "even") %>">
-		<% if permitted_to? :update, race %>
-			<td><%= check_box_tag "race_ids[]", race.to_param %></td>
-		<% end %>
 		<td><%= link_to race.event.name, race_path(race) %></td>
-		<td class="center"><%= race.distance %></td>
-		<td class="center"><%= link_to race.race_track.title, race_track_path(race.race_track) unless race.race_track.blank? %></td>
-		<td class="center"><%= race.time.strftime("%H:%M:%S") unless race.time.blank? %></td>
-		<td class="center"><%= race.time_per_km.strftime("%M:%S") unless race.time.blank? %></td>
-		<td class="center"><%= race.hr_max unless race.hr_max.blank? %></td>
-		<td class="center"><%= race.hr_avg unless race.hr_avg.blank? %></td>
+		<td><%= race.distance %></td>
+		<td><%= link_to race.track.title, track_path(race.track) unless race.track.blank? %></td>
+		<td><%= race.time.strftime("%H:%M:%S") unless race.time.blank? %></td>
+		<td><%= race.time_per_km.strftime("%M:%S") unless race.time.blank? %></td>
+		<td><%= race.hr_max unless race.hr_max.blank? %></td>
+		<td><%= race.hr_avg unless race.hr_avg.blank? %></td>
+		<td <%= "class=\"race_note\"" unless race.note.blank? %>>
+			<% unless race.note.blank?  %>
+				Not.
+				<div><p class="race_note"><%= race.note.content %></p></div>
+			<% end %>
+		</td>
 		<% if permitted_to? :update, race %>
 			<td class="small"><%= link_to t("common.edit"), edit_race_path(race) %></td>
 		<% end %>

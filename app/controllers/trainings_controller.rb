@@ -29,7 +29,8 @@ class TrainingsController < ApplicationController
   def new
     #@user = User.find_by_login(params[:user_id])
     @training = @user.trainings.build
-
+    @training.build_note
+    
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @training }

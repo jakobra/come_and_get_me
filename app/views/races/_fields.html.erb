@@ -1,64 +1,54 @@
-<% if form_input_field?("event_id") %>
-	<p class="left">
-		<%= f.label :event_id, t("activerecord.models.event.one") %><br />
-		<%= f.collection_select :event_id, Event.all, :id, :name, :include_blank => true %>
-		
-		<a class="toggle_event" href="#"><%= t("trainings.new.new_event") %></a>
-	</p>
+<p class="left">
+	<%= f.label :event_id, t("activerecord.models.event.one") %><br />
+	<%= f.collection_select :event_id, Event.all, :id, :name, :include_blank => true %>
 	
-	<div class="left new_event" style="display:none;">
-		<p>
-			<%= f.label :new_event_name, t("trainings.new.new_event_name") %><br />
-			<%= f.text_field :new_event_name %>
-		</p>
-		<p>
-			<%= f.label :new_event_description, t("trainings.new.new_event_description") %><br />
-			<%= f.text_field :new_event_description %>
-		</p>
-	</div>
-<% end %>
+	<a class="toggle_event" href="#"><%= t("trainings.new.new_event") %></a>
+</p>
 
-<% if form_input_field?("distance") %>
-	<p class="left  clear_left">
-		<%= f.label :distance, t("activerecord.attributes.race.distance") %><br />
-		<%= f.text_field :distance, :size => 4 %>
+<div class="left new_event" style="display:none;">
+	<p>
+		<%= f.label :new_event_name, t("trainings.new.new_event_name") %><br />
+		<%= f.text_field :new_event_name %>
 	</p>
-<% end %>
-	
-<% if form_input_field?("time") %>
-	<p class="left margin_left">
-		<%= f.label :time_string, t("activerecord.attributes.race.time") %><br />
-		<%= f.text_field :time_string, :size => 8 %>
+	<p>
+		<%= f.label :new_event_description, t("trainings.new.new_event_description") %><br />
+		<%= f.text_field :new_event_description %>
 	</p>
-<% end %>
-	
-<% if form_input_field?("hr") %>
-	<p class="left margin_left">
-		<%= f.label :hr_max, t("activerecord.attributes.race.hr_max") %><br />
-		<%= f.text_field :hr_max, :size => 4 %>
-	</p>
-	<p class="left margin_left">
-		<%= f.label :hr_avg, t("activerecord.attributes.race.hr_avg") %><br />
-		<%= f.text_field :hr_avg, :size => 4 %>
-	</p>
-<% end %>
-	
-<% if form_input_field?("race_track_id") %>
-	<p class="left margin_left">
-		<%= f.label :race_track_id, t("activerecord.models.race track.one") %><br />
-		<%= f.collection_select :race_track_id, (f.object.new_record? ? current_user.municipality.race_tracks : RaceTrack.all), :id, :title, :prompt => t("trainings.edit.local_race_tracks") %>
-		<%= link_to(t("trainings.show.view_all_race_tracks"), nil, :class => "view_all_tracks") if f.object.new_record? %>
-	</p>
-<% end %>
+</div>
 
-<% if form_input_field?("comment") %>
-	<% if f.object.comment.blank? %>
-		<p class="left clear_left">
-			<a class="toggle_comment" href="#"><%= t("trainings.new.new_comment") %></a>
-		</p>
-	<% end %>
-	<p class="left clear_left new_comment" <%= "style=\"display:none;\"" if f.object.comment.blank? %>>
-		<%= f.label :comment, t("activerecord.attributes.race.comment") %><br />
-		<%= f.text_area :comment, :rows => 4, :cols => 30 %>
+<p class="left  clear_left">
+	<%= f.label :distance, t("activerecord.attributes.race.distance") %><br />
+	<%= f.text_field :distance, :size => 4 %>
+</p>
+
+<p class="left margin_left">
+	<%= f.label :time_string, t("activerecord.attributes.race.time") %><br />
+	<%= f.text_field :time_string, :size => 8 %>
+</p>
+
+<p class="left margin_left">
+	<%= f.label :hr_max, t("activerecord.attributes.race.hr_max") %><br />
+	<%= f.text_field :hr_max, :size => 4 %>
+</p>
+<p class="left margin_left">
+	<%= f.label :hr_avg, t("activerecord.attributes.race.hr_avg") %><br />
+	<%= f.text_field :hr_avg, :size => 4 %>
+</p>
+
+<p class="left margin_left">
+	<%= f.label :track_id, t("activerecord.models.track.one") %><br />
+	<%= f.collection_select :track_id, (f.object.new_record? ? current_user.municipality.tracks : Track.all), :id, :title, :prompt => t("trainings.edit.local_tracks") %>
+	<%= link_to(t("trainings.show.view_all_tracks"), nil, :class => "view_all_tracks") if f.object.new_record? %>
+</p>
+
+<% if f.object.note.blank? or f.object.note.new_record? %>
+	<p class="left clear_left">
+		<a class="toggle_comment" href="#"><%= t("trainings.new.new_comment") %></a>
+	</p>
+<% end %>
+<% f.fields_for :note, (f.object.note.blank? ? f.object.build_note : f.object.note ) do |builder| %>
+	<p class="left clear_left new_comment" <%= "style=\"display:none;\"" if f.object.note.new_record? %>>
+		<%= builder.label :content, t("activerecord.attributes.race.comment") %><br />
+		<%= builder.text_area :content, :rows => 4, :cols => 30 %>
 	</p>
 <% end %>

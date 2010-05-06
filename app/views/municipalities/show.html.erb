@@ -19,11 +19,6 @@
 </p>
 
 <p>
-	<span class="bold">Race Tracks:</span>
-	<%= link_to "Race Tracks", municipality_race_tracks_path(@municipality) %>
-</p>
-
-<p>
 	<% if permitted_to? :update, @municipality %>
 		<%= link_to "Edit", edit_municipality_path(@municipality) %> |
 	<% end %>

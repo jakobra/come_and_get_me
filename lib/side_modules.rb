@@ -1,6 +1,6 @@
 module SideModules
   
-  def local_race_tracks
+  def local_tracks
     @area = County.find_by_geolocation(request.remote_ip)
     @area = @area.municipalities.find_by_geolocation(request.remote_ip) unless @area.blank?
   end

@@ -1,8 +1,8 @@
 document.observe('click', function(e) {
 	var element = Event.element(e);
 	if (element.hasClassName('view_all_tracks')) {
-		element.up().down('select').update('<%= escape_javascript(options_from_collection_for_select(@race_tracks, :id, :title)) %>');
-		element.up().down('select').insert({top: '<option><%= t("trainings.edit.all_race_tracks") %></option>'});
+		element.up().down('select').update('<%= escape_javascript(options_from_collection_for_select(@tracks, :id, :title)) %>');
+		element.up().down('select').insert({top: '<option><%= t("trainings.edit.all_tracks") %></option>'});
 		e.stop();
 	}
 	

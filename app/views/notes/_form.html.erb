@@ -1,0 +1,16 @@
+<% form_for @note do |f| %>
+	<%= f.error_messages %>
+	<p>
+		<%= f.label :content %><br />
+		<%= f.text_area :content %>
+	</p>
+	<p>
+		<%= f.label :noteable_id %><br />
+		<%= f.text_field :noteable_id %>
+	</p>
+	<p>
+		<%= f.label :noteable_type %><br />
+		<%= f.text_field :noteable_type %>
+	</p>
+	<p><%= f.submit "Submit" %></p>
+<% end %>

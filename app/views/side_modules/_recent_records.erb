@@ -2,7 +2,7 @@
 	<h5><%= t("side_modules.recent_records") %></h5>
 	<p class="small">
 		<% recent_records.each do |record| %>
-			<%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %>, <%= truncate(record.race_track.title,:length => 25) unless record.race_track.blank? %><br />
+			<%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %>, <%= truncate(record.track.title,:length => 25) unless record.track.blank? %><br />
 		<% end %>
 	</p>
 </div>

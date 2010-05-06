@@ -1,10 +1,13 @@
 class Race < ActiveRecord::Base
   belongs_to :event
   belongs_to :training
-  belongs_to :race_track
+  belongs_to :track
   
   has_one :user, :through => :training
   has_many :comments, :as => :commentable, :dependent => :destroy
+  has_one :note, :as => :noteable, :dependent => :destroy
+  
+  accepts_nested_attributes_for :note, :allow_destroy => true, :reject_if => lambda { |a| a[:content].blank? }
   
   attr_accessor :new_event_name, :new_event_description
   before_validation :create_event_from_name
@@ -17,8 +20,8 @@ class Race < ActiveRecord::Base
   EPOCH = 946684800
   
   def self.personal_bests(options = {})
-    race_tracks = calculate(:min, :time, :group => "race_track_id", :conditions => "race_track_id IS NOT NULL")
-    from_times(race_tracks.values, options)
+    tracks = calculate(:min, :time, :group => "track_id", :conditions => "track_id IS NOT NULL")
+    from_times(tracks.values, options)
   end
   
   def self.recent_records
@@ -26,10 +29,10 @@ class Race < ActiveRecord::Base
   end
   
   def self.records(options = {})
-    race_tracks = find_by_sql("SELECT min(`races`.time) AS min_time, race_track_id AS race_track_id FROM `races` INNER JOIN `trainings` ON `races`.training_id = `trainings`.id WHERE (race_track_id IS NOT NULL) GROUP BY race_track_id")
-    #race_tracks = calculate(:min, :time, :group => "race_track_id", :conditions => "race_track_id IS NOT NULL")
+    tracks = find_by_sql("SELECT min(`races`.time) AS min_time, track_id AS track_id FROM `races` INNER JOIN `trainings` ON `races`.training_id = `trainings`.id WHERE (track_id IS NOT NULL) GROUP BY track_id")
+    #tracks = calculate(:min, :time, :group => "track_id", :conditions => "track_id IS NOT NULL")
     
-    from_times(race_tracks.map { |race_track| race_track['min_time']}, options)
+    from_times(tracks.map { |track| track['min_time']}, options)
   end
   
   def time_string

@@ -2,7 +2,9 @@ class Training < ActiveRecord::Base
   belongs_to :user
   has_many :races, :dependent => :destroy
   has_many :comments, :as => :commentable, :dependent => :destroy
+  has_one :note, :as => :noteable, :dependent => :destroy
   
+  accepts_nested_attributes_for :note, :allow_destroy => true, :reject_if => lambda { |a| a[:content].blank? }
   accepts_nested_attributes_for :races, :allow_destroy => true
   
   validates_presence_of :date

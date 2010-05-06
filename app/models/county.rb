@@ -1,6 +1,5 @@
 class County < ActiveRecord::Base
   has_many :municipalities
-  has_many :race_tracks, :through => :municipalities
   has_many :tracks, :through => :municipalities
   
   attr_accessible :name, :code, :numeric_code

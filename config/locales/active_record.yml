@@ -4,13 +4,13 @@ sv-SE:
             comment:
                 one: "Kommentar"
                 other: "Kommentarer"
+            note:
+                one: "Anteckning"
+                other: "Anteckningar" 
             user: 
                 one: "Medlem"
                 other: "Medlemmar"
             race: "Lopp"
-            race track:
-                one: "Tävlingsbana"
-                other: "Tävlingsbanor"
             county: "Län"
             municipality:
                 one: "Kommun"
@@ -21,7 +21,6 @@ sv-SE:
             tag:
                 one: "Tagg"
                 other: "Taggar"
-            race_track_segment: "Banor"
             training:
                 one: "Träning"
                 other: "Träningar"
@@ -47,14 +46,6 @@ sv-SE:
                 track_file_name: "Filen"
                 municipality_id: "Kommun"
                 tracksegments: "GPS-koordinater eller GPX-fil"
-            race_track:
-                title: "Namn"
-                description: "Beskrivning"
-                municipality_id: "Kommun"
-                race_track_segments: "Banor"
-            race_track_segment:
-                quantity: "Varv"
-                track_id: "Bana"
             training:
                 date: "Datum"
                 races: "Lopp"
@@ -62,7 +53,7 @@ sv-SE:
                 event: "Gren"
                 event_id: "Gren"
                 distance: "Distans (km)"
-                race_track_id: "Tävlingsbana"
+                track_id: "Bana"
                 time: "Tid (tt:mm:ss)"
                 time_string: "Tid (tt:mm:ss)"
                 hr_max: "Max puls"

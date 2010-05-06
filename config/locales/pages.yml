@@ -19,30 +19,8 @@ sv-SE:
         logged_out: "Du är utloggad"
     home:
         index:
-            no_race_tracks: "Inga tävlingsbanor funna i ditt område"
-            add_race_track: "Lägg till"
-    race_tracks:
-        info:
-            quantity: "Varv betyder hur många varv av Banan som gäller ..."
-        record: "Rekord"
-        index:
-            no_race_tracks: "Inga tävlingsbanor funna"
-            new_race_track: "Ny tävlingsbana"
-        show:
-            created_by: "Skapad av"
-            last_updated_by: "Senast uppdaterad av"
-        records:
-            records_for: "Rekord för"
-        new:
-            new_race_track: "Ny tävlingsbana"
-            tag_names: "Taggar"
-            tag_names_description: "(separerar med \",\")"
-            race_track_segments: "Banor"
-            add_race_track_segment: "Lägg till bana"
-        create:
-            created: "Tävlingbana sparad"
-        update:
-            updated: "Tävlingsbanan uppdaterad"
+            no_tracks: "Inga banor funna i ditt område"
+            add_track: "Lägg till"
     comments:
         comments: "Kommentarer"
         no_comments: "Inga kommentarer"
@@ -55,8 +33,8 @@ sv-SE:
     tracks:
         info:
             same_start_finish: "Betyder att banan börjar och slutar på samma ställe."
-            new_race_track: "Innebär att även en Tävlingsbana kommer att sparas"
         source: "Källa"
+        record: "Rekord"
         index:
             new_track: "Ny bana"
             no_tracks: "Inga banor funna"
@@ -70,11 +48,12 @@ sv-SE:
             plot_track: "... eller plotta en bana på kartan"
             same_start_finish: "Samma start och slut punkt?"
             remove_last_point: "Ta bort sista punkten"
-            new_race_track: "Skapa tävlingsbana av banan?"
         create:
             created: "{{name}} sparad"
         update:
             updated: "{{name}} uppdaterad"
+        records:
+            records_for: "Rekord för"
     users:
         index:
             set_unset_admin: "Admin"
@@ -98,7 +77,7 @@ sv-SE:
         create:
             created: "Tack för att du registrerade dig!"
             failed: "Vi kunde inte skapa ditt konto =( ... testa gärna igen"
-        race_track_statistics:
+        track_statistics:
             time_per_km: "Km tid (mm:ss)"
     trainings:
         index:
@@ -108,7 +87,7 @@ sv-SE:
             show_hide_form: "Visa/Dölj nytt lopp"
             edit_selected: "Uppdatera"
             all_fields: "Alla fält"
-            view_all_race_tracks: "Visa alla tävlingsbanor"
+            view_all_tracks: "Visa alla banor"
             time_html: "Tid<br />(tt:mm:ss)"
             time_per_km: "Km tid<br />(mm:ss)"
             hr_max_html: "Max-<br />puls"
@@ -120,13 +99,14 @@ sv-SE:
             new_event_description: "Gren beskrivning"
             new_comment: "Lägg till kommentar"
             add_race: "Lägg till nytt lopp"
+            add_note: "Lägg till anteckning"
             new_training: "Ny träning"
         create:
             created: "Träningen skapad"
         edit:
             edit_training: "Uppdatera träning"
-            local_race_tracks: "Lokala banor"
-            all_race_tracks: "Alla banor"
+            local_tracks: "Lokala banor"
+            all_tracks: "Alla banor"
         update:
             updated: "Träningen {{date}} uppdaterad"
     races:

@@ -1,7 +1,7 @@
 <tr class="<%= cycle "odd", "even" %>">
 	<td><%= link_to track.title, track %></td>
-	<td><%= track_created_from(track) %></td>
-	<% if logged_in? %>
+	<td class="record"><%= link_to(t("tracks.record"), records_track_path(track)) %></td>
+	<% if permitted_to? :edit, track %>
 		<td class="edit"><%= link_to t("common.edit"), edit_track_path(track) %></td>
 		<% if permitted_to? :destroy, track %>
 			<td class="destroy"><%= link_to t("common.destroy"), track, :confirm => t("common.sure"), :method => :delete %></td>

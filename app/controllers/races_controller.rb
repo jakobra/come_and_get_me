@@ -65,26 +65,5 @@ class RacesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
-  # POST /races/edit_individual
-  def edit_individual
-    if params[:race_ids].blank?
-      flash[:error] = "You must select at least 1 race to edit"
-      redirect_to training_url(params[:training_id])
-    else
-      @races = Race.find(params[:race_ids])
-    end
-  end
-  
-  # PUT /races/update_individual
-  def update_individual
-    @races = Race.update(params[:races].keys, params[:races].values).reject { |r| r.errors.blank? }
-    if @races.blank?
-      flash[:notice] = t("races.update_individual.updated")
-      redirect_to training_path(params[:training_id])
-    else
-      render :action => "edit_individual"
-    end
-  end
 
 end

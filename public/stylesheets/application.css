@@ -314,6 +314,7 @@ ul {
 }
 
 .comments_container {
+	margin-top:10px;
 	margin-bottom:10px;
 	padding:10px;
 	border:1px solid #cccccc;
@@ -395,11 +396,11 @@ input.submit {
 
 /* TABLE CELLS */
 td.record {
-	width:55px;
+	width:42px;
 }
 
 td.edit {
-	width:80px;
+	width:62px;
 }
 
 td.destroy {
@@ -411,7 +412,7 @@ td.destroy {
 	float:left;
 }
 
-div.race_track_statistics th {
+div.track_statistics th {
 	text-align:left;
 }
 

@@ -4,7 +4,7 @@
 		<tr class="<%= cycle "odd", "even" %>">
 			<% if permitted_to? :read, user %>
 				<td><%= link_to user.login, member_path(user) %></td>
-				<td><%= link_to t("race_tracks.record"), records_user_path(user) %></td>
+				<td><%= link_to t("tracks.record"), records_user_path(user) %></td>
 		
 				<% if permitted_to? :admin, user %>
 					<td><%= user.admin %></td>

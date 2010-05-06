@@ -1,4 +1,4 @@
-<% title "#{@user.login}s #{t("race_tracks.record").downcase}"%>
+<% title "#{@user.login}s #{t("tracks.record").downcase}"%>
 
 <% content_for :left_side do %>
 	<div class="side_module">
@@ -18,18 +18,18 @@
 <% end %>
 
 <div class="records">
-	<h2><%= @user.login %>s <%= t("race_tracks.record").downcase %></h2>
+	<h2><%= @user.login %>s <%= t("tracks.record").downcase %></h2>
 	<table>
 		<tr class="small">
 			<th><%= t("trainings.show.time_html") %></th>
 			<th><%= t("trainings.show.time_per_km") %></th>
-			<th><%= t("activerecord.attributes.race.race_track_id") %></th>
+			<th><%= t("activerecord.attributes.race.track_id") %></th>
 		</tr>
 		<% @records.each do |record| %>
 			<tr class="<%= cycle "odd", "even" %> small">
 				<td><%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %></td>
 				<td><%= record.time_per_km.strftime("%M:%S") %></td>
-				<td><%= link_to record.race_track.title, record.race_track unless record.race_track.blank? %></td>
+				<td><%= link_to record.track.title, record.track unless record.track.blank? %></td>
 			</tr>
 		<% end %>
 	</table>

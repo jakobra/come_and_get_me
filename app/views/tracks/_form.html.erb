@@ -24,14 +24,6 @@
 			<%= f.check_box :circle %>
 			<%= info_tag t("tracks.info.same_start_finish") %>
 		</p>
-
-		<% if @track.new_record? %>
-			<p>
-				<%= f.label :new_race_track, t("tracks.new.new_race_track") %>
-				<%= f.check_box :new_race_track, :checked => true %>
-				<%= info_tag t("tracks.info.new_race_track") %>
-			</p>
-		<% end %>
 		
 		<p  class="default">
 			<%= f.label :track, t("activerecord.attributes.track.track") %><br />
