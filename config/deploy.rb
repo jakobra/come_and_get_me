@@ -50,11 +50,11 @@ namespace :deploy do
     system "scp -r config/database.yml #{user}@#{host}:/#{deploy_to}/shared/config/database.yml"
   end
   
-  task :close do
+  task :disable do
     run "cp public/closed.html public/maintenance.html"
   end
   
-  task :open do
+  task :enable do
     run "rm public/maintenance.html"
   end
   
