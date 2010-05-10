@@ -1,10 +1,6 @@
 <% title "Edit Page" %>
 <% main_class "small_width" %>
 
-<% content_for :left_side do %>
-	<%= render "side_modules/beta" %>
-<% end %>
-
 <% if params[:preview_button] %>
 	<div class="border_bottom">
 		<h1><%=h @page.title %></h1>
@@ -19,7 +15,3 @@
   <%= link_to "Show", @page %> |
   <%= link_to "View All", pages_path %>
 </p>
-
-<% content_for :right_side do %>
-	<%= render "side_modules/beta" %>
-<% end %>

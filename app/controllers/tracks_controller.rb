@@ -118,7 +118,12 @@ class TracksController < ApplicationController
   end
   
   def records
-    @track = Track.find(params[:id])
+    #@track = Track.find(params[:id])
+    if params[:event_id].blank?
+      @races = @track.races.find(:all, :order => "time", :limit => 20, :include => [:event, :training, :user])
+    else
+      @races = @track.races.find(:all, :order => "time", :limit => 20, :include => [:event, :training, :user], :conditions => ["event_id = ?", params[:event_id]])
+    end
   end
   
 end

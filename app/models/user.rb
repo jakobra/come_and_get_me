@@ -52,30 +52,21 @@ class User < ActiveRecord::Base
     write_attribute :email, (value ? value.downcase : nil)
   end
 
-  def total_distance(from = 1.week.ago, to = Date.today)
-    distances = []
+  def distance(from = 1.week.ago, to = Date.today)
+    distances = [0]
     self.trainings.period(from, to).each do |training|
       training.races.each { |race| distances << race.distance }
     end
     eval distances.join('+')
   end
   
-  def total_time(from = 1.week.ago, to = Date.today)
-    times = []
+  def time(from = 1.week.ago, to = Date.today)
+    seconds = 0
     self.trainings.period(from, to).each do |training|
       training.races.each do |race|
-        unless race.time.blank?
-          times << {:hours => race.time.strftime("%H").to_i,
-                    :minutes => race.time.strftime("%M").to_i,
-                    :seconds => race.time.strftime("%S").to_i}
-        end
+        seconds += (race.time.to_i - Race::EPOCH) unless race.time.blank?
       end
     end
-    hours = times.map { |t| t[:hours] }
-    minutes = times.map { |t| t[:minutes] }
-    seconds = times.map { |t| t[:seconds] }
-    seconds = eval seconds.join('+') 
-    seconds += get_seconds_from_hours_and_minutes(hours, minutes)
     get_time_from_seconds seconds
   end
   
@@ -94,11 +85,6 @@ class User < ActiveRecord::Base
   end
   
   protected
-  
-  def get_seconds_from_hours_and_minutes(hours, minutes)
-    seconds = (3600 * (eval hours.join('+')))
-    seconds += (60 * (eval minutes.join('+')))
-  end
   
   def get_time_from_seconds(time)
     result = {}

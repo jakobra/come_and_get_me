@@ -50,8 +50,22 @@ Event.observe(window, 'load', function() {
 		}
 	});
 	
+	$(document).observe('change', function(e){
+		var element = e.element();
+		if (element.match('select.select_track_event')) {
+			var href = document.URL + "?event_id=" + element.value;
+			new Ajax.Request(href, {
+				method: 'get',
+				onComplete: function(transport) {
+					if (200 == transport.status) {
+						element.next('ol').update(transport.responseText)
+					}
+				}
+			});
+			e.stop();
+		}
+	});
 });
-
 
 function render_tooltips() {
 	$$("img.info").each( function(img) {

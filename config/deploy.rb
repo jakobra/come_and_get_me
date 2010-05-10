@@ -51,11 +51,11 @@ namespace :deploy do
   end
   
   task :disable do
-    run "cp public/closed.html public/maintenance.html"
+    run "cp #{current_path}/public/closed.html #{current_path}/public/maintenance.html"
   end
   
   task :enable do
-    run "rm public/maintenance.html"
+    run "rm #{current_path}/public/maintenance.html"
   end
   
 end

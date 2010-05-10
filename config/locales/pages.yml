@@ -54,6 +54,7 @@ sv-SE:
             updated: "{{name}} uppdaterad"
         records:
             records_for: "Rekord för"
+            all: "Alla"
     users:
         index:
             set_unset_admin: "Admin"

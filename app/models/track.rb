@@ -31,7 +31,7 @@ class Track < ActiveRecord::Base
   # Versioned by vestal versions
   versioned
   
-  # Boolean attributes, same_start_and_finish
+  # Boolean attributes, same_start_and_finish point
   attr_accessor :circle
   
   named_scope :latest, {:limit => 5, :order => "id DESC"}
@@ -54,6 +54,10 @@ class Track < ActiveRecord::Base
       break unless result.nil?
     end
     result.nil? ? 1 : result
+  end
+  
+  def events
+    races.find(:all, :select => 'DISTINCT event_id', :include => :event).map { |race| race.event }
   end
   
   private

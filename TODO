@@ -22,7 +22,7 @@
 
 * Migrate authentication to authlogic
 
-* Make it better when taking RaceTrack records through association
+* Make it better when taking RaceTrack records through association ????? still?
 
 * Rewrite de code for creating and updating Tracks
 
@@ -32,6 +32,7 @@
 
 ### BUGS ###
 
-* Promotion areas
+* Don´t only show local tracks when validation fail when creating a new track an dyou have chossen a non-local track.
 
-* Rambo rocks is showing on new training validation error
+* Don´t hide note when validation fail when creating a new training/race
+

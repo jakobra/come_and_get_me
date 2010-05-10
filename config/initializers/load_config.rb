@@ -5,3 +5,4 @@ ActionView::Helpers::AssetTagHelper.register_javascript_expansion :rambo => ["pr
 Paperclip.interpolates :version do |attachment, style|
   attachment.instance.version
 end
+

@@ -1,72 +1,13 @@
 <% title @user.login %>
 
 <% content_for :left_side do %>
-	<div class="side_module">
-		<h4><%= t("users.show.recent_trainings") %>:</h4>
-		<table>
-			<% @user.trainings.recent(2.weeks.ago).each do |training| %>
-				<tr>
-					<td><%= link_to training.date.strftime("%e %b - %Y"), training %></td>
-					<% if_authorized?(action_name, @user) do %>
-						<td class="small"><%= link_to t("common.edit"), edit_training_path(training) %></td>
-						<td class="small"><%= link_to t("common.destroy"), training, :confirm => t("common.sure"), :method => :delete %></td>
-					<% end %>
-				</tr>
-			<% end %>
-		</table>
-	</div>
 	
 	<% unless @user.trainings.blank? %>
-		<div class="side_module">
-			<h2><%= t("users.show.statistics") %></h2>
-			<%= link_to_current_month @user %> | <%= link_to_one_week_ago @user %><br />
-			<%= link_to t("users.show.customize"), "", :class => "toggle_user_statistics small" %>
-			<% form_remote_tag :url => {:action => :statistics, :id => @user.id}, :method => :get, :html => {:style => "display:none;"} do %>
-				<p>
-					<span class="bold small"><%= t("common.from") %></span><br />
-					<%= select_date (@user.trainings.first.date), {:prefix => "from"} %>
-				</p>
-	
-				<p>
-					<span class="bold small"><%= t("common.to") %></span><br />
-					<%= select_date Time.now, {:prefix => "to"} %>
-				</p>
-		
-				<p><%= submit_tag t("common.send"), :class => "submit" %></p>
-			<% end %>
-	
-			<div id="user_statistics">
-				<%= render :partial => "statistics", :object => @user, :locals => {:from => @user.trainings.first.date, :to => nil} %>
-			</div>
-		</div>
+		<%= render "side_modules/recent_trainings", :user => @user %>
+		<%= render "side_modules/user_trainings_stat", :user => @user %>	
 	<% end %>
 	
-	<div class="side_module">
-		<p class="small">
-			<span class="bold"><%= t("activerecord.attributes.user.name") %>:</span>
-			<%= @user.name %>
-		</p>
-		
-		<p class="small">
-			<span class="bold"><%= t("activerecord.attributes.user.birthday_year") %>:</span>
-			<%= @user.birthday_year %>
-		</p>
-		
-		<p class="small">
-			<span class="bold"><%= t("activerecord.attributes.user.gender") %>:</span>
-			<%= @user.gender ? t("users.edit.female") : t("users.edit.male") unless @user.gender.nil?%>
-		</p>
-		
-		<p class="small">
-			<span class="bold"><%= t("activerecord.attributes.user.municipality_id") %>:</span>
-			<%= @user.municipality.name unless @user.municipality.blank? %>
-		</p>
-		
-		<p class="small">
-			<span class="bold"><%= t("users.show.last_login") %>:</span>
-			<%= @user.last_login_at.strftime("%e %b - %Y") unless @user.last_login_at.blank? %>
-		</p>
-	</div>
+	<%= render "user_info", :user => @user %>
 <% end %>
 
 <h2><%= @user.login %></h2>

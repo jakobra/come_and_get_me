@@ -1,0 +1,26 @@
+<div class="side_module">
+	<p class="small">
+		<span class="bold"><%= t("activerecord.attributes.user.name") %>:</span>
+		<%= user.name %>
+	</p>
+	
+	<p class="small">
+		<span class="bold"><%= t("activerecord.attributes.user.birthday_year") %>:</span>
+		<%= user.birthday_year %>
+	</p>
+	
+	<p class="small">
+		<span class="bold"><%= t("activerecord.attributes.user.gender") %>:</span>
+		<%= user.gender ? t("users.edit.female") : t("users.edit.male") unless user.gender.nil?%>
+	</p>
+	
+	<p class="small">
+		<span class="bold"><%= t("activerecord.attributes.user.municipality_id") %>:</span>
+		<%= user.municipality.name unless user.municipality.blank? %>
+	</p>
+	
+	<p class="small">
+		<span class="bold"><%= t("users.show.last_login") %>:</span>
+		<%= user.last_login_at.strftime("%e %B - %Y") unless user.last_login_at.blank? %>
+	</p>
+</div>

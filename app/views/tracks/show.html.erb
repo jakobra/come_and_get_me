@@ -17,7 +17,7 @@
 	<div>
 		<%= RedCloth.new(@track.description).to_html %>
 	</div>
-	
+	<%= link_to(t("tracks.record"), records_track_path(@track)) %>
 	<% unless @track.tracksegments.blank? %>
 		<div class="border_top">
 			<p id="sample_rate">Rate: 5</p>
@@ -26,12 +26,14 @@
 	<% end %>
 	
 	<% unless @track.tags.blank? %>
-		<h4><%= t("activerecord.models.tag.other") %>:</h4>
-		<ul>
-			<% @track.tags.each do |tag| %>
-				<li><%= tag.name %></li>
-			<% end %>
-		</ul>
+		<div class="border_top">
+			<h4><%= t("activerecord.models.tag.other") %>:</h4>
+			<ul>
+				<% @track.tags.each do |tag| %>
+					<li><%= tag.name %></li>
+				<% end %>
+			</ul>
+		</div>
 	<% end %>
 	
 	<div class="border_top">
@@ -64,16 +66,19 @@
 				</li>
 			<% end %>
 		</ul>
-	
-		<p>
-			<%= t("tracks.show.download_track") %>:<br>
-			<%= link_to "#{h(@track.title)} (GPX)", track_points_path(@track, :gpx) %><br />
-			<%= link_to "#{h(@track.title)} (KML)", track_points_path(@track, :kml) %>
-		</p>
-		<p>
-			<span class="bold"><%= t("tracks.source") %>:</span><br />
-			<%= track_created_from(@track) %>
-		</p>
+		
+		<% unless @track.tracksegments.blank? %>
+			<p>
+				<%= t("tracks.show.download_track") %>:<br>
+				<%= link_to "#{h(@track.title)} (GPX)", track_points_path(@track, :gpx) %><br />
+				<%= link_to "#{h(@track.title)} (KML)", track_points_path(@track, :kml) %>
+			</p>
+			
+			<p>
+				<span class="bold"><%= t("tracks.source") %>:</span><br />
+				<%= track_created_from(@track) %>
+			</p>
+		<% end %>
 		
 		<p>
 			<span class="bold"><%= t("activerecord.models.municipality.one") %>:</span><br />
