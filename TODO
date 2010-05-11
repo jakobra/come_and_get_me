@@ -32,7 +32,3 @@
 
 ### BUGS ###
 
-* Don´t only show local tracks when validation fail when creating a new track an dyou have chossen a non-local track.
-
-* Don´t hide note when validation fail when creating a new training/race
-

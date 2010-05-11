@@ -110,7 +110,7 @@ module UsersHelper
   end
   
   def statistics_link(user, title, from, to)
-    link_to_remote title, :url => statistics_user_path(user, :id => user.id, :from => from, :to => to), :method => :get, :html => {:class => "small"}
+    link_to title, statistics_user_path(user, :from => from, :to => to), :class => "xsmall stat_link"
   end
 
 end

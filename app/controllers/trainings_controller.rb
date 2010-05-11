@@ -30,6 +30,7 @@ class TrainingsController < ApplicationController
     #@user = User.find_by_login(params[:user_id])
     @training = @user.trainings.build
     @training.build_note
+    @training.races.build
     
     respond_to do |format|
       format.html # new.html.erb

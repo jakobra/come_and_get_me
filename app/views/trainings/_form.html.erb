@@ -6,7 +6,7 @@
 		<%= f.date_select :date %>
 	</p>
 	
-	<% f.fields_for :note do |builder| %>
+	<% f.fields_for :note, (@training.note.blank? ? @training.build_note : @training.note) do |builder| %>
 		<p>
 			<%= builder.label :content, t("activerecord.models.note.one") %><br />
 			<%= builder.text_area :content, :rows => 5 %>

@@ -1,6 +1,6 @@
-<div class="side_module">
-	<h2><%= t("users.show.statistics") %></h2>
-	<%= link_to_current_month user %> | <%= link_to_one_week_ago user %><br />
+<div class="side_module user_statistics">
+	<h4><%= t("users.show.statistics") %> <span class="small">(<%= t("users.show.current_month") %>)</span></h4>
+	<%= link_to_one_week_ago user %> | <%= link_to_current_month user %><br />
 	<%= link_to t("users.show.customize"), "", :class => "toggle_user_statistics small" %>
 	<% form_remote_tag :url => {:action => :statistics, :id => user.id}, :method => :get, :html => {:style => "display:none;"} do %>
 		<p>
@@ -16,7 +16,7 @@
 		<p><%= submit_tag t("common.send"), :class => "submit" %></p>
 	<% end %>
 
-	<div id="user_statistics">
-		<%= render :partial => "statistics", :object => user, :locals => {:from => user.trainings.first.date, :to => nil} %>
+	<div>
+		<%= render :partial => "statistics", :object => user, :locals => {:from => Date.civil(Date.today.year, Date.today.month, 1), :to => nil} %>
 	</div>
 </div>

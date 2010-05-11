@@ -37,18 +37,18 @@
 
 <p class="left margin_left">
 	<%= f.label :track_id, t("activerecord.models.track.one") %><br />
-	<%= f.collection_select :track_id, (f.object.new_record? ? current_user.municipality.tracks : Track.all), :id, :title, :prompt => t("trainings.edit.local_tracks") %>
+	<%= f.collection_select :track_id, (current_user.municipality.track_ids.include?(f.object.track_id) ? current_user.municipality.tracks : Track.all), :id, :title, :prompt => t("trainings.edit.local_tracks") %>
 	<%= link_to(t("trainings.show.view_all_tracks"), nil, :class => "view_all_tracks") if f.object.new_record? %>
 </p>
 
 <% if f.object.note.blank? or f.object.note.new_record? %>
 	<p class="left clear_left">
-		<a class="toggle_comment" href="#"><%= t("trainings.new.new_comment") %></a>
+		<a class="toggle_comment" href="#"><%= t("trainings.new.add_note") %></a>
 	</p>
 <% end %>
 <% f.fields_for :note, (f.object.note.blank? ? f.object.build_note : f.object.note ) do |builder| %>
-	<p class="left clear_left new_comment" <%= "style=\"display:none;\"" if f.object.note.new_record? %>>
-		<%= builder.label :content, t("activerecord.attributes.race.comment") %><br />
+	<p class="left clear_left new_comment" <%= "style=\"display:none;\"" if f.object.note.blank? %>>
+		<%= builder.label :content, t("activerecord.models.note.one") %><br />
 		<%= builder.text_area :content, :rows => 4, :cols => 30 %>
 	</p>
 <% end %>
