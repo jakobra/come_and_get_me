@@ -37,7 +37,7 @@
 
 <p class="left margin_left">
 	<%= f.label :track_id, t("activerecord.models.track.one") %><br />
-	<%= f.collection_select :track_id, (current_user.municipality.track_ids.include?(f.object.track_id) ? current_user.municipality.tracks : Track.all), :id, :title, :prompt => t("trainings.edit.local_tracks") %>
+	<%= f.collection_select :track_id, ((current_user.municipality.track_ids.include?(f.object.track_id) or f.object.track_id.blank?) ? current_user.municipality.tracks : Track.find(:all, :order => :title)), :id, :title, :prompt => t("trainings.edit.local_tracks") %>
 	<%= link_to(t("trainings.show.view_all_tracks"), nil, :class => "view_all_tracks") if f.object.new_record? %>
 </p>
 
