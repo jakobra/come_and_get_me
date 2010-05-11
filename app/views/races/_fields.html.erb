@@ -47,7 +47,7 @@
 	</p>
 <% end %>
 <% f.fields_for :note, (f.object.note.blank? ? f.object.build_note : f.object.note ) do |builder| %>
-	<p class="left clear_left new_comment" <%= "style=\"display:none;\"" if f.object.note.blank? %>>
+	<p class="left clear_left new_comment" <%= "style=\"display:none;\"" if f.object.note.content.blank? %>>
 		<%= builder.label :content, t("activerecord.models.note.one") %><br />
 		<%= builder.text_area :content, :rows => 4, :cols => 30 %>
 	</p>
