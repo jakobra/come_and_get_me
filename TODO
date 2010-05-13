@@ -8,6 +8,10 @@
 
 * Make it possible to import race from external sites like runkeeper through api or screen-scrape
 
+* Separate records for women/men
+
+* Records depending on event
+
 ### CODING ###
 
 * Work on the code for comments-container
