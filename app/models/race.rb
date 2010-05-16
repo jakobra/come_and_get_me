@@ -20,19 +20,31 @@ class Race < ActiveRecord::Base
   EPOCH = 946684800
   
   def self.personal_bests(options = {})
-    tracks = calculate(:min, :time, :group => "track_id", :conditions => "track_id IS NOT NULL")
-    from_times(tracks.values, options)
+    tracks = minimum(:time, :group => :track_id, :conditions => ["track_id IS NOT NULL"])
+    find_all_by_time(tracks.values, options.merge(:order => "trainings.date DESC"))
   end
   
-  def self.recent_records
-    self.records(:limit => 5)
+  def self.recent_records(gender = nil)
+    if gender.nil?
+      self.records(:limit => 5)
+    else
+      self.records({:limit => 5}, gender)
+    end
   end
   
-  def self.records(options = {})
-    tracks = find_by_sql("SELECT min(`races`.time) AS min_time, track_id AS track_id FROM `races` INNER JOIN `trainings` ON `races`.training_id = `trainings`.id WHERE (track_id IS NOT NULL) GROUP BY track_id")
-    #tracks = calculate(:min, :time, :group => "track_id", :conditions => "track_id IS NOT NULL")
-    
-    from_times(tracks.map { |track| track['min_time']}, options)
+  def self.records(options = {}, gender = nil)
+    if gender.nil?
+      tracks = minimum(:time, :group => :track_id, :conditions => ["track_id IS NOT NULL"])
+    else
+      tracks = minimum(:time, :group => :track_id, :conditions => ["track_id IS NOT NULL AND users.gender = ?", gender], :joins => {:training => :user})
+    end
+ 
+    begin
+      find_all_by_time(tracks.values, options.merge(:order => "trainings.date DESC", :joins => :training))
+    rescue
+      # Having an rescue so that we don´t run join training twice, don´t know a better way
+      find_all_by_time(tracks.values, options.merge(:order => "trainings.date DESC"))
+    end
   end
   
   def time_string
@@ -63,19 +75,6 @@ class Race < ActiveRecord::Base
     logger.info Time.now
     time = Time.at(seconds_per_km + EPOCH)
     time.getgm
-  end
-  
-  private
-  
-  def self.from_times(times, options)
-    with_scope :find => options do
-      begin
-        find_all_by_time(times, :order => "trainings.date DESC", :joins => :training)
-      rescue
-        # Having an rescue so that we don´t run join training twice, don´t know a better way
-        find_all_by_time(times, :order => "trainings.date DESC")
-      end
-    end
   end
   
 end

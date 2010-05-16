@@ -6,7 +6,6 @@
 		<title><%= h(yield(:title) || t("common.title")) %></title>
 		<%= stylesheet_link_tag :all %>
 		<%= javascript_include_tag :rambo %>
-		<% logger.info @content_for_head %>
 		<%= yield(:head) %>
 	</head>
 	<body>

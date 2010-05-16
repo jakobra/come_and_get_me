@@ -47,3 +47,7 @@
 	margin:0px;
 	padding:2px;
 }
+
+.side_module.local_tracks h3 {
+	display:inline;
+}

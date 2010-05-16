@@ -36,6 +36,10 @@ class Track < ActiveRecord::Base
   
   named_scope :latest, {:limit => 5, :order => "id DESC"}
   
+  def records(conditions = {})
+    races.find(:all, :order => "time", :limit => 20, :include => [:event, {:training => :user}], :conditions => conditions)
+  end
+  
   def save_attached_files_with_parse_file
     dirty = track.dirty?
     save_attached_files_without_parse_file

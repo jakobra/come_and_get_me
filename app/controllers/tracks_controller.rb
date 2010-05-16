@@ -119,11 +119,13 @@ class TracksController < ApplicationController
   
   def records
     #@track = Track.find(params[:id])
-    if params[:event_id].blank?
-      @races = @track.races.find(:all, :order => "time", :limit => 20, :include => [:event, :training, :user])
-    else
-      @races = @track.races.find(:all, :order => "time", :limit => 20, :include => [:event, :training, :user], :conditions => ["event_id = ?", params[:event_id]])
-    end
+    conditions = {}
+    conditions["users.gender"] = params[:gender] if params[:gender]
+    conditions["event_id"] = params[:event_id] unless params[:event_id].blank?
+    @races = @track.records(conditions)
+    load_side_module("recent_records")
+    load_side_module("ladies_recent_records")
+    load_side_module("mens_recent_records")
   end
   
 end

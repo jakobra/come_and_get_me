@@ -1,1 +1,1 @@
-<li><%= link_to track_record.user.login, user_path(track_record.user) %>, <%= track_record.event.name %><%=", #{track_record.time.strftime("%H:%M:%S")}" unless track_record.time.blank? %>, <%= track_record.training.date.strftime("%y-%m-%d") %></li>
+<li><%= link_to track_record.user.login, user_path(track_record.user) %>, <%= link_to track_record.event.name, track_record %><%=", #{track_record.time.strftime("%H:%M:%S")}" unless track_record.time.blank? %>, <%= track_record.training.date.strftime("%y-%m-%d") %></li>

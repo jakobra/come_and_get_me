@@ -55,7 +55,50 @@ Event.observe(window, 'load', function() {
 			new Ajax.Request(href, {
 				onComplete: function(transport) {
 					if (200 == transport.status) {
-						element.up('table').update(transport.responseText)
+						element.up('table').update(transport.responseText);
+					}
+				}
+			});
+			e.stop();
+		}
+		else if (element.match('input[name=gender]')) {
+			var parent_element = element.up('div.track_records_options')
+			parent_element.select('input').invoke('removeAttribute', "checked");
+			element.writeAttribute("checked", "checked");
+			get_track_records(parent_element);
+		}
+		else if (element.match('.change_local_area')) {
+			element.up().next(".area_select").show();
+			event.stop();
+		}
+	});
+	
+	$(document).observe('change', function(e){
+		var element = e.element();
+		if (element.match('select.select_track_event')) {
+			var parent_element = element.up('div.track_records_options');
+			get_track_records(parent_element);
+			e.stop();
+		}
+		else if (element.match('select.county')) {
+			var href = "/home/local_area/?county_id=" + element.value;
+			new Ajax.Request(href, {
+				method: 'get',
+				onComplete: function(transport) {
+					if (200 == transport.status) {
+						element.up().up().replace(transport.responseText);
+					}
+				}
+			});
+			e.stop();
+		}
+		else if (element.match('select.municipality')) {
+			var href = "/home/local_area/?municipality_id=" + element.value;
+			new Ajax.Request(href, {
+				method: 'get',
+				onComplete: function(transport) {
+					if (200 == transport.status) {
+						element.up().up().replace(transport.responseText);
 					}
 				}
 			});
@@ -63,22 +106,29 @@ Event.observe(window, 'load', function() {
 		}
 	});
 	
-	$(document).observe('change', function(e){
-		var element = e.element();
-		if (element.match('select.select_track_event')) {
-			var href = document.URL + "?event_id=" + element.value;
-			new Ajax.Request(href, {
-				method: 'get',
-				onComplete: function(transport) {
-					if (200 == transport.status) {
-						element.next('ol').update(transport.responseText)
-					}
-				}
-			});
-			e.stop();
+});
+
+function get_track_records(element) {
+	var href = document.URL + "?";
+	
+	// Event selector
+	if(element.down('select.select_track_event') != undefined && element.down('select.select_track_event').value != "") {
+		href += "event_id=" + element.down('select.select_track_event').value + "&";
+	}
+	
+	// Gender selector
+	if(element.down('input[checked=checked]').value != "-1") {
+		href += "gender=" + element.down('input[checked=checked]').value;
+	}
+	new Ajax.Request(href, {
+		method: 'get',
+		onComplete: function(transport) {
+			if (200 == transport.status) {
+				element.next('ol').update(transport.responseText);
+			}
 		}
 	});
-});
+}
 
 function render_tooltips() {
 	$$("img.info").each( function(img) {

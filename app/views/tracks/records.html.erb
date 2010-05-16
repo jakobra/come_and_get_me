@@ -1,10 +1,24 @@
 <% title "#{@track.title} - #{t("tracks.record")}" %>
 
+<% content_for :left_side do %>
+	<%= render "side_modules/recent_records", :object => @recent_records, :title => t("side_modules.recent_records") %>
+	
+	<%= render "side_modules/recent_records", :object => @ladies_recent_records, :title => t("side_modules.ladies_recent_records") %>
+	
+	<%= render "side_modules/recent_records", :object => @mens_recent_records, :title => t("side_modules.mens_recent_records") %>
+<% end %>
+
 <h1><%= "#{t("tracks.records.records_for")} #{@track.title}" %></h1>
 
-<% if @track.events.count > 1 %>
-	<%= select("race", "id",@track.events.map {|e| [ e.name, e.id ] }, {:prompt => t("tracks.records.all") }, {:class => "select_track_event"}) %>
-<% end %>
+<div class="track_records_options">
+	<% if @track.events.count > 1 %>
+		<%= select("event", "id",@track.events.map {|e| [ e.name, e.id ] }, {:prompt => t("tracks.records.all") }, {:class => "select_track_event"}) %>
+	<% end %>
+	
+	<%= label_tag "gender_-1", t("tracks.records.all") %>: <%= radio_button_tag "gender", "-1", true %>
+	<%= label_tag "gender_1", t("tracks.records.ladies") %>: <%= radio_button_tag "gender", 1 %>
+	<%= label_tag "gender_0", t("tracks.records.men") %>: <%= radio_button_tag "gender", 0 %>
+</div>
 
 <ol>
 	<%= render :partial => "track_record", :collection => @races %>

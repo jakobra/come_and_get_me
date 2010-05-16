@@ -13,4 +13,11 @@ module SideModules
     @recent_records = Race.recent_records
   end
   
+  def mens_recent_records
+    @mens_recent_records = Race.recent_records(0)
+  end
+  
+  def ladies_recent_records
+    @ladies_recent_records = Race.recent_records(1)
+  end
 end

@@ -55,6 +55,8 @@ sv-SE:
         records:
             records_for: "Rekord för"
             all: "Alla"
+            ladies: "Damer"
+            men: "Herrar"
     users:
         index:
             set_unset_admin: "Admin"
