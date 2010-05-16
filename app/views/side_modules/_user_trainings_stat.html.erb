@@ -2,7 +2,7 @@
 	<h4><%= t("users.show.statistics") %> <span class="small">(<%= t("users.show.current_month") %>)</span></h4>
 	<%= link_to_one_week_ago user %> | <%= link_to_current_month user %><br />
 	<%= link_to t("users.show.customize"), "", :class => "toggle_user_statistics small" %>
-	<% form_remote_tag :url => {:action => :statistics, :id => user.id}, :method => :get, :html => {:style => "display:none;"} do %>
+	<% form_tag url_for(:action => :statistics, :id => user), {:class => "custom_user_stat", :style => "display:none;"} do %>
 		<p>
 			<span class="bold small"><%= t("common.from") %></span><br />
 			<%= select_date (user.trainings.first.date), {:prefix => "from"} %>

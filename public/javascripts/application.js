@@ -71,6 +71,17 @@ Event.observe(window, 'load', function() {
 			element.up().next(".area_select").show();
 			event.stop();
 		}
+		else if (element.match('.custom_user_stat input[type=submit].submit')) {
+			var form = element.up().up();
+			form.request({
+				method: 'get',
+				onComplete: function(transport){
+					form.next('div').update(transport.responseText);
+					form.previous('h4').down('span').remove();
+				}
+			});
+			event.stop();
+		}
 	});
 	
 	$(document).observe('change', function(e){
