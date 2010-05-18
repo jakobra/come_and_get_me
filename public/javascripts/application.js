@@ -2,6 +2,7 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 Event.observe(window, 'load', function() {
+	
 	if($('track_submit') != undefined ) {
 		$('track_submit').observe('click', function(event) {
 			show_loading_box();

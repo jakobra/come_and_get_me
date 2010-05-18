@@ -19,10 +19,21 @@
 }
 
 .side_module {
-	padding:10px;
-	border:1px solid #444444;
-	background-color:#eeeef0;
+	background-image:url("/images/backgrounds/side_module_background.png");
+	background-repeat:no-repeat;
+	background-color: white;
+	
+	padding:10px 10px 0px 10px;
 	margin-bottom:20px;
+}
+
+.side_module div.bottom {
+	height:17px;
+	margin-left:-10px;
+	margin-right:-10px;
+	background-image:url("/images/backgrounds/side_module_background_bottom.png");
+	background-repeat:no-repeat;
+	background-color:white;
 }
 
 .side_module ul li {
@@ -34,7 +45,8 @@
 }
 
 .side_module h3 {
-	color:#C98A3B;
+	color: #E0A421;
+	/*color:#C98A3B;*/
 	margin-bottom:2px;
 }
 
@@ -50,4 +62,10 @@
 
 .side_module.local_tracks h3 {
 	display:inline;
+}
+
+.side_module ul.last_races li {
+	border-bottom:1px solid #d1d1d8;
+	padding-bottom:4px;
+	margin-bottom:4px;
 }

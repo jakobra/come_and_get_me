@@ -25,7 +25,7 @@ class SideModuleResolver
     content_for_right_side = ""
     side_modules.each do |menu_node_side_module|
       if content_for_right_side.blank?
-        content_for_right_side = render_html_content_to_string menu_node_side_module.side_module
+        content_for_right_side += render_html_content_to_string menu_node_side_module.side_module
       else
         content_for_right_side += render_html_content_to_string menu_node_side_module.side_module
       end
@@ -49,6 +49,8 @@ class SideModuleResolver
   end
   
   def render_html_content_to_string(item)
-    RedCloth.new(item.content).to_html
+    result = "<div class=\"side_module\">"
+    result += RedCloth.new(item.content).to_html
+    result += "<div class=\"bottom\"></div></div>"
   end
 end

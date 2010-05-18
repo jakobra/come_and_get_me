@@ -1,14 +1,15 @@
 <div class="side_module">
 	<h4><%= t("users.show.recent_trainings") %>:</h4>
-	<table>
+	<table class="small">
 		<% user.trainings.recent(2.weeks.ago).each do |training| %>
 			<tr>
 				<td><%= link_to training.date.strftime("%e %b - %Y"), training %></td>
 				<% if_authorized?(action_name, user) do %>
-					<td class="small"><%= link_to t("common.edit"), edit_training_path(training) %></td>
-					<td class="small"><%= link_to t("common.destroy"), training, :confirm => t("common.sure"), :method => :delete %></td>
+					<td><%= link_to t("common.edit"), edit_training_path(training) %></td>
+					<td><%= link_to t("common.destroy"), training, :confirm => t("common.sure"), :method => :delete %></td>
 				<% end %>
 			</tr>
 		<% end %>
 	</table>
+	<div class="bottom"></div>
 </div>

@@ -5,8 +5,8 @@ module SideModules
     @area = @area.municipalities.find_by_geolocation(request.remote_ip) unless @area.blank?
   end
   
-  def last_race
-    @last_race = Race.find(:last)
+  def last_races
+    @last_races = Race.find(:all, :order => "Id DESC", :limit => 3)
   end
   
   def recent_records

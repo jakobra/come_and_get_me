@@ -66,7 +66,7 @@ class Race < ActiveRecord::Base
   end
   
   def create_event_from_name
-    build_event(:name => new_event_name, :description => new_event_description) unless new_event_name.blank?
+    create_event(:name => new_event_name, :description => new_event_description) unless new_event_name.blank?
   end
   
   def time_per_km

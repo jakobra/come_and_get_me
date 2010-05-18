@@ -1,10 +1,6 @@
 <% title "New Page" %>
 <% main_class "small_width" %>
 
-<% content_for :left_side do %>
-	<%= render "side_modules/beta" %>
-<% end %>
-
 <% if params[:preview_button] %>
 	<div class="border_bottom">
 		<h1><%=h @page.title %></h1>
@@ -16,7 +12,3 @@
 <%= render :partial => 'form' %>
 
 <p><%= link_to "Back to List", pages_path %></p>
-
-<% content_for :right_side do %>
-	<%= render "side_modules/beta" %>
-<% end %>

@@ -3,7 +3,7 @@
 <% content_for :left_side do %>
 	<%= render "side_modules/recent_records", :object => @recent_records, :title => t("side_modules.recent_records") %>
 	
-	<%= render "side_modules/last_race", :object => @last_race %>
+	<%= render "side_modules/last_races", :object => @last_races %>
 <% end %>
 
 <% unless @index_page.blank? %>

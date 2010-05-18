@@ -3,13 +3,13 @@
 
 <% if params[:preview_button] %>
 	<div class="border_bottom">
-		<h1><%=h @page.title %></h1>
-
-		<%= RedCloth.new(@page.content).to_html %>
+		<%= render_html_content @page %>
 	</div>
 <% end %>
 
-<%= render :partial => 'form' %>
+<div class="clear_both margin_top">
+	<%= render :partial => 'form' %>
+</div>
 
 <p>
   <%= link_to "Show", @page %> |

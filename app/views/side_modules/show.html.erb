@@ -2,7 +2,7 @@
 <% main_class "small_width" %>
 
 <% content_for :left_side do %>
-	<%= render_html_content @side_module %>
+	<%= render_side_module_html @side_module %>
 <% end %>
 
 <p>
@@ -12,5 +12,5 @@
 </p>
 
 <% content_for :right_side do %>
-	<%= render_html_content @side_module %>
+	<%= render_side_module_html @side_module %>
 <% end %>

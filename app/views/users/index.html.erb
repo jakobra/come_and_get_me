@@ -1,3 +1,7 @@
+<% content_for :left_side do %>
+	<%= render "side_modules/last_races", :object => @last_races %>
+<% end %>
+
 <h1><%= t("activerecord.models.user.other") %></h1>
 <table id="users">
 	<% @users.each do |user| %>

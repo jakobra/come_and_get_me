@@ -3,7 +3,7 @@
 
 <% content_for :left_side do %>
 	<% @menu_node.menu_node_side_modules.left.each do |menu_node_side_module| %>
-		<%= render_html_content menu_node_side_module.side_module %>
+		<%= render_side_module_html menu_node_side_module.side_module %>
 	<% end %>
 <% end %>
 
@@ -26,7 +26,7 @@
 
 <% content_for :right_side do %>
 	<% @menu_node.menu_node_side_modules.right.each do |menu_node_side_module| %>
-		<%= render_html_content menu_node_side_module.side_module %>
+		<%= render_side_module_html menu_node_side_module.side_module %>
 	<% end %>
 <% end %>
 

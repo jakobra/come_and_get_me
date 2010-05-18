@@ -1,13 +1,14 @@
 <% title t("activerecord.models.track.other") %>
 
-<% content_for :right_side do %>
+<% content_for :left_side do %>
 	<div class="side_module">
 		<h5><%= t("side_modules.latest_tracks") %></h5>
-		<ul>
+		<ul class="small">
 			<% @latest_tracks.each do |track| %>
 				<li><%= link_to track.title, track_path(track) %></li>
 			<% end %>
 		</ul>
+		<div class="bottom"></div>
 	</div>
 <% end %>
 

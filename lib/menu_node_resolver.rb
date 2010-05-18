@@ -7,7 +7,7 @@ class MenuNodeResolver
     if request.post?
       path = path + "/new"
     elsif request.put?
-      path = path + "/update"
+      path = path + "/edit"
     end
     
     MenuNode.all.each do |menu_node|

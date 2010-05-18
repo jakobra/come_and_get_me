@@ -1,9 +1,0 @@
-<div class="side_module">
-	<h5><%= t("side_modules.latest_race") %></h5>
-	<p class="small">
-		<%= link_to last_race.training.user.login, member_path(last_race.training.user) %> <%= t("side_modules.reported") %>
-		<%= link_to last_race.event.name, last_race.training %>
-		<%= t("side_modules.for") %>
-		<%= time_ago_in_words(last_race.created_at) %> <%= t("side_modules.ago") %>
-	</p>
-</div>

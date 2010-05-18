@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   
   def index
     @users = User.all
+    load_side_module("last_races")
   end
   
   def show
@@ -13,6 +14,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     load_side_module("local_tracks")
+    load_side_module("recent_records")
   end
   
   def edit

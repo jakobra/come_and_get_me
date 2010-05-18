@@ -35,5 +35,11 @@ module ApplicationHelper
     end
     RedCloth.new(page.content).to_html
   end
+  
+  def render_side_module_html(side_module)
+    result = "<div class=\"side_module\">"
+    result += render_html_content side_module
+    result += "<div class=\"bottom\"></div></div>"
+  end
     
 end

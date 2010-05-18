@@ -1,20 +1,7 @@
 <% title "#{@user.login}s #{t("tracks.record").downcase}"%>
 
 <% content_for :left_side do %>
-	<div class="side_module">
-		<h4><%= t("users.show.recent_trainings") %>:</h4>
-		<table>
-			<% @user.trainings.recent(2.weeks.ago).each do |training| %>
-				<tr>
-					<td><%= link_to training.date.strftime("%e %b - %Y"), training %></td>
-					<% if_authorized?(action_name, @user) do %>
-						<td class="small"><%= link_to t("common.edit"), edit_training_path(training) %></td>
-						<td class="small"><%= link_to t("common.destroy"), training, :confirm => t("common.sure"), :method => :delete %></td>
-					<% end %>
-				</tr>
-			<% end %>
-		</table>
-	</div>
+	<%= render "side_modules/recent_trainings", :user => @user %>
 <% end %>
 
 <div class="records">
