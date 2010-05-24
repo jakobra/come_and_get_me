@@ -1,9 +1,0 @@
-one:
-  content: MyText
-  noteable_id: 1
-  noteable_type: MyString
-
-two:
-  content: MyText
-  noteable_id: 1
-  noteable_type: MyString

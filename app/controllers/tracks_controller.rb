@@ -1,5 +1,5 @@
 class TracksController < ApplicationController
-  filter_resource_access
+  filter_resource_access :additional_collection => [:recent_track_records]
   include GpsCalculation
   
   # GET /tracks
@@ -122,10 +122,11 @@ class TracksController < ApplicationController
     conditions = {}
     conditions["users.gender"] = params[:gender] if params[:gender]
     conditions["event_id"] = params[:event_id] unless params[:event_id].blank?
-    @races = @track.records(conditions)
-    load_side_module("recent_records")
-    load_side_module("ladies_recent_records")
-    load_side_module("mens_recent_records")
+    recent_records(:all)
+  end
+  
+  def recent_track_records
+    recent_records(params[:gender].to_sym)
   end
   
 end

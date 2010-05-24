@@ -31,3 +31,6 @@ sv-SE:
         from: "Från"
         to: "Till"
         send: "Skicka"
+    all: "Alla"
+    ladies: "Damer"
+    men: "Herrar"

@@ -9,9 +9,8 @@ class UsersControllerTest < ActionController::TestCase
   # Then, you can remove it from this and the units test.
   include AuthenticatedTestHelper
 
-  fixtures :users
-
   def test_should_allow_signup
+    User.delete_all
     assert_difference 'User.count' do
       create_user
       assert_response :redirect
@@ -49,13 +48,10 @@ class UsersControllerTest < ActionController::TestCase
       assert_response :success
     end
   end
-  
-
-  
 
   protected
     def create_user(options = {})
       post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quire69', :password_confirmation => 'quire69' }.merge(options)
+        :password => 'quire69', :password_confirmation => 'quire69', :admin => true}.merge(options)
     end
 end

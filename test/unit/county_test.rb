@@ -6,6 +6,6 @@ class CountyTest < ActiveSupport::TestCase
   end
   
   def test_should_be_invalid_without_attributes
-    assert_equal false, County.new.valid?
+    assert_equal false, County.new().valid?
   end
 end

@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :identity_url, :birthday_year, :last_login_at, :last_login_ip, :municipality_id, :gender
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :identity_url, :birthday_year, :last_login_at, :last_login_ip, :municipality_id, :gender, :admin
 
 
 
@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
   
   def role_symbols
     symbols = [:member, :guest]
-    symbols << :admin if id == APP_CONFIG["admin_user"]
+    symbols << :admin if admin?
     symbols
   end
   

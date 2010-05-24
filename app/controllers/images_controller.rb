@@ -1,4 +1,6 @@
 class ImagesController < ApplicationController
+  filter_resource_access
+  
   # GET /images
   # GET /images.xml
   def index

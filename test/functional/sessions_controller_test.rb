@@ -9,10 +9,9 @@ class SessionsControllerTest < ActionController::TestCase
   # Then, you can remove it from this and the units test.
   include AuthenticatedTestHelper
 
-  fixtures :users
-
   def test_should_login_and_redirect
-    post :create, :login => 'quentin', :password => 'monkey'
+    user
+    post :create, :login => 'rambo', :password => 'swordfish'
     assert session[:user_id]
     assert_response :redirect
   end
@@ -24,7 +23,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   def test_should_logout
-    login_as :quentin
+    login_as user
     get :destroy
     assert_nil session[:user_id]
     assert_response :redirect
@@ -32,7 +31,7 @@ class SessionsControllerTest < ActionController::TestCase
 
   def test_should_remember_me
     @request.cookies["auth_token"] = nil
-    post :create, :login => 'quentin', :password => 'monkey', :remember_me => "1"
+    post :create, :login => 'rambo', :password => 'swordfish', :remember_me => "1"
     assert_not_nil @response.cookies["auth_token"]
   end
 
@@ -50,22 +49,22 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   def test_should_login_with_cookie
-    users(:quentin).remember_me
-    @request.cookies["auth_token"] = cookie_for(:quentin)
+    user.remember_me
+    @request.cookies["auth_token"] = cookie_for(user)
     get :new
     assert @controller.send(:logged_in?)
   end
 
   def test_should_fail_expired_cookie_login
-    users(:quentin).remember_me
-    users(:quentin).update_attribute :remember_token_expires_at, 5.minutes.ago
-    @request.cookies["auth_token"] = cookie_for(:quentin)
+    user.remember_me
+    user.update_attribute :remember_token_expires_at, 5.minutes.ago
+    @request.cookies["auth_token"] = cookie_for(user)
     get :new
     assert !@controller.send(:logged_in?)
   end
 
   def test_should_fail_cookie_login
-    users(:quentin).remember_me
+    user.remember_me
     @request.cookies["auth_token"] = auth_token('invalid_auth_token')
     get :new
     assert !@controller.send(:logged_in?)
@@ -77,6 +76,15 @@ class SessionsControllerTest < ActionController::TestCase
     end
     
     def cookie_for(user)
-      auth_token users(user).remember_token
+      auth_token user.remember_token
+    end
+    
+    def user
+      if @user.blank?
+        User.delete_all
+        @user = User.new(:login => "rambo", :password => "swordfish", :password_confirmation => "swordfish", :email => "rambo@jakobra.com")
+        @user.save
+      end
+      @user
     end
 end

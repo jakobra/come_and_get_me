@@ -7,7 +7,7 @@ authorization do
     has_permission_on :users, :to => [:new, :create, :statistics, :records, :track_statistics]
     has_permission_on :comments, :to => :report
     has_permission_on :pages, :to => :show
-    has_permission_on :tracks, :to => [:read, :records]
+    has_permission_on :tracks, :to => [:read, :records, :recent_track_records]
   end
   
   role :member do
@@ -32,7 +32,7 @@ authorization do
   end
   
   role :admin do
-    has_permission_on [:users, :comments, :pages, :side_modules, :menu_nodes, :trainings], :to => [:manage, :read]
+    has_permission_on [:users, :comments, :pages, :side_modules, :menu_nodes, :trainings, :images], :to => [:manage, :read]
     has_permission_on [:municipalities, :counties], :to => :manage
     has_permission_on :tracks, :to => :destroy
   end

@@ -9,15 +9,17 @@ module SideModules
     @last_races = Race.find(:all, :order => "Id DESC", :limit => 3)
   end
   
-  def recent_records
-    @recent_records = Race.recent_records
-  end
-  
-  def mens_recent_records
-    @mens_recent_records = Race.recent_records(0)
-  end
-  
-  def ladies_recent_records
-    @ladies_recent_records = Race.recent_records(1)
+  def recent_records(current = :all)
+    tabs = [:all, :ladies, :men]
+    if !tabs.include?(current)
+      current = :all
+    end
+    
+    if (current != :all)
+      recent_records = (current == :ladies) ? Race.recent_records(1) : Race.recent_records(0)
+    else
+      recent_records = Race.recent_records
+    end
+    @recent_records_tab_service = TabService.new(current, recent_records, tabs)
   end
 end

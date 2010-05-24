@@ -5,6 +5,7 @@
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 		<title><%= h(yield(:title) || t("common.title")) %></title>
 		<%= stylesheet_link_tag :all %>
+		<%= stylesheet_link_tag :rambo %>
 		<%= javascript_include_tag :rambo %>
 		<%= yield(:head) %>
 	</head>

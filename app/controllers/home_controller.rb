@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     
     load_side_module("last_races")
     
-    load_side_module("recent_records")
+    recent_records(:all)
     @index_page = Page.find_by_permalink("index")
   end
   

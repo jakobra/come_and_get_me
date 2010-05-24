@@ -1,7 +1,7 @@
 <% main_class "small_width" %>
 
 <% content_for :left_side do %>
-	<%= render "side_modules/recent_records", :object => @recent_records, :title => t("side_modules.recent_records") %>
+	<%= render "side_modules/recent_records", :tab_service => @recent_records_tab_service, :title => t("side_modules.recent_records") %>
 	
 	<%= render "side_modules/last_races", :object => @last_races %>
 <% end %>

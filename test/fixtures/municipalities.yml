@@ -1,9 +1,0 @@
-one:
-  name: MyString
-  code: 1
-  county_id: 1 
-
-two:
-  name: MyString
-  code: 1
-  county_id: 2

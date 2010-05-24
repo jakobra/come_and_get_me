@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     load_side_module("local_tracks")
-    load_side_module("recent_records")
+    recent_records(:all)
   end
   
   def edit
@@ -34,6 +34,7 @@ class UsersController < ApplicationController
       redirect_back_or_default('/')
       flash[:notice] = t("users.create.created")
     else
+      recent_records(:all)
       render :action => 'new'
     end
   end

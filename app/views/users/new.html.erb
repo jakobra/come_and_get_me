@@ -2,7 +2,7 @@
 <% main_class "small_width" %>
 
 <% content_for :left_side do %>
-	<%= render "side_modules/recent_records", :area => @recent_records, :title => t("side_modules.recent_records") %>
+	<%= render "side_modules/recent_records", :tab_service => @recent_records_tab_service, :title => t("side_modules.recent_records") %>
 <% end %>
 
 <h2><%= t("sign_up.sign_up_as_member") %></h2>

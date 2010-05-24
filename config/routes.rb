@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :notes
-
   map.resources :images
 
   map.resources :menu_nodes
@@ -44,7 +42,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resource :session, :only => [:new, :create, :destroy]
   
-  map.resources :tracks, :member => {:records => :get} do |tracks|
+  map.resources :tracks, :member => {:records => :get}, :collection => {:recent_track_records => :get} do |tracks|
     tracks.resources :tracksegments, :only => [:new, :create]
     tracks.resources :comments, :only => [:new, :create]
     tracks.resources :points, :only => :index

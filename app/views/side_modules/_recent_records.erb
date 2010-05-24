@@ -1,9 +1,18 @@
-<div class="side_module">
+<div class="side_module recent_records">
 	<h5><%= title %></h5>
-	<p class="small">
-		<% recent_records.each do |record| %>
-			<%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %>, <%= truncate(record.track.title,:length => 25) unless record.track.blank? %><br />
+	<div class="tabs small">
+		<% tab_service.tabs.each do |k| %>
+			<span class="<%= tab_service.left_class(k) %>"></span>
+			<span class="<%= tab_service.tab_class(k) %>"><%= link_to t(k), recent_track_records_tracks_path(:gender => k) %></span>
+			<span class="<%= tab_service.right_class(k) %>"></span>
 		<% end %>
-	</p>
+	</div>
+	<div class="golden_border">
+		<p class="small">
+			<% tab_service.content.each do |record| %>
+				<%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %>, <%= truncate(record.track.title,:length => 25) unless record.track.blank? %><br />
+			<% end %>
+		</p>
+	</div>
 	<div class="bottom"></div>
 </div>

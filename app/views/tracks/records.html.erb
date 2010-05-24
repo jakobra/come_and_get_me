@@ -1,11 +1,7 @@
 <% title "#{@track.title} - #{t("tracks.record")}" %>
 
 <% content_for :left_side do %>
-	<%= render "side_modules/recent_records", :object => @recent_records, :title => t("side_modules.recent_records") %>
-	
-	<%= render "side_modules/recent_records", :object => @ladies_recent_records, :title => t("side_modules.ladies_recent_records") %>
-	
-	<%= render "side_modules/recent_records", :object => @mens_recent_records, :title => t("side_modules.mens_recent_records") %>
+	<%= render "side_modules/recent_records", :tab_service => @recent_records_tab_service, :title => t("side_modules.recent_records") %>
 <% end %>
 
 <h1><%= "#{t("tracks.records.records_for")} #{@track.title}" %></h1>

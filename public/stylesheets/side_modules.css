@@ -69,3 +69,9 @@
 	padding-bottom:4px;
 	margin-bottom:4px;
 }
+
+.side_module div.golden_border {
+	clear:both;
+	border:1px solid #e0a421;
+	padding:1px 0px 1px 3px;
+}
