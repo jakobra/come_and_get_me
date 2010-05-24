@@ -1,7 +1,8 @@
 Event.observe(window, 'load', function() {
 
 	$(document).observe('click', function(e){
-		else if (element.match('.toggle_user_statistics')) {
+		var element = e.element();
+		if (element.match('.toggle_user_statistics')) {
 			Effect.toggle(element.up().down('form'), 'blind')
 			e.stop();
 		}
