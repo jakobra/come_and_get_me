@@ -1,9 +1,0 @@
-if @comment.new_record?
-  page.insert_html :top, :new_comment, error_messages_for("comment")
-else
-  page.call 'hide_box'
-  page.insert_html :bottom, dom_id(@comment.commentable, "comments"), :partial => @comment
-  page.visual_effect(:highlight, dom_id(@comment), :duration => 0.5)
-  flash.discard
-end
-

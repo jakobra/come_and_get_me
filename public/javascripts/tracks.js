@@ -7,6 +7,17 @@ Event.observe(window, 'load', function() {
 			get_track_records(parent_element);
 			e.stop();
 		}
+		else if (element.match('form.tracks select')) {
+			var form = element.up('form.tracks');
+			if(element.match('select[name=county]')) {
+				element.next().firstDescendant().selected = true;
+			}
+			form.request({
+				onSuccess: function(transport){
+					form.up("div.content").update(transport.responseText);
+				}
+			});
+		}
 	});
 	
 });

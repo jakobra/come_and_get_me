@@ -10,7 +10,7 @@
 	<% end %>
 	<% if permitted_to? :create, Comment.new %>
 		<div class="left clear_left">
-			<%= link_to_remote t("comments.post_comment"), :url => url, :method => :get %>
+			<%= link_to t("comments.post_comment"), url, :class => "new_comment" %>
 		</div>
 	<% end %>
 	

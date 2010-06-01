@@ -1,9 +1,9 @@
 <% content_tag :div, :class => "edit_comment_box" do %>
-	<% remote_form_for comment do |f| %>
+	<% form_for comment do |f| %>
 		<%= f.error_messages %>
 
 		<%= f.text_area :content, :rows => 5, :cols => 20, :tabindex => 1 %>
 	
-		<p><%= f.submit t("common.edit") %> <%= link_to t("common.cancel"), "#", :class => "MB_close" %></p>
+		<p><%= f.submit t("common.edit"), :class => "edit_comment" %> <%= link_to t("common.cancel"), "#", :class => "MB_close" %></p>
 	<% end %>
 <% end %>

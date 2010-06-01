@@ -14,40 +14,8 @@
 
 <h1><%= t("activerecord.models.track.other") %></h1>
 
-<div class="area_navigation">
-	<div class="area_select">
-		<%= select("county", "id", County.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.county")}"}, {:onchange => remote_function(:url => tracks_path, :with => "'county_id=' + this.value", :method => :get)}) %>
-
-		<%= select("municipality", "id", Municipality.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.municipality.one")}"}, {:onchange => remote_function(:url => tracks_path, :with => "'municipality_id=' + this.value", :method => :get)}) %>
-	</div>
-	
-	<% if permitted_to? :create, Track.new %>
-		<div class="new_track right">
-			<%= link_to t("tracks.index.new_track"), new_track_path %>
-		</div>
-	<% end %>
-</div>
-
-<div class="track_pagination default clear_both left">
-	<%= will_paginate @tracks %>
-</div>
-
-<table class="clear_both small">
-	<tr>
-		<th class="align_left"><%= t("activerecord.attributes.track.title") %></th>
-	</tr>
-	<% if @tracks.blank? %>
-		<tr>
-			<td><%= t("tracks.index.no_tracks") %></td>
-		</tr>
-	<% end %>
-	<tbody id="tracks">
-		<%= render @tracks %>
-	</tbody>
-</table>
-
-<div class="track_pagination default">
-	<%= will_paginate @tracks %>
+<div class="content">
+	<%= render "tracks", :tracks => @tracks, :county => @county, :counties => @counties, :municipality => @municipality, :municipalities => @municipalities %>
 </div>
 
 <% if permitted_to? :create, Track.new %>

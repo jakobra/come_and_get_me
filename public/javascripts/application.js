@@ -26,8 +26,8 @@ Event.observe(window, 'load', function() {
 	
 	$(document).observe('click', function(e){
 		var element = e.element();
-		if (element.match('.toggle_comment')) { 
-			element.up().next('.new_comment').toggle();
+		if (element.match('.toggle_note')) { 
+			element.up().next('.new_note').toggle();
 			e.stop();
 		}
 		else if (element.match('.toggle_event')) { 
@@ -53,17 +53,6 @@ Event.observe(window, 'load', function() {
 		}
 		else if (element.match('.change_local_area')) {
 			element.up().next(".area_select").show();
-			event.stop();
-		}
-		else if (element.match('.custom_user_stat input[type=submit].submit')) {
-			var form = element.up().up();
-			form.request({
-				method: 'get',
-				onComplete: function(transport){
-					form.next('div').update(transport.responseText);
-					form.previous('h4').down('span').remove();
-				}
-			});
 			event.stop();
 		}
 		else if (element.match('div.recent_records div.tabs a')) {

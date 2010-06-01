@@ -46,7 +46,6 @@ class CommentsController < ApplicationController
   def report
     NotificationMailer.deliver_report_comment(params[:id])
     logger.info "Comment with id = #{params[:id]} has been reported"
-    render :text => "Comment reported"
   end
   
   private

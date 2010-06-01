@@ -1,0 +1,42 @@
+<div class="area_navigation">
+	<div class="area_select">
+		<% form_tag tracks_path, :method => "get", :class => "tracks" do %>
+			<%= select_tag("county", "<option value=\"\">#{t("all")}</option>" + options_from_collection_for_select(County.all, 'id', 'name', (county.blank? ? nil : county.id)), {:prompt => "#{t("common.select")} #{t("activerecord.models.county")}"}) %>
+			
+			<%= select_tag("municipality", "<option value=\"\">#{t("all")}</option>" + options_from_collection_for_select(municipalities, 'id', 'name', (municipality.blank? ? nil : municipality.id)), {:prompt => "#{t("common.select")} #{t("activerecord.models.municipality.one")}"}) %>
+			
+			<% unless request.xhr? %>
+				<span class="button gold"><%= submit_tag t("common.send"), :name => nil %><span>
+			<% end %>
+		<% end %>
+	</div>
+	
+	<% if permitted_to? :create, Track.new %>
+		<div class="new_track right">
+			<%= link_to t("tracks.index.new_track"), new_track_path %>
+		</div>
+	<% end %>
+</div>
+<% unless (will_paginate tracks).blank? %>
+<div class="track_pagination default clear_both left">
+	<%= will_paginate tracks %>
+</div>
+<% end %>
+
+<table class="clear_both small">
+	<tr>
+		<th class="align_left"><%= t("activerecord.attributes.track.title") %></th>
+	</tr>
+	<% if tracks.blank? %>
+		<tr>
+			<td><%= t("tracks.index.no_tracks") %></td>
+		</tr>
+	<% end %>
+	<tbody id="tracks">
+		<%= render tracks %>
+	</tbody>
+</table>
+
+<div class="track_pagination default">
+	<%= will_paginate tracks %>
+</div>

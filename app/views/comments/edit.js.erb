@@ -1,0 +1,5 @@
+// Javascript to e executed
+
+Modalbox.show('<%= escape_javascript(render 'edit', :comment => @comment) %>', {width: 400, transitions: false, overlayClose:true, overlayOpacity: 0.0});
+
+add_hide_observer();

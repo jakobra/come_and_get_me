@@ -24,6 +24,6 @@ config.action_mailer.smtp_settings = {
   :domain => "jakobra.com",
   :enable_starttls_auto => true,
   :authentication => :plain,
-  :user_name => "dummy@jakobra.com",
-  :password => "swordfish"
+  :user_name => "jakob@jakobra.com",
+  :password => "Always5912"
 }

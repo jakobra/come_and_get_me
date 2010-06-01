@@ -27,6 +27,7 @@ sv-SE:
         post_comment: "Kommentera"
         answer: "Svara"
         report: "Anmäl"
+        reported: "Kommentaren har blivit anmäld."
         posted: "postad för"
         ago: "sen"
         updated: "Ändrad för"

@@ -19,5 +19,16 @@ Event.observe(window, 'load', function() {
 			});
 			e.stop();
 		}
+		else if (element.match('.custom_user_stat span.button input')) {
+			var form = element.up('form');
+			form.request({
+				method: 'get',
+				onComplete: function(transport){
+					form.next('div').update(transport.responseText);
+					form.previous('h4').down('span').remove();
+				}
+			});
+			event.stop();
+		}
 	});
 });

@@ -1,0 +1,65 @@
+span.button {
+	height:22px;
+	display:inline-block;
+	margin-right:10px;
+}
+
+span.button input {
+	height:22px;
+	background-color:transparent;
+	background-repeat:no-repeat;
+	background-position:100% 0px;
+	border:none;
+	margin-right:-10px;
+}
+
+/*BIG*/
+span.button.big {
+	height:32px;
+	margin-right:15px;
+}
+
+span.button.big input {
+	height:32px;
+	margin-right:-15px;
+}
+
+/* GOLD */
+span.button.gold {
+	background:url("../../images/buttons/button_left_gold.png") no-repeat;
+}
+
+span.button.gold input {
+	background-image:url("../../images/buttons/button_right_gold.png");
+	color:white;
+	font-size:12px;
+}
+
+span.button.gold.big {
+	background:url("../../images/buttons/button_left_gold_big.png") no-repeat;
+}
+
+span.button.gold.big input {
+	background-image:url("../../images/buttons/button_right_gold_big.png");
+	color:white;
+	font-size:14px;
+}
+
+/*ACTIVE*/
+span.button:active {
+	background:url("../../images/buttons/button_left_active.png") no-repeat;
+}
+
+span.button:active input {
+	background-image:url("../../images/buttons/button_right_active.png");
+	color:#f10879;
+}
+
+span.button.big:active {
+	background:url("../../images/buttons/button_left_active_big.png") no-repeat;
+}
+
+span.button.big:active input {
+	background-image:url("../../images/buttons/button_right_active_big.png");
+	color:#f10879;
+}

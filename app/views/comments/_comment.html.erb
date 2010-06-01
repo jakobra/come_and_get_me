@@ -6,13 +6,13 @@
 	<% end %>
 	
 	<% if permitted_to? :create, Comment.new %>
-		<%= link_to_remote t("comments.answer"), :url => new_comment_comment_path(comment), :method => :get %> |
+		<%= link_to t("comments.answer"), new_comment_comment_path(comment), :class => "answer_comment" %> |
 	<% end %>
 	
-	<%= link_to_remote t("comments.report"), :url => report_comment_path(comment), :method => :get, :success => "alert('Comment has been reported');" %>
+	<%= link_to t("comments.report"), report_comment_path(comment), :class => "report_comment" %>
 	
 	<% if permitted_to? :update, comment %>
-		| <%= link_to_remote t("common.edit"), :url => edit_comment_path(comment), :method => :get %>
+		| <%= link_to t("common.edit"), edit_comment_path(comment), :class => "edit_comment" %>
 	<% end %>
 	
 	<% div_for(comment, "comments", :class => "comments") do %>

@@ -1,2 +1,0 @@
-page << "Modalbox.show('#{escape_javascript(render 'new', :commentable => @commentable)}', {width: 400, transitions: false, overlayClose:true, overlayOpacity: 0.0});"
-page.call 'add_hide_observer'

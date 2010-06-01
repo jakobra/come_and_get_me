@@ -20,7 +20,7 @@
 	<p><%= link_to_add_fields t("trainings.new.add_race"), f, :races %></p>
 	
 	<p>
-		<%= f.submit submit %> |
+		<span class="button gold"><%= f.submit submit %></span> |
 		<%= link_to t("common.cancel"), user_trainings_path(current_user), :confirm => t("common.sure") %>
 	</p>
 <% end %>
