@@ -126,6 +126,7 @@ class TracksController < ApplicationController
     conditions = {}
     conditions["users.gender"] = params[:gender] if params[:gender]
     conditions["event_id"] = params[:event_id] unless params[:event_id].blank?
+    @races = @track.records(conditions)
     recent_records(:all)
   end
   
