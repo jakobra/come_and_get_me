@@ -1,0 +1,31 @@
+sv-SE:
+    users:
+        index:
+            set_unset_admin: "Admin"
+        show:
+            last_login: "Senast inloggad"
+            recent_trainings: "Senaste träningarna"
+            new_training: "Ny träning"
+            edit_profile: "Uppdatera profil"
+            statistics: "Statistik"
+            current_month: "Nuvarande månad"
+            last_week: "Senaste veckan"
+            customize: "Anpassa"
+            total_distance: "Total distans"
+            total_time: "Total tid"
+            pb: "Personliga rekord"
+        edit:
+            male: "Man"
+            female: "Kvinna"
+        records:
+            stat: "Statistik"
+        create:
+            created: "Tack för att du registrerade dig!"
+            failed: "Vi kunde inte skapa ditt konto =( ... testa gärna igen"
+        track_statistics:
+            time_per_km: "Km tid (mm:ss)"
+    sign_up:
+        sign_up: "Registrera"
+        sign_up_as_member: "Registrera dig som ny medlem"
+        do_you_have_openid: "Har du OpenID?"
+        login_through_openid: "Logga in med OpenID"

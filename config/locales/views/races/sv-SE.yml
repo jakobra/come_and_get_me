@@ -1,0 +1,12 @@
+sv-SE:
+    races:
+        show: 
+            time_per_km: "Km tid (mm:ss)"
+        edit_individual:
+            update_races: "Uppdatera Lopp"
+        update_individual:
+            updated: "Loppen uppdaterade"
+        edit:
+            edit_race: "Uppdatera lopp"
+        update:
+            updated: "Loppet uppdaterat"

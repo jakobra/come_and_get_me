@@ -9,7 +9,7 @@
 		<td><%= race.hr_avg unless race.hr_avg.blank? %></td>
 		<td <%= "class=\"race_note\"" unless race.note.blank? %>>
 			<% unless race.note.blank?  %>
-				Not.
+				<%= t("trainings.show.note") %>
 				<div><p class="race_note"><%= race.note.content %></p></div>
 			<% end %>
 		</td>

@@ -1,13 +1,13 @@
-td.race_note {
+.trainings_show table tr td.race_note {
 	cursor:pointer;
 }
 
-td.race_note div {
+.trainings_show table tr td.race_note div {
 	position:relative;
 }
 
 
-p.race_note {
+.trainings_show table tr td.race_note p.race_note {
 	padding:10px;
 	border:1px solid #444444;
 	background-color:#eeeef0;
@@ -18,6 +18,6 @@ p.race_note {
 	display:none;
 }
 
-td.race_note:hover p.race_note {
+.trainings_show table tr td.race_note:hover p.race_note {
 	display:block;
 } 

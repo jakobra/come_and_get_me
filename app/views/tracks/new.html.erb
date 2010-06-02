@@ -17,8 +17,9 @@
 	<%= javascript_tag "Map.set_options({click_listener: true});" %>
 	
 <% end %>
+<div class="tracks_new">
+	<h2><%= t("tracks.new.new_track") %></h2>
+	<%= render :partial => 'form', :locals => {:submit => t("common.create")} %>
 
-<h2><%= t("tracks.new.new_track") %></h2>
-<%= render :partial => 'form', :locals => {:submit => t("common.create")} %>
-
-<%= loading_div %>
+	<%= loading_div %>
+</div>

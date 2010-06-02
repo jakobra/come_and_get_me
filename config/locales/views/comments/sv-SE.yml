@@ -1,0 +1,11 @@
+sv-SE:
+    comments:
+        comments: "Kommentarer"
+        no_comments: "Inga kommentarer"
+        post_comment: "Kommentera"
+        answer: "Svara"
+        report: "Anmäl"
+        reported: "Kommentaren har blivit anmäld."
+        posted: "postad för"
+        ago: "sen"
+        updated: "Ändrad för"

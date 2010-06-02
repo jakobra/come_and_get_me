@@ -1,4 +1,5 @@
 <% title @track.title %>
+<% main_class("large_width") %>
 
 <% content_for :head do %>
 	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%= APP_CONFIG["google_maps_api_key"] %>" type="text/javascript"></script>
@@ -12,96 +13,93 @@
 	
 <% end %>
 
-<% content_for :left_side do %>
-	<h3><%= h @track.title %></h3>
-	<div>
-		<%= RedCloth.new(@track.description).to_html %>
-	</div>
-	<%= link_to(t("tracks.record"), records_track_path(@track)) %>
-	<% unless @track.tracksegments.blank? %>
-		<div class="border_top">
-			<p id="sample_rate">Rate: 5</p>
-			<p><span id="distance_track_1"></span> km</p>
+<div class="tracks_show">
+	<div class="information">
+		<h3><%= h @track.title %></h3>
+		<div>
+			<%= RedCloth.new(@track.description).to_html %>
 		</div>
-	<% end %>
-	
-	<% unless @track.tags.blank? %>
+		<%= link_to(t("tracks.record"), records_track_path(@track)) %>
+		<% unless @track.tracksegments.blank? %>
+			<div class="border_top">
+				<p id="sample_rate">Rate: 5</p>
+				<p><span id="distance_track_1"></span> km</p>
+			</div>
+		<% end %>
+
+		<% unless @track.tags.blank? %>
+			<div class="border_top">
+				<h4><%= t("activerecord.models.tag.other") %>:</h4>
+				<ul>
+					<% @track.tags.each do |tag| %>
+						<li><%= tag.name %></li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+
 		<div class="border_top">
-			<h4><%= t("activerecord.models.tag.other") %>:</h4>
-			<ul>
-				<% @track.tags.each do |tag| %>
-					<li><%= tag.name %></li>
+			<p>
+				<%= link_to t("tracks.show.current"), :version => nil if params[:version] %>
+			</p>
+
+			<%= link_to t("tracks.show.view_history"), nil, :class => "toggle_history show" %>
+			
+			<%= link_to t("tracks.show.hide_history"), nil, {:style => "display:none;", :class => "toggle_history hide"} %>
+
+			<ul class="track_history" style="display:none;">
+				<li>
+					1. <%= link_to @track.created_at.strftime("%Y-%m-%d"), :version => 1 %>,
+					<%= link_to @track.created_by_user.login, user_path(@track.created_by_user) unless @track.created_by_user.blank? %>
+				</li>
+				<% @track.versions.each do |version| %>
+					<li>
+						<%= version.number %>. 
+						<%= link_to version.created_at.strftime("%Y-%m-%d"), :version => version.number %>,
+						<%= link_to version.user.login, user_path(version.user) unless version.user.blank? %>
+					</li>
 				<% end %>
 			</ul>
-		</div>
-	<% end %>
-	
-	<div class="border_top">
-		<p>
-			<%= link_to t("tracks.show.current"), :version => nil if params[:version] %>
-		</p>
-	
-		<%= link_to_function(t("tracks.show.view_history"), nil, :id => "track_history_view_link") do |page|
-			page[:track_history].toggle
-			page[:track_history_view_link].hide
-			page[:track_history_hide_link].show
-		end %>
-	
-		<%= link_to_function(t("tracks.show.hide_history"), :style => "display:none;", :id => "track_history_hide_link") do |page|
-			page[:track_history].toggle
-			page[:track_history_hide_link].hide
-			page[:track_history_view_link].show
-		end %>
-	
-		<ul id="track_history" style="display:none;">
-			<li>
-				1. <%= link_to @track.created_at.strftime("%Y-%m-%d"), :version => 1 %>,
-				<%= link_to @track.created_by_user.login, user_path(@track.created_by_user) unless @track.created_by_user.blank? %>
-			</li>
-			<% @track.versions.each do |version| %>
-				<li>
-					<%= version.number %>. 
-					<%= link_to version.created_at.strftime("%Y-%m-%d"), :version => version.number %>,
-					<%= link_to version.user.login, user_path(version.user) unless version.user.blank? %>
-				</li>
+
+			<% unless @track.tracksegments.blank? %>
+				<p>
+					<%= t("tracks.show.download_track") %>:<br>
+					<%= link_to "#{h(@track.title)} (GPX)", track_points_path(@track, :gpx) %><br />
+					<%= link_to "#{h(@track.title)} (KML)", track_points_path(@track, :kml) %>
+				</p>
+
+				<p>
+					<span class="bold"><%= t("tracks.source") %>:</span><br />
+					<%= track_created_from(@track) %>
+				</p>
 			<% end %>
-		</ul>
-		
-		<% unless @track.tracksegments.blank? %>
+
 			<p>
-				<%= t("tracks.show.download_track") %>:<br>
-				<%= link_to "#{h(@track.title)} (GPX)", track_points_path(@track, :gpx) %><br />
-				<%= link_to "#{h(@track.title)} (KML)", track_points_path(@track, :kml) %>
+				<span class="bold"><%= t("activerecord.models.municipality.one") %>:</span><br />
+				<%= @track.municipality.name %>
 			</p>
-			
-			<p>
-				<span class="bold"><%= t("tracks.source") %>:</span><br />
-				<%= track_created_from(@track) %>
-			</p>
+		</div>
+
+		<% if permitted_to? :update, @track %>
+			<div class="border_top">
+				<%= link_to t("common.edit"), edit_track_path(@track) %>
+			</div>
 		<% end %>
-		
-		<p>
-			<span class="bold"><%= t("activerecord.models.municipality.one") %>:</span><br />
-			<%= @track.municipality.name %>
-		</p>
 	</div>
-	
-	<% if permitted_to? :update, @track %>
-		<div class="border_top">
-			<%= link_to t("common.edit"), edit_track_path(@track) %>
-		</div>
-	<% end %>
-	
-<% end %>
+	<div class="map_area">
+		<div id="map_canvas"></div>
 
-<div id="map_canvas"></div>
+		<% unless @track.tracksegments.blank? %>
+			<% if_high_sample_rate @track do %>
+				<div id="sample_rate_slide">
+					<div id="sample_rate_handle"></div>
+				</div>
+			<% end %>
+		<% end %>
 
-<% unless @track.tracksegments.blank? %>
-	<% if_high_sample_rate @track do %>
-		<div id="sample_rate_slide">
-			<div id="sample_rate_handle"></div>
-		</div>
-	<% end %>
-<% end %>
+		<%= render "comments/comments_container", :commentable => @track, :url => new_track_comment_path(@track) %>
+	</div>
+</div>
 
-<%= render "comments/comments_container", :commentable => @track, :url => new_track_comment_path(@track) %>
+
+

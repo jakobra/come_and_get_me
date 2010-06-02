@@ -1,0 +1,31 @@
+sv-SE:
+    trainings:
+        index:
+            trainings_for: "Träningar för"
+            new_training: "Ny träning"
+        show:
+            show_hide_form: "Visa/Dölj nytt lopp"
+            edit_selected: "Uppdatera"
+            all_fields: "Alla fält"
+            view_all_tracks: "Visa alla banor"
+            time_html: "Tid<br />(tt:mm:ss)"
+            time_per_km: "Km tid<br />(mm:ss)"
+            hr_max_html: "Max-<br />puls"
+            hr_avg_html: "Medel-<br />puls"
+            distance_html: "Distans<br />(km)"
+            note: "Ant."
+        new:
+            new_event: "Ny gren"
+            new_event_name: "Gren"
+            new_event_description: "Gren beskrivning"
+            add_race: "Lägg till nytt lopp"
+            add_note: "Lägg till anteckning"
+            new_training: "Ny träning"
+        create:
+            created: "Träningen skapad"
+        edit:
+            edit_training: "Uppdatera träning"
+            local_tracks: "Lokala banor"
+            all_tracks: "Alla banor"
+        update:
+            updated: "Träningen {{date}} uppdaterad"

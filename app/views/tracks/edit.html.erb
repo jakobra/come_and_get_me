@@ -19,10 +19,8 @@
 	
 <% end %>
 
-<% content_for :right_side do %>
-	<%= render "side_modules/beta" %>
-<% end %>
+<div class="tracks_edit">
+	<%= render :partial => 'form', :locals => {:submit => t("common.edit")} %>
 
-<%= render :partial => 'form', :locals => {:submit => t("common.edit")} %>
-
-<%= loading_div %>
+	<%= loading_div %>
+</div>

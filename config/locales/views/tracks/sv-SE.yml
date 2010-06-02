@@ -1,0 +1,28 @@
+sv-SE:
+    tracks:
+        info:
+            same_start_finish: "Betyder att banan börjar och slutar på samma ställe."
+        source: "Källa"
+        record: "Rekord"
+        index:
+            new_track: "Ny bana"
+            no_tracks: "Inga banor funna"
+        show:
+            view_history: "Visa historia"
+            hide_history: "Dölj historia"
+            download_track: "Ladda ner banan"
+            current: "Senaste versionen"
+        new:
+            new_track: "Ny bana"
+            plot_track: "... eller plotta en bana på kartan"
+            same_start_finish: "Samma start och slut punkt?"
+            remove_last_point: "Ta bort sista punkten"
+        create:
+            created: "{{name}} sparad"
+        update:
+            updated: "{{name}} uppdaterad"
+        records:
+            records_for: "Rekord för"
+            all: "Alla"
+            ladies: "Damer"
+            men: "Herrar"

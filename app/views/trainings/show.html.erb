@@ -5,43 +5,43 @@
 	<%= stylesheet_link_tag "trainings/show" %>
 <% end %>
 
-<p class="bold"><%=h @training.date %></p>
+<div class="trainings_show">
+	<p class="bold"><%=h @training.date %></p>
 
-<div class="text_width">
-	<%= simple_format h @training.note.content unless @training.note.blank? %>
-</div>
+	<div class="text_width">
+		<%= simple_format h @training.note.content unless @training.note.blank? %>
+	</div>
 
-<table id="races" class="small">
-	<tr>
-		<th><%= t("activerecord.attributes.race.event_id") %></th>
-		<th><%= t("trainings.show.distance_html") %></th>
-		<th><%= t("activerecord.attributes.race.track_id") %></th>
-		<th><%= t("trainings.show.time_html") %></th>
-		<th><%= t("trainings.show.time_per_km") %></th>
-		<th><%= t("trainings.show.hr_max_html") %></th>
-		<th><%= t("trainings.show.hr_avg_html") %></th>
-	</tr>
-	<%= render :partial => @training.races %>
-</table>
+	<table id="races" class="small">
+		<tr>
+			<th><%= t("activerecord.attributes.race.event_id") %></th>
+			<th><%= t("trainings.show.distance_html") %></th>
+			<th><%= t("activerecord.attributes.race.track_id") %></th>
+			<th><%= t("trainings.show.time_html") %></th>
+			<th><%= t("trainings.show.time_per_km") %></th>
+			<th><%= t("trainings.show.hr_max_html") %></th>
+			<th><%= t("trainings.show.hr_avg_html") %></th>
+		</tr>
+		<%= render :partial => @training.races %>
+	</table>
 
-<% if_authorized?(action_name, @training) do %>
-	<p>
-		<%= link_to_function(t("trainings.show.show_hide_form"), :id => "toggle_race") do |page|
-			page[:race_form].toggle
-		end %>
-	</p>
-	
-	<fieldset id="race_form" style="display:none;">
-		<%= render "new_race_form", :race => @training.races.build %>
-	</fieldset>
-<% end %>
-
-<div class="left clear_left">
 	<% if_authorized?(action_name, @training) do %>
-		<%= link_to t("common.edit"), edit_training_path(@training) %> |
+		<p class="toggle_new_race_form">
+			<%= link_to t("trainings.show.show_hide_form") %>
+		</p>
+
+		<fieldset style="display:none;">
+			<%= render "new_race_form", :race => @training.races.build %>
+		</fieldset>
 	<% end %>
 
-	<%= link_to t("common.back"), member_path(@training.user) %>
-</div>
+	<div class="left clear_left">
+		<% if_authorized?(action_name, @training) do %>
+			<%= link_to t("common.edit"), edit_training_path(@training) %> |
+		<% end %>
 
-<%= render "comments/comments_container", :commentable => @training, :url => new_training_comment_path(@training) %>
+		<%= link_to t("common.back"), member_path(@training.user) %>
+	</div>
+
+	<%= render "comments/comments_container", :commentable => @training, :url => new_training_comment_path(@training) %>
+</div>

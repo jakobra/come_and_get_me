@@ -1,0 +1,5 @@
+sv-SE:
+    home:
+        index:
+            no_tracks: "Inga banor funna i ditt område"
+            add_track: "Lägg till"

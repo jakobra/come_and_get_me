@@ -1,5 +1,22 @@
 Event.observe(window, 'load', function() {
 	
+	$(document).observe('click', function(e){
+		var element = e.element();
+		if (element.match('.tracks_show a.toggle_history')) {
+			Effect.toggle(element.next('ul.track_history'), 'blind');
+			element.hide();
+			if (element.match('a.show'))
+				element.next("a.hide").show();
+			else
+				element.previous("a.show").show();
+			e.stop();
+		}
+		else if (element.match('.tracks_new a.remove_last_point') || element.match('.tracks_edit a.remove_last_point')) {
+			Map.remove_last_point();
+			e.stop();
+		}
+	});
+	
 	$(document).observe('change', function(e){
 		var element = e.element();
 		if (element.match('select.select_track_event')) {
