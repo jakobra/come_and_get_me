@@ -45,12 +45,6 @@ Event.observe(window, 'load', function() {
 			});
 			e.stop();
 		}
-		else if (element.match('input[name=gender]')) {
-			var parent_element = element.up('div.track_records_options')
-			parent_element.select('input').invoke('removeAttribute', "checked");
-			element.writeAttribute("checked", "checked");
-			get_track_records(parent_element);
-		}
 		else if (element.match('.change_local_area')) {
 			element.up().next(".area_select").show();
 			event.stop();
@@ -65,6 +59,26 @@ Event.observe(window, 'load', function() {
 				}
 			});
 			e.stop();
+		}
+		else if (element.match('a.remove_fields')) {
+			element.previous("input[type=hidden]").value = "1";
+			element.up(".fields").hide();
+			e.stop();
+		}
+		else if (element.match('a.add_fields')) {
+			var new_id = new Date().getTime();
+			var association = $w(element.className)[1];
+			var regexp = RegExp("new_" + association, "g");
+			var content = element.up().next("div.fields").cloneNode(true);
+			content.innerHTML = content.innerHTML.replace(regexp, new_id);
+			content.removeClassName("hidden");
+			element.up().insert({before: content});
+			render_tooltips();
+			e.stop();
+		}
+		else if (element.match('form input[type=submit]')) {
+			// removes hidden fields before submit
+			element.up("form").down("div.fields.hidden").remove();
 		}
 	});
 	

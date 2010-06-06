@@ -124,9 +124,15 @@ class TracksController < ApplicationController
   def records
     #@track = Track.find(params[:id])
     conditions = {}
-    conditions["users.gender"] = params[:gender] if params[:gender]
-    conditions["event_id"] = params[:event_id] unless params[:event_id].blank?
-    @races = @track.records(conditions)
+    conditions["users.gender"] = params[:gender] if params[:gender] && params[:gender] != "-1"
+    
+    unless params[:event].blank?
+      conditions["event_id"] = params[:event] 
+      event = Event.find(params[:event])
+    end
+    
+    races = @track.records(conditions)
+    @track_records = TrackRecords.new(@track, event, races, params[:gender])
     recent_records(:all)
   end
   

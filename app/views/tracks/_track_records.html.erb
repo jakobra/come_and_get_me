@@ -1,0 +1,19 @@
+<div class="track_records_options">
+	<% form_tag records_track_path, :method => "get", :class => "track_records" do %>
+		<% if track_records.track.events.count > 1 %>
+			<%= select_tag("event", "<option value=\"\">#{t("all")}</option>" + options_from_collection_for_select(track_records.track.events, 'id', 'name', (track_records.event.blank? ? nil : track_records.event.id)), :class => "select_track_event") %>
+		<% end %>
+
+		<%= label_tag "gender_-1", t("tracks.records.all") %>: <%= radio_button_tag "gender", "-1", (track_records.gender == nil || track_records.gender == "-1") %>
+		<%= label_tag "gender_1", t("tracks.records.ladies") %>: <%= radio_button_tag "gender", 1, track_records.gender == "1" %>
+		<%= label_tag "gender_0", t("tracks.records.men") %>: <%= radio_button_tag "gender", 0, track_records.gender == "0" %>
+
+		<% unless request.xhr? %>
+			<span class="button gold"><%= submit_tag t("common.send"), :name => nil %><span>
+		<% end %>
+	<% end %>
+</div>
+
+<ol>
+	<%= render :partial => "track_record", :collection => track_records.races %>
+</ol>

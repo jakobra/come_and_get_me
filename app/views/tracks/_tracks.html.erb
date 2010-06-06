@@ -17,10 +17,11 @@
 		</div>
 	<% end %>
 </div>
+
 <% unless (will_paginate tracks).blank? %>
-<div class="track_pagination default clear_both left">
-	<%= will_paginate tracks %>
-</div>
+	<div class="track_pagination default clear_both left">
+		<%= will_paginate tracks %>
+	</div>
 <% end %>
 
 <table class="clear_both small">

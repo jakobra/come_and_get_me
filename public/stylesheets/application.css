@@ -409,3 +409,7 @@ div.track_statistics th {
 .menu_nodes .child {
 	padding-left:30px;
 }
+
+div.fields.hidden {
+	display:none;
+}

@@ -11,6 +11,17 @@ module ApplicationHelper
     (times.map { |time| "#{t("datetime.time."+time[0], :count => time[1])}" unless time.blank?}).join(" ")
   end
   
+  # def link_to_add_fields(name, f, association)
+  #     new_object = f.object.class.reflect_on_association(association).klass.new
+  #     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
+  #       if builder.object.class.to_s == "Race"
+  #         builder.object.build_note
+  #       end
+  #       render(association.to_s.pluralize + "/" + association.to_s.singularize + "_fields", :f => builder)
+  #     end
+  #     
+  #   end
+  
   def link_to_add_fields(name, f, association)
     new_object = f.object.class.reflect_on_association(association).klass.new
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
@@ -19,7 +30,8 @@ module ApplicationHelper
       end
       render(association.to_s.pluralize + "/" + association.to_s.singularize + "_fields", :f => builder)
     end
-    link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"))
+    #link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"))
+    "#{link_to(name, nil, :class => "add_fields #{association}")} #{fields}"
   end
   
   def info_tag(info)

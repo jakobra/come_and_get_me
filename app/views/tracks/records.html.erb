@@ -4,21 +4,13 @@
 	<%= render "side_modules/recent_records", :tab_service => @recent_records_tab_service, :title => t("side_modules.recent_records") %>
 <% end %>
 
-<h1><%= "#{t("tracks.records.records_for")} #{@track.title}" %></h1>
+<div class="track_records">
+	<h1><%= "#{t("tracks.records.records_for")} #{@track.title}" %></h1>
 
-<div class="track_records_options">
-	<% if @track.events.count > 1 %>
-		<%= select("event", "id",@track.events.map {|e| [ e.name, e.id ] }, {:prompt => t("tracks.records.all") }, {:class => "select_track_event"}) %>
-	<% end %>
+	<div class="wrapper">
+		<%= render "track_records", :track_records => @track_records %>
+	</div>
 	
-	<%= label_tag "gender_-1", t("tracks.records.all") %>: <%= radio_button_tag "gender", "-1", true %>
-	<%= label_tag "gender_1", t("tracks.records.ladies") %>: <%= radio_button_tag "gender", 1 %>
-	<%= label_tag "gender_0", t("tracks.records.men") %>: <%= radio_button_tag "gender", 0 %>
+	<%= link_to @track.title, track_path(@track) %> |
+	<%= link_to t("activerecord.models.track.other"), tracks_path %>
 </div>
-
-<ol>
-	<%= render :partial => "track_record", :collection => @races %>
-</ol>
-
-<%= link_to @track.title, track_path(@track) %> |
-<%= link_to t("activerecord.models.track.other"), tracks_path %>
