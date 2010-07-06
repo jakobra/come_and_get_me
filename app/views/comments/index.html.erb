@@ -17,7 +17,7 @@
 			<td><%= comment.approved %></td>
 			<td><%= time_ago_in_words(comment.created_at) %></td>
 			<td><%= link_to comment.user.login, comment.user %></td>
-			<td><%= truncate comment.content, 30 %></td>
+			<td><%= truncate comment.content, :length => 30 %></td>
 			<td><%= link_to 'Approve/Unapprove', approve_comment_path(comment), :method => :put %></td>
 		<% end %>
 	<% end %>
