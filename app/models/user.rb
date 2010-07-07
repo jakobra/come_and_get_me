@@ -51,14 +51,6 @@ class User < ActiveRecord::Base
   def email=(value)
     write_attribute :email, (value ? value.downcase : nil)
   end
-
-  def distance(from = 1.week.ago, to = Date.today)
-    distances = [0]
-    self.trainings.period(from, to).each do |training|
-      training.races.each { |race| distances << race.distance }
-    end
-    eval distances.join('+')
-  end
   
   def time(from = 1.week.ago, to = Date.today)
     seconds = 0

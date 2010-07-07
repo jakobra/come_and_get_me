@@ -70,9 +70,7 @@ class Race < ActiveRecord::Base
   end
   
   def time_per_km
-    seconds_per_km = (self.time.tv_sec - EPOCH) / self.distance
-    logger.info self.time
-    logger.info Time.now
+    seconds_per_km = (self.time.to_i - EPOCH) / self.distance
     time = Time.at(seconds_per_km + EPOCH)
     time.getgm
   end
