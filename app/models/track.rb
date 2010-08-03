@@ -45,7 +45,7 @@ class Track < ActiveRecord::Base
     save_attached_files_without_parse_file
     if dirty
       parse_file(self)
-      set_finish_point if circle == "1"
+      set_finish_point
     end
   end
   
@@ -74,11 +74,13 @@ class Track < ActiveRecord::Base
   # Appends a gps point so that a track starts and stops at the same position if user choosen so through :circle
   def set_finish_point
     self.reload
-    lp = points.first
-    tracksegments.last.points.create(:longitude => lp.longitude, 
-                                    :latitude => lp.latitude, 
-                                    :elevation => lp.elevation)
-    logger.info "Finish point appended"
+    if circle == "1"
+      lp = points.first
+      tracksegments.last.points.create(:longitude => lp.longitude, 
+                                      :latitude => lp.latitude, 
+                                      :elevation => lp.elevation)
+      logger.info "Finish point appended"
+    end
   end
   
 end

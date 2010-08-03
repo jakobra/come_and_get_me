@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  filter_resource_access :additional_member => [:statistics, :records, :track_statistics]
+  filter_resource_access :additional_member => [:statistics, :records, :track_statistics, :events]
   
   def index
     @users = User.all
@@ -94,6 +94,10 @@ class UsersController < ApplicationController
       @races = @user.races.find_all_by_track_id(params[:track_id])
     end
     @track = Track.find(params[:track_id])
+  end
+  
+  def events
+    #@user = User.find(params[:id])
   end
   
   protected

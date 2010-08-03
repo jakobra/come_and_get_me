@@ -62,18 +62,31 @@ class User < ActiveRecord::Base
     get_time_from_seconds seconds
   end
   
-  def admin?
-    self.admin
-  end
-  
   def to_param
     login
   end
   
   def role_symbols
     symbols = [:member, :guest]
-    symbols << :admin if admin?
+    symbols << :admin if self.admin
     symbols
+  end
+  
+  def events
+    races.find(:all, :select => "DISTINCT(event_id)").map { |r| r.event  }
+  end
+  
+  def event_time(event)
+    time = 0
+    races.find(:all, :conditions => {:event_id => event.id}).each { |race| time += race.time.to_i - Race::EPOCH unless race.time.blank? }
+    time = Time.at(time)
+    time.getgm
+  end
+  
+  def event_distance(event)
+    distance = 0
+    races.find(:all, :conditions => {:event_id => event.id}).each { |race| distance += race.distance }
+    distance
   end
   
   protected

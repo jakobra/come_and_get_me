@@ -11,6 +11,7 @@ class Tracksegment < ActiveRecord::Base
   private
   
   def set_finish_point
+    logger.info "Circle #{circle}"
     if circle == "1"
       lp = points.first
       points.create(:longitude => lp.longitude, 

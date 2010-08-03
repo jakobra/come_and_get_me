@@ -55,9 +55,10 @@ class TracksController < ApplicationController
   def create
     #@track = Track.new(params[:track])
     
-    unless params[:track][:track].blank?
+    if params[:track][:track].blank?
+      params[:track][:tracksegments_attributes]["0"][:circle] = params[:track][:circle]
+    else
       params[:track][:tracksegments_attributes]["0"][:points_attributes] = nil
-      params[:track][:tracksegments_attributes]["0"][:circle] = params[:track][:circle] unless params[:track][:tracksegments_attributes]["0"][:points_attributes].blank?
     end
     
     @track = Track.new(params[:track])

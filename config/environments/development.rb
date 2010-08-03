@@ -27,4 +27,4 @@ config.action_mailer.smtp_settings = {
   :password => "Always5912"
 }
 
-ActionController::Base.session_options[:domain] = '.cagm.local'
+#ActionController::Base.session_options[:domain] = '.comeandgetme.se'

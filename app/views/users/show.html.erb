@@ -21,7 +21,8 @@
 	<% end %>
 	<% if permitted_to? :read, @user.trainings %>
 		<%= link_to t("activerecord.models.training.other"), user_trainings_path(@user) %> |
-		<%= link_to t("tracks.record"), records_user_path(@user) %>
+		<%= link_to t("tracks.record"), records_user_path(@user) %> |
+		<%= link_to t("activerecord.models.event.other"), events_user_path(@user) %>
 	<% end %>
 </p>
 

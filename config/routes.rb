@@ -29,7 +29,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.open_id_complete 'session', :controller => 'sessions', :action => 'create', :requirements => {:method => :get}
   
-  map.resources :users, :member => {:statistics => :get, :admin => :put, :records => :get} do |users|
+  map.resources :users, :member => {:statistics => :get, :admin => :put, :records => :get, :events => :get} do |users|
     users.resources :trainings, :shallow => true do |trainings|
       trainings.resources :comments, :only => [:new, :create]
       trainings.resources :races, :shallow => true do |races| 
