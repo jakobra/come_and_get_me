@@ -1,0 +1,18 @@
+<div class="users-events">
+	<table>
+		<tbody>
+			<tr class="small">
+				<th><%= t("activerecord.models.event.one") %></th>
+				<th><%= t("activerecord.attributes.race.time") %></th>
+				<th><%= t("activerecord.attributes.race.distance") %></th>
+			</tr>
+			<% @user.events.each do |event| %>
+				<tr class="<%= cycle("odd", "even") %>">
+					<td><%= event.name %></td>
+					<td><%= @user.event_time(event).strftime("%H:%M:%S") %></td>
+					<td><%= @user.event_distance(event) %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
