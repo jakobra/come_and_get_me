@@ -6,7 +6,9 @@
 		<title><%= h(yield(:title) || t("common.title")) %></title>
 		<%= stylesheet_link_tag :all %>
 		<%= stylesheet_link_tag :rambo %>
-		<%= javascript_include_tag :rambo %>
+		<% if(controller != "users" && action_name != "track_statistics") %>
+			<%= javascript_include_tag :rambo %>
+		<% end %>
 		<%= yield(:head) %>
 	</head>
 	<body>
