@@ -39,7 +39,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.user_track_statistics '/users/:login/track_statistics/:track_id', :controller => 'users', :action => 'track_statistics'
-  
+  map.user_track_statistics_data '/users/:login/track_statistics_data/:track_id', :controller => 'users', :action => 'track_statistics_data'
   map.resource :session, :only => [:new, :create, :destroy]
   
   map.resources :tracks, :member => {:records => :get}, :collection => {:recent_track_records => :get} do |tracks|

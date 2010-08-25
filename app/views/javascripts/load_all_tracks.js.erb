@@ -1,9 +1,8 @@
-document.observe('click', function(e) {
-	var element = Event.element(e);
-	if (element.hasClassName('view_all_tracks')) {
-		element.up().down('select').update('<%= escape_javascript(options_from_collection_for_select(@tracks, :id, :title)) %>');
-		element.up().down('select').insert({top: '<option><%= t("trainings.edit.all_tracks") %></option>'});
-		e.stop();
-	}
-	
+$(function() {
+	$("a.view_all_tracks").click(function(event) {
+		$(this).parent().children("select").html('<%= escape_javascript(options_from_collection_for_select(@tracks, :id, :title)) %>');
+		$(this).parent().children("select").prepend('<option><%= t("trainings.edit.all_tracks") %></option>');
+		$(this).remove();
+		event.preventDefault();
+	});
 });

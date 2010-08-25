@@ -1,22 +1,23 @@
 <% title "#{t("common.edit")} #{@track.title}" %>
 
 <% content_for :head do %>
-	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%= APP_CONFIG["google_maps_api_key"] %>" type="text/javascript"></script>
-	<%= javascript_include_tag "maps" %>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="/javascripts/google_maps.js"></script>
 	
-	<% if  !@track.tracksegments.blank? and @track.tracksegments.last.new_record? %>
-		<script type="text/javascript" charset="utf-8">
-			//<![CDATA[
+	<script type="text/javascript" charset="utf-8">
+	$(function() {
+		<% if  !@track.tracksegments.blank? and @track.tracksegments.last.new_record? %>
 			<% @track.tracksegments.last.points.each do |point| %>
-				Map.track_points.push(new GLatLng(<%= point.latitude %>, <%= point.longitude %>));
+				Map.points.push(new google.maps.LatLng(<%= point.latitude %>, <%= point.longitude %>));
 			<% end %>
-			//]]>
-		</script>
-	<% end %>
-	
-	<%= javascript_tag "Map.set_options({click_listener: true, track_version:#{@track.version}});" %>
-	<%= javascript_include_tag "tooltips" %>
-	
+		<% end %>
+		
+		Map.set_options({click_listener: true, track_version: <%= @track.version %>});
+		
+		Map.display();
+	});
+		
+	</script>
 <% end %>
 
 <div class="tracks_edit">

@@ -11,7 +11,7 @@
 	<div class="text_width">
 		<%= simple_format h @training.note.content unless @training.note.blank? %>
 	</div>
-
+	
 	<table id="races" class="small">
 		<tr>
 			<th><%= t("activerecord.attributes.race.event_id") %></th>
@@ -42,6 +42,5 @@
 
 		<%= link_to t("common.back"), member_path(@training.user) %>
 	</div>
-
 	<%= render "comments/comments_container", :commentable => @training, :url => new_training_comment_path(@training) %>
 </div>

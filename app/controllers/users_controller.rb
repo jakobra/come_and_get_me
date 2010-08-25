@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  filter_resource_access :additional_member => [:statistics, :records, :track_statistics, :events]
+  filter_resource_access :additional_member => [:statistics, :records, :track_statistics, :track_statistics_data, :events]
   
   def index
     @users = User.all
@@ -89,11 +89,21 @@ class UsersController < ApplicationController
   
   def track_statistics
     begin
-      @races = @user.races.find_all_by_track_id(params[:track_id], :order => params[:order])
+      races = @user.races.find_all_by_track_id(params[:track_id], :order => params[:order])
     rescue
-      @races = @user.races.find_all_by_track_id(params[:track_id])
+      races = @user.races.find_all_by_track_id(params[:track_id])
     end
-    @track = Track.find(params[:track_id])
+    
+    chart_races = races.reject { |r| (r.hr_avg.blank? || r.hr_max.blank?) }
+    count = chart_races.count
+    chart_races = (chart_races.count > 20) ? chart_races.slice(-21, 20) : chart_races
+    
+    @track_statistics = TrackStatistics.new(races, chart_races, count, Track.find(params[:track_id]))
+  end
+  
+  def track_statistics_data
+    @races = @user.races.find(:all, :conditions => ["track_id = ? AND hr_max IS NOT NULL AND hr_avg IS NOT NULL", params[:track_id]])
+    @races = @races[params[:from].to_i..params[:to].to_i]
   end
   
   def events

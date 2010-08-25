@@ -79,8 +79,7 @@ class User < ActiveRecord::Base
   def event_time(event)
     time = 0
     races.find(:all, :conditions => {:event_id => event.id}).each { |race| time += race.time.to_i - Race::EPOCH unless race.time.blank? }
-    time = Time.at(time)
-    time.getgm
+    ((time / 3600.0) * 100).round.to_f / 100
   end
   
   def event_distance(event)

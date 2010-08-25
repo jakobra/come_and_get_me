@@ -10,7 +10,7 @@
 	<% end %>
 	<% if permitted_to? :create, Comment.new %>
 		<div class="left clear_left">
-			<%= link_to t("comments.post_comment"), url, :class => "new_comment" %>
+			<%= link_to t("comments.post_comment"), url, :class => "new_comment submit_comment", :rel => "popup" %>
 		</div>
 	<% end %>
 	

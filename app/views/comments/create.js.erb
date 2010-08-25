@@ -1,11 +1,13 @@
 // Javascript to be executed
 
 <% if @comment.new_record? %>
-	$('new_comment').insert({top: '<%= escape_javascript(error_messages_for("comment")) %>'})
+	var content = '<%= escape_javascript(error_messages_for("comment")) %>';
+	$('form.comment').prepend(content);
 <% else %>
-	hide_box();
-	$('<%= escape_javascript(dom_id(@comment.commentable, "comments")) %>').insert({bottom: '<%= escape_javascript(render :partial => @comment) %>'});
-	new Effect.Highlight('<%= escape_javascript(dom_id(@comment)) %>', {duration: 0.5});
+	var content = '<%= escape_javascript(render :partial => @comment) %>';
+	$('#<%= escape_javascript(dom_id(@comment.commentable, "comments")) %>').append(content);
+	$("a[rel=popup]").popup();
+	$('.popup-close').trigger("click");
 	<% flash.discard %>
 <% end %>
 

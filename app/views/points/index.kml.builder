@@ -1,7 +1,7 @@
 xml.instruct!
 xml.kml("xmlns" => "http://www.opengis.net/kml/2.2"){
   xml.Document do |doc|
-    doc.name @track.name
+    doc.name @track.title
     doc.open 1
     doc.Style do |style|
       style.LineStyle do |line_style|
@@ -13,7 +13,7 @@ xml.kml("xmlns" => "http://www.opengis.net/kml/2.2"){
     @track.tracksegments.each_with_index do |tracksegment, index|
       doc.Placemark do |placemark|
         placemark.styleUrl "#trailsstyle"
-        placemark.name "#{@track.name}: Segment (#{index+1})"
+        placemark.name "#{@track.title}: Segment (#{index+1})"
         placemark.LineString do |line_string|
           line_string.tessellate 1
           coordinates = ""

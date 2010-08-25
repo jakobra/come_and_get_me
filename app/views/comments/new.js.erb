@@ -1,4 +1,5 @@
-// Javascript to be executed
-Modalbox.show('<%= escape_javascript(render 'new', :commentable => @commentable) %>', {width: 400, transitions: false, overlayClose:true, overlayOpacity: 0.0});
+<%= render 'new', :commentable => @commentable %>
 
-add_hide_observer();
+<script type="text/javascript" charset="utf-8">
+	$("form.comment").ajaxForm();
+</script>

@@ -1,123 +1,151 @@
-document.observe("dom:loaded", function() {
-	
-	// initially loads gmaps
-	if(GBrowserIsCompatible()) {
-		init_map();
-	}
-	
-	// horizontal slider control for samplerate in maps
-	new Control.Slider('sample_rate_handle', 'sample_rate_slide', {
-		range: $R(1, 10),
-		values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-		sliderValue: 5, // won't work if set to 0 due to a bug(?) in script.aculo.us
-		onSlide: function(rate) { $('sample_rate').innerHTML = 'Rate: ' + rate },
-		onChange: function(rate) {
-			$('sample_rate').innerHTML = 'Rate: ' + rate
-			reload_map_overlays(rate);
-		}
-	});
-	
-});
+var Map = new Object();
 
-function load_segment_points(track_id, color, sample_rate) {
-	GDownloadUrl("/tracks/" + track_id + "/points.gpx?rate=" + sample_rate, function(data, responseCode) {
+Map.Methods = {
+	points: [],
+	map: null, // Default map value
+	initialized: false,
+	current_point: null,
+	overlays: [],
+	options: {
+		color: '0000ff', // Colors for the different tracks
+		track: null, // Which track to display
+		track_version: 0,
+		zoom_level: 4,
+		center_lat: 61.845, // Swedens center latitude
+		center_long: 17.7, // Swedens center longitude
+		click_listener: false,
+		points_reference_element: "tracksegments",
+		map_element: "map_canvas" //Default map element
+	},
+	
+	set_options: function(options) {
+		 jQuery.extend(this.options, options || {});
+	},
+	
+	_init: function(options) {
+		this.set_options(options);
 		
-		//resets the segment distances
-		if ($('track_distance') != undefined) {
-			$('track_distance').innerHTML = "";
+		this.map = new google.maps.Map(document.getElementById(this.options.map_element));
+		this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+		
+		this.initialized = true; // Mark as initialized
+		
+		if(this.options.click_listener){
+			this.add_click_listener();
 		}
-		
-		var xml = GXml.parse(data);
-		var tracksegments = xml.documentElement.getElementsByTagName('trkseg');
-		var total_distance = 0;
-		for(var i = 0; i < tracksegments.length; i++) {
-			var points = new Array();
+	},
+	
+	display: function(options) {
+		if(!this.initialized) this._init(options);
+		if(this.options.track == null) {
+			this._render_map();
+		} else {
+			this._load_track_points(this.options.track);
+		}
+	},
+	
+	_render_map: function() {
+		var center = new google.maps.LatLng(this.options.center_lat, this.options.center_long);
+		this.map.setCenter(center);
+		this.map.setZoom(this.options.zoom_level);
+	},
+	
+	_load_track_points: function(track_id) {
+		$.get("/tracks/" + track_id + "/points.js?rate=" + this.options.sample_rate + "&version=" + this.options.track_version, function(data) {
+			var json_points = eval("(" + data + ")");
+			Map.points = new Array();
 			
-			var xml_points = tracksegments[i].getElementsByTagName('trkpt');
-			
-			for(var k = 0; k < xml_points.length; k++) {
-				points[k] = new Object();
-				points[k]['latitude'] = xml_points[k].getAttribute("lat");
-				points[k]['longitude'] = xml_points[k].getAttribute("lon");
+			for(var i = 0; i < json_points.length; i++) {
+				Map.points[i] = new Object();
+				Map.points[i]['latitude'] = json_points[i]['point']['latitude'];
+				Map.points[i]['longitude'] = json_points[i]['point']['longitude'];
 			}
-			this.points = this.points.concat(points);
-			set_start_point(points[0]);
-			set_end_point(points[k-1]);
-			add_route(points, color);
-			var distance = calculate_distance(points);
-			total_distance += distance;
-			render_track_distance(distance, i);
-			set_center_point_and_zoom_level(this.points);
+			Map._add_route();
+			Map._set_center_point_and_zoom_level();
+		});
+	},
+
+	_set_center_point_and_zoom_level: function() {
+		var polylineBounds = new google.maps.LatLngBounds();
+		for (var i=0; i < this.points.length; i++) {
+			var point = new google.maps.LatLng(this.points[i]["latitude"], this.points[i]["longitude"]);
+			polylineBounds.extend(point);
 		}
-		render_track_distance(total_distance, null);
-	});
-}
-
-function set_start_point(point) {
-	var point = new GLatLng(point["latitude"], point["longitude"]);
-	this.gmap.addOverlay(new GMarker(point));
-}
-
-function set_end_point(point) {
-	var point = new GLatLng(point["latitude"], point["longitude"]);
-	this.gmap.addOverlay(new GMarker(point));
-}
-
-function set_center_point_and_zoom_level(points) {
-	var bounds = new GLatLngBounds();
-	for (var i=0; i < points.length; i++) {
-		var point = new GLatLng(points[i]["latitude"], points[i]["longitude"]);
-		bounds.extend(point);
-	}
-	this.gmap.setCenter(bounds.getCenter(), this.gmap.getBoundsZoomLevel(bounds));
-}
-
-function add_route(points, color) {
-	var line = new Array();
-	for (var i = 0; i < points.length; i++) {
-		line[i] = new GLatLng(points[i]["latitude"], points[i]["longitude"]);
-	}
-	var polyline = new GPolyline(line, "#" + color, 3);
-	this.gmap.addOverlay(polyline);
-}
-
-function render_track_distance(distance, i) {
-	if ($('track_distance') != undefined) {
-		if(i != null) {
-			$('track_distance').innerHTML += 'Segment ' + (i+1) + ' is: ' + Math.round((distance/1000)*100)/100 + " km.<br />";
+		this.map.setCenter(polylineBounds.getCenter());
+		this.map.fitBounds(polylineBounds);
+	},
+	
+	_add_route: function() {
+		var line = new Array();
+		
+		for (var i = 0; i < this.points.length; i++) {
+			line[i] = new google.maps.LatLng(this.points[i]["latitude"], this.points[i]["longitude"]);
 		}
-		else {
-			$('track_distance').innerHTML += 'Total: ' + Math.round((distance/1000)*100)/100 + " km.<br />";
-		}
+		
+		this._render_polyline(line);
+	},
+	
+	_render_polyline: function(polyline) {
+		var line = new google.maps.Polyline({path:polyline, strokeColor: "#" + this.options.color, strokeWeight: 3, strokeOpacity: 0.5});
+		line.setMap(this.map);
+		Map.overlays.push(line);
 	}
 }
+jQuery.extend(Map, Map.Methods);
 
-function calculate_distance(points) {
-	var line = new Array();
-	var distance = null;
-	for (var i = 0; i < points.length; i++) {
-		line[i] = new GLatLng(points[i]["latitude"], points[i]["longitude"]);
-		if (i > 0) {
-			distance += line[i].distanceFrom(line[i-1]);
+Map.CreateMethods = {
+	
+	add_click_listener: function(options) {
+		if(!this.initialized) throw "Map must be initilized first"; // Check for is already initialized
+		//this._reload_markers();
+		google.maps.event.addListener(Map.map, 'click', function(event) {
+			Map.add_marker_to_map(event.latLng);
+			Map.points.push(event.latLng);
+		});
+	},
+	
+	add_marker_to_map: function(point) {
+		var marker = new google.maps.Marker({
+			position: point, 
+			map: Map.map
+		});
+		Map.overlays.push(marker);
+		if(this.current_point != null) {
+			this._render_polyline([this.current_point, point]);
+		}
+		
+		this.current_point = point;
+		this._insert_hidden_fields();
+	},
+	
+	_insert_hidden_fields: function(point) {
+		// Url to get the elevation ... never used
+		var url = "http://ws.geonames.org/gtopo30JSON?lat=" + this.current_point.lat() + "&lng=" + this.current_point.lng();
+		
+		var fields = '<input type="hidden" id="track_tracksegments_attributes_0_points_attributes_new_points_latitude" name="track[tracksegments_attributes][0][points_attributes][new_points][latitude]" value="' + this.current_point.lat() + '" />';
+		fields += '<input type="hidden" id="track_tracksegments_attributes_0_points_attributes_new_points_longitude" name="track[tracksegments_attributes][0][points_attributes][new_points][longitude]" value="' + this.current_point.lng() + '" />';
+		fields += '<input type="hidden" id="track_tracksegments_attributes_0_points_attributes_new_points_elevation" name="track[tracksegments_attributes][0][points_attributes][new_points][elevation]" value="0" />';
+		var element = $("div." + this.options.points_reference_element);
+		
+		var new_id = new Date().getTime();
+		var regexp = RegExp("new_points", "g");
+		element.children("div").append(fields.replace(regexp, new_id));
+	},
+	
+	remove_last_point: function() {
+		var element = $("div." + this.options.points_reference_element);
+		element.children("div").html("");
+		
+		for (i in this.overlays) {
+			this.overlays[i].setMap(null);
+		}
+		
+		this.points.splice(this.points.length-1,1);
+		this.current_point = null;
+		for(i in this.points){
+			this.add_marker_to_map(this.points[i]);
 		}
 	}
-	return distance;
 }
 
-
-function init_map() {
-	var gmap = new GMap2(document.getElementById("map_canvas"));
-	gmap.setUIToDefault();
-	gmap.addMapType(G_SATELLITE_3D_MAP);
-	gmap.addControl(new GLargeMapControl3D());
-	this.gmap = gmap;
-}
-
-function reload_map_overlays(rate) {
-	clear_map_from_overlays();
-	load_segment_points(rate);
-}
-
-function clear_map_from_overlays() {
-	this.gmap.clearOverlays() 
-}
+jQuery.extend(Map, Map.CreateMethods);

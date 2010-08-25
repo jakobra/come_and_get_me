@@ -2,7 +2,7 @@
 	<h4><%= t("users.show.statistics") %> <span class="small">(<%= t("users.show.current_month") %>)</span></h4>
 	<%= link_to_one_week_ago user %> | <%= link_to_current_month user %><br />
 	<%= link_to t("users.show.customize"), "", :class => "toggle_user_statistics small" %>
-	<% form_tag url_for(:action => :statistics, :id => user), {:class => "custom_user_stat", :style => "display:none;"} do %>
+	<% form_tag url_for(:action => :statistics, :id => user), {:method => :get, :class => "custom_user_stat", :style => "display:none;"} do %>
 		<p>
 			<span class="bold small"><%= t("common.from") %></span><br />
 			<%= select_date (user.trainings.first.date), {:prefix => "from"} %>
@@ -16,7 +16,7 @@
 		<p><span class="button gold"><%= submit_tag t("common.send") %></span></p>
 	<% end %>
 
-	<div>
+	<div class="statistics">
 		<%= render :partial => "statistics", :object => user, :locals => {:from => Date.civil(Date.today.year, Date.today.month, 1), :to => nil} %>
 	</div>
 	<div class="bottom"></div>

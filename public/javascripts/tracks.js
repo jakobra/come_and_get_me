@@ -1,55 +1,49 @@
-Event.observe(window, 'load', function() {
-	
-	$(document).observe('click', function(e){
-		var element = e.element();
-		if (element.match('.tracks_show a.toggle_history')) {
-			Effect.toggle(element.next('ul.track_history'), 'blind');
-			element.hide();
-			if (element.match('a.show'))
-				element.next("a.hide").show();
-			else
-				element.previous("a.show").show();
-			e.stop();
-		}
-		else if (element.match('.tracks_new a.remove_last_point') || element.match('.tracks_edit a.remove_last_point')) {
-			Map.remove_last_point();
-			e.stop();
-		}
-		else if (element.match('input[name=gender]')) {
-			var parent_element = element.up('div.wrapper')
-			parent_element.select('input').invoke('removeAttribute', "checked");
-			element.writeAttribute("checked", "checked");
-			get_track_records(parent_element);
-		}
+$(function() {
+	$('.tracks_show a.toggle_history.show').click(function(event) {
+		$(this).parent().children("ul.track_history").slideDown();
+		$(this).hide();
+		$(this).parent().children("a.hide").show();
+		event.preventDefault();
 	});
 	
-	$(document).observe('change', function(e){
-		var element = e.element();
-		if (element.match('select.select_track_event')) {
-			var parent_element = element.up('div.wrapper');
-			get_track_records(parent_element);
-			e.stop();
-		}
-		else if (element.match('form.tracks select')) {
-			var form = element.up('form.tracks');
-			if(element.match('select[name=county]')) {
-				element.next().firstDescendant().selected = true;
-			}
-			form.request({
-				onSuccess: function(transport){
-					form.up("div.content").update(transport.responseText);
-				}
-			});
-		}
+	$('.tracks_show a.toggle_history.hide').click(function(event) {
+		$(this).parent().children("ul.track_history").slideUp();
+		$(this).hide();
+		$(this).parent().children("a.show").show();
+		event.preventDefault();
+	});
+	
+	$('input[name=gender]').live("click", function(event) {
+		$(this).siblings("input").removeAttr("checked");
+		$(this).attr("checked", "checked");
+		get_track_records($(this).parents("div.wrapper"));
+		event.preventDefault();
+	});
+	
+	$('select.select_track_event').live("change", function(event) {
+		get_track_records($(this).parents("div.wrapper"));
+	});
+	
+	$('form.tracks select').live("change", function(event) {
+		var form = $(this).parents("form.tracks");
+		if($(this).attr("name") == "county")
+			$(this).siblings("select").children().eq(0).attr("selected", "selected");
+		
+		$.get(form.attr("action"), form.serialize(), function(data) {
+			form.parents("div.content").html(data);
+		});
+	});
+	
+	$('a.remove_last_point').click(function(event) {
+		event.preventDefault();
+		Map.remove_last_point();
 	});
 	
 });
 
 function get_track_records(element) {
-	var form = element.down('form.track_records');
-	form.request({
-		onSuccess: function(transport){
-			element.update(transport.responseText);
-		}
+	var form = element.children('.track_records_options').children("form.track_records");
+	$.get(form.attr("action"), form.serialize(), function(data) {
+		element.html(data);
 	});
 }

@@ -44,6 +44,6 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   config.i18n.default_locale = "sv-SE"
   config.i18n.load_path += Dir[File.join(RAILS_ROOT, 'config', 'locales', '**', '*.{yml}')]
-  config.load_paths << "#{RAILS_ROOT}/app/view_models"
-  config.load_paths << "#{RAILS_ROOT}/app/view_models/tracks"
+  # Include all view_models
+  Dir["#{RAILS_ROOT}/app/view_models/*/"].map { |dir| config.load_paths << dir }
 end

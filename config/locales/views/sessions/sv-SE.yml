@@ -1,6 +1,7 @@
 sv-SE:
     login:
-        or_use: "eller använd ..."
+        or_use_openid: "eller använd OpenId"
+        or_use_username: "tillbaks till användarnamn"
         open_id: "OpenId"
         login: "Logga in"
         logged_in: "Du är inloggad"

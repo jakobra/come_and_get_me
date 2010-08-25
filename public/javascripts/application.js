@@ -1,163 +1,55 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
-
-Event.observe(window, 'load', function() {
+$(function() {
+	$("a[rel=popup]").popup();
 	
-	if($('track_submit') != undefined ) {
-		$('track_submit').observe('click', function(event) {
-			show_loading_box();
-			add_hide_observer();
-		});
-	}
-	
-	if($$('.view_new_comment_form').length != 0 ) {
-		$$('.view_new_comment_form').each(function (element) {
-			add_show_comment_form_observer(element, ".new_comment_box");
-		});
-	}
-	
-	if($$('.view_edit_comment_form').length != 0 ) {
-		$$('.view_edit_comment_form').each(function (element) {
-			add_show_comment_form_observer(element, ".edit_comment_box");
-		});
-	}
-	
-	render_tooltips();
-	
-	$(document).observe('click', function(e){
-		var element = e.element();
-		if (element.match('.toggle_note')) { 
-			element.up().next('.new_note').toggle();
-			e.stop();
-		}
-		else if (element.match('.toggle_event')) { 
-			element.up().next('.new_event').toggle();
-			e.stop();
-		}
-		else if (element.match('div.user_track_statistics a.order')) {
-			var href = element.readAttribute('href');
-			new Ajax.Request(href, {
-				onComplete: function(transport) {
-					if (200 == transport.status) {
-						element.up('table').update(transport.responseText);
-					}
-				}
-			});
-			e.stop();
-		}
-		else if (element.match('.change_local_area')) {
-			element.up().next(".area_select").show();
-			event.stop();
-		}
-		else if (element.match('div.recent_records div.tabs a')) {
-			var href = element.readAttribute('href');
-			new Ajax.Request(href, {
-				onComplete: function(transport) {
-					if (200 == transport.status) {
-						element.up('div.recent_records').replace(transport.responseText);
-					}
-				}
-			});
-			e.stop();
-		}
-		else if (element.match('a.remove_fields')) {
-			element.previous("input[type=hidden]").value = "1";
-			element.up(".fields").hide();
-			e.stop();
-		}
-		else if (element.match('a.add_fields')) {
-			var new_id = new Date().getTime();
-			var association = $w(element.className)[1];
-			var regexp = RegExp("new_" + association, "g");
-			var content = element.up().next("div.fields").cloneNode(true);
-			content.innerHTML = content.innerHTML.replace(regexp, new_id);
-			content.removeClassName("hidden");
-			element.up().insert({before: content});
-			render_tooltips();
-			e.stop();
-		}
-		else if (element.match('form input[type=submit]')) {
-			// removes hidden fields before submit
-			element.up("form").down("div.fields.hidden").remove();
-		}
+	$(".toggle_note").live("click", function(event) {
+		$(this).parent().siblings(".new_note").toggle();
+		event.preventDefault();
 	});
 	
-	$(document).observe('change', function(e){
-		var element = e.element();
-		if (element.match('select.county')) {
-			var href = "/home/local_area/?county_id=" + element.value;
-			new Ajax.Request(href, {
-				method: 'get',
-				onComplete: function(transport) {
-					if (200 == transport.status) {
-						element.up().up().replace(transport.responseText);
-					}
-				}
-			});
-			e.stop();
-		}
-		else if (element.match('select.municipality')) {
-			var href = "/home/local_area/?municipality_id=" + element.value;
-			new Ajax.Request(href, {
-				method: 'get',
-				onComplete: function(transport) {
-					if (200 == transport.status) {
-						element.up().up().replace(transport.responseText);
-					}
-				}
-			});
-			e.stop();
-		}
+	$("a.remove_fields").live("click", function(event) {
+		$(this).siblings("input[type=hidden]").attr("value", 1);
+		$(this).parents(".fields").hide();
+		event.preventDefault();
 	});
 	
+	$("a.add_fields").click(function(event) {
+		var new_id = new Date().getTime();
+		var association = $(this).attr("class").split(/\s+/)[1];
+		var regexp = RegExp("new_" + association, "g");
+		
+		var content = $(this).parent().next("div.fields").clone();
+		var new_content = content.html().replace(regexp, new_id);
+		content.html(new_content);
+		
+		content.removeClass("hidden");
+		$(this).parent().before(content);
+		event.preventDefault();
+	});
+	
+	$("form input[type=submit]").click(function(event) {
+		// removes hidden fields before submit
+		$(this).parents("form").children("div.fields.hidden").remove();
+	});
+	
+	$(".change_local_area").live("click", function(event) {
+		// removes hidden fields before submit
+		$(this).parent().siblings(".area_select").slideToggle();
+		event.preventDefault();
+	});
+	
+	$("select.county").live("change", function(event) {
+		var href = "/home/local_area/?county_id=" + $(this).val();
+		var target = $(this).parent().parent();
+		target.load(href, function(data) {
+		  target.children().unwrap();
+		});
+	});
+	
+	$("select.municipality").live("change", function(event) {
+		var href = "/home/local_area/?municipality_id=" + $(this).val();
+		var target = $(this).parent().parent();
+		target.load(href, function(data) {
+		  target.children().unwrap();
+		});
+	});
 });
-
-function render_tooltips() {
-	$$("img.info").each( function(img) {
-		new Tooltip(img);
-	});
-}
-
-function add_show_comment_form_observer(el, box) {
-	$(el).observe('click', function(event) {
-		show_comment_form(this.up().down(box));
-		add_hide_observer();
-		event.stop();
-	});
-}
-
-function add_hide_observer() {
-	if($$('.MB_close').length != 0 ) {
-		$$('.MB_close').each(function (el) {
-			$(el).observe('click', function(event) {
-				hide_box();
-				event.stop();
-			});
-		});
-	}
-}
-
-function show_loading_box() {
-	Modalbox.show($$('.modalbox_content')[0], {width: 300, transitions: false, overlayClose:false});
-}
-
-function show_comment_form(box) {
-	Modalbox.show(box, {width: 400, transitions: false, overlayClose:true, overlayOpacity: 0.0});
-}
-
-function hide_box() {
-	Modalbox.hide();
-	return false;
-}
-
-function remove_fields(link) {
-	$(link).previous("input[type=hidden]").value = "1";
-	$(link).up(".fields").hide();
-}
-
-function add_fields(link, association, content) {
-	var new_id = new Date().getTime();
-	var regexp = RegExp("new_" + association, "g");
-	$(link).up().insert({before: content.replace(regexp, new_id)});
-	render_tooltips();
-}

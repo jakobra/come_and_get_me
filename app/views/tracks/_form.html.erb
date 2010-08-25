@@ -33,7 +33,7 @@
 		<p><%= t("tracks.new.plot_track") %></p>
 
 		<!-- Tracksegments-->
-		<div>
+		<div class="tracksegments">
 			<% if @track.new_record? %>
 				<% f.fields_for :tracksegments do |builder| %>
 					<%= builder.hidden_field :track_version, :value => 1 %>
@@ -41,9 +41,7 @@
 			<% else %>
 				<input id="track_tracksegments_attributes_0_track_version" name="track[tracksegments_attributes][0][track_version]" type="hidden" value="<%= @track.version + 1 %>" />
 			<% end %>
-			<div>
-				<input type="hidden" id="tracksegment_reference_holder">
-			</div>
+			<div></div>
 		</div>
 		<!-- /Tracksegments-->
 	</div>

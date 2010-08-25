@@ -2,14 +2,22 @@
 <% main_class("large_width") %>
 
 <% content_for :head do %>
-	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%= APP_CONFIG["google_maps_api_key"] %>" type="text/javascript"></script>
-	<%= javascript_include_tag "maps" %>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="/javascripts/google_maps.js"></script>
 	
-	<% if @track.tracksegments.blank? %>
-		<%= javascript_tag "Map.set_options({click_listener: false, track_version:#{@track.version}});" %>
-	<% else %>
-		<%= javascript_tag "Map.set_options({tracks: [#{@track.id}], track_version: #{@track.version}, distance: true, distance_prefix: 'distance_'});" %>
-	<% end %>
+	<script type="text/javascript" charset="utf-8">
+	$(function() {
+		<% if @track.tracksegments.blank? %>
+			Map.set_options();
+		<% else %>
+			Map.set_options({track: <%= @track.id %>, track_version: <%= @track.version %>});
+		<% end %>
+		
+		Map.display();
+	});
+		
+	</script>
+	
 	
 <% end %>
 
@@ -19,13 +27,8 @@
 		<div>
 			<%= RedCloth.new(@track.description).to_html %>
 		</div>
+		
 		<%= link_to(t("tracks.record"), records_track_path(@track)) %>
-		<% unless @track.tracksegments.blank? %>
-			<div class="border_top">
-				<p id="sample_rate">Rate: 5</p>
-				<p><span id="distance_track_1"></span> km</p>
-			</div>
-		<% end %>
 
 		<% unless @track.tags.blank? %>
 			<div class="border_top">
@@ -39,15 +42,17 @@
 		<% end %>
 
 		<div class="border_top">
-			<p>
-				<%= link_to t("tracks.show.current"), :version => nil if params[:version] %>
-			</p>
+			<% if params[:version] %>
+				<p>
+					<%= link_to t("tracks.show.current"), :version => nil %>
+				</p>
+			<% end %>
 
 			<%= link_to t("tracks.show.view_history"), nil, :class => "toggle_history show" %>
 			
-			<%= link_to t("tracks.show.hide_history"), nil, {:style => "display:none;", :class => "toggle_history hide"} %>
+			<%= link_to t("tracks.show.hide_history"), nil, :class => "toggle_history hide" %>
 
-			<ul class="track_history" style="display:none;">
+			<ul class="track_history">
 				<li>
 					1. <%= link_to @track.created_at.strftime("%Y-%m-%d"), :version => 1 %>,
 					<%= link_to @track.created_by_user.login, user_path(@track.created_by_user) unless @track.created_by_user.blank? %>
@@ -88,14 +93,6 @@
 	</div>
 	<div class="map_area">
 		<div id="map_canvas"></div>
-
-		<% unless @track.tracksegments.blank? %>
-			<% if_high_sample_rate @track do %>
-				<div id="sample_rate_slide">
-					<div id="sample_rate_handle"></div>
-				</div>
-			<% end %>
-		<% end %>
 
 		<%= render "comments/comments_container", :commentable => @track, :url => new_track_comment_path(@track) %>
 	</div>

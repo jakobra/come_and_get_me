@@ -25,6 +25,9 @@ sv-SE:
         track_statistics:
             time_per_km: "Km tid (mm:ss)"
             hr: "Puls"
+        events:
+            km: "km"
+            hours: "Timmar"
     sign_up:
         sign_up: "Registrera"
         sign_up_as_member: "Registrera dig som ny medlem"

@@ -59,6 +59,8 @@ sv-SE:
                 hr_max: "Max puls"
                 hr_avg: "Medel puls"
                 comment: "Kommentar"
+            comment:
+                content: "Kommentar"
         errors:
             # model.errors.full_messages format.
             format: "{{attribute}} {{message}}"

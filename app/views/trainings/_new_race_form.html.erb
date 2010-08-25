@@ -1,4 +1,4 @@
-<% remote_form_for([@training, race]) do |f|  %>
+<% form_for([@training, race]) do |f|  %>
 	<%= f.error_messages %>
 
 	<%= render "races/fields", :f => f %>

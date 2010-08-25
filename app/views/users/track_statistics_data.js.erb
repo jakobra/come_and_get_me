@@ -1,0 +1,11 @@
+var options = {yAxisTitleFirst: '<%= t("users.track_statistics.hr") %>',
+			   yAxisTitleSecond: '<%= t("activerecord.attributes.race.time") %>',
+			   timeSerie: '<%= t("activerecord.attributes.race.time") %>',
+			   hrMaxSerie: '<%= t("activerecord.attributes.race.hr_max") %>',
+			   hrAvgSerie: '<%= t("activerecord.attributes.race.hr_avg") %>'};
+			
+chart.render_track_statistics(<%= @races.map { |r| r.training.date.to_s if (!r.hr_avg.blank? && !r.hr_max.blank?) }.compact.inspect %>,
+<%= (@races.map { |r| ((r.time.to_i - Race::EPOCH) * 1000) if (!r.hr_avg.blank? && !r.hr_max.blank?) }).compact.inspect %>,
+<%= @races.map { |r| (r.hr_avg.blank? || r.hr_max.blank?) ? nil : r.hr_max }.compact.inspect %>,
+<%= @races.map { |r| (r.hr_avg.blank? || r.hr_max.blank?) ? nil : r.hr_avg }.compact.inspect %>,
+options);

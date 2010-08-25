@@ -108,7 +108,7 @@ img.info {
 #errorExplanation h2 {
 	text-align: left;
 	font-weight: bold;
-	padding: 5px 5px 5px 15px;
+	padding: 5px 5px 5px 10px;
 	font-size: 12px;
 	margin: 0;
 	background-color: #c00;
@@ -283,22 +283,25 @@ ul {
 	display:block;
 }
 
-#new_comment > #errorExplanation, .edit_comment > #errorExplanation {
-  width: 376px;
-}
-
 /* INDIVIDUAL STYLES */
 .race {
 	float:left;
 }
 
 .new_comment_box, .edit_comment_box {
-	background-image:url("/images/transparent/trans_black_06.png");
 	padding:10px;
+}
+
+form.comment > #errorExplanation {
+  width: 300px;
 }
 
 .personal_bests h3 {
 	margin-top:20px;
+}
+
+.new_comment_box, .edit_comment_box {
+	background-image:url("/images/transparent/trans_black_06.png");
 }
 
 /* COMMENTS */

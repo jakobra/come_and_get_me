@@ -1,34 +1,24 @@
-Event.observe(window, 'load', function() {
-
-	$(document).observe('click', function(e){
-		var element = e.element();
-		if (element.match('.toggle_user_statistics')) {
-			Effect.toggle(element.up().down('form'), 'blind')
-			e.stop();
-		}
-		else if (element.match('.user_statistics a.stat_link')) {
-			var href = element.readAttribute('href');
-			new Ajax.Request(href, {
-				method: 'get',
-				onComplete: function(transport) {
-					if (200 == transport.status) {
-						element.next('div').update(transport.responseText);
-						element.previous('h4').down('span').remove();
-					}
-				}
-			});
-			e.stop();
-		}
-		else if (element.match('.custom_user_stat span.button input')) {
-			var form = element.up('form');
-			form.request({
-				method: 'get',
-				onComplete: function(transport){
-					form.next('div').update(transport.responseText);
-					form.previous('h4').down('span').remove();
-				}
-			});
-			event.stop();
+$(function() {
+	$("div.user_track_statistics a.order").live("click", function(event) {
+		$(this).parents("table").load($(this).attr('href'));
+		event.preventDefault();
+	});
+	
+	$(".toggle_user_statistics").click(function(event) {
+		$(this).parent().children("form").slideToggle();
+		event.preventDefault();
+	});
+	
+	$(".user_statistics a.stat_link").click(function(event) {
+		$(this).parent().children("div.statistics").load($(this).attr("href"));
+		$(this).parent().children("h4").children("span").remove();
+		event.preventDefault();
+	});
+	
+	$("form.custom_user_stat").ajaxForm({
+		success: function(responseText, statusText, xhr, form) {
+			form.parent().children("div.statistics").html(responseText);
+			form.parent().children("h4").children("span").remove();
 		}
 	});
 });

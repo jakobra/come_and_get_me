@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   end
   
   def load_side_modules
+    @prototype = false
     @current_menu_node = MenuNodeResolver.new(request).current_menu_node
     side_module_resolver = SideModuleResolver.new(@current_menu_node)
     @content_for_left_side = side_module_resolver.left_side

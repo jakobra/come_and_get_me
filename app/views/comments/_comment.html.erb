@@ -6,13 +6,13 @@
 	<% end %>
 	
 	<% if permitted_to? :create, Comment.new %>
-		<%= link_to t("comments.answer"), new_comment_comment_path(comment), :class => "answer_comment" %> |
+		<%= link_to t("comments.answer"), new_comment_comment_path(comment), :class => "answer_comment", :rel => "popup" %> |
 	<% end %>
 	
 	<%= link_to t("comments.report"), report_comment_path(comment), :class => "report_comment" %>
 	
 	<% if permitted_to? :update, comment %>
-		| <%= link_to t("common.edit"), edit_comment_path(comment), :class => "edit_comment" %>
+		| <%= link_to t("common.edit"), edit_comment_path(comment), :class => "edit_comment submit_comment", :rel => "popup" %>
 	<% end %>
 	
 	<% div_for(comment, "comments", :class => "comments") do %>

@@ -1,0 +1,5 @@
+#overlay { bottom:0; display:none; left:0; position:fixed; right:0; top:0; z-index:60000; }
+#popup { text-align: left; display:none; position:absolute; z-index:60001; }
+#popup div.popup-close { background:transparent url(/images/buttons/cancel.png) no-repeat scroll 100% 0; cursor:pointer; height:24px; width: 24px; position:absolute; right:-12px; top:-12px; z-index:60002; }
+#popup.loader { background: #fff url(/images/icons/spinner.gif) no-repeat 50% 50%; width: 249px; height: 49px; }
+#popup.loader #popup-container { display: none; }

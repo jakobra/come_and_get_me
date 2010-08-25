@@ -1,10 +1,10 @@
 // Javascript to be executed
 
 <% unless @comment.valid? %>
-	$('<%= escape_javascript(dom_id(@comment, "edit")) %>').insert({top: '<%= escape_javascript(error_messages_for("comment")) %>'})
+	$('#<%= escape_javascript(dom_id(@comment, "edit")) %>').prepend('<%= escape_javascript(error_messages_for("comment")) %>');
 <% else %>
-	hide_box();
-	$('<%= escape_javascript(dom_id(@comment)) %>').replace('<%= escape_javascript(render :partial => @comment) %>');
-	new Effect.Highlight('<%= escape_javascript(dom_id(@comment)) %>', {duration: 0.5});
+	$('#<%= escape_javascript(dom_id(@comment)) %>').replaceWith('<%= escape_javascript(render :partial => @comment) %>');
+	$("a[rel=popup]").popup();
+	$('.popup-close').trigger("click");
 	<% flash.discard %>
 <% end %>

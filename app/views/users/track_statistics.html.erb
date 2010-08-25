@@ -1,8 +1,6 @@
 <% main_class("large_width") %>
 
 <% content_for :head do %>
-	<%= javascript_include_tag "jquery-1.4.2.min", "users.jquery", "highcharts" %>
-	
 	<script type="text/javascript" charset="utf-8">
 		$(function(){
 			var options = {yAxisTitleFirst: '<%= t("users.track_statistics.hr") %>',
@@ -11,29 +9,40 @@
 						   hrMaxSerie: '<%= t("activerecord.attributes.race.hr_max") %>',
 						   hrAvgSerie: '<%= t("activerecord.attributes.race.hr_avg") %>'};
 						
-			chart.render_track_statistics(<%= @races.map { |r| r.training.date.to_s if (!r.hr_avg.blank? && !r.hr_max.blank?) }.compact.inspect %>,
-			<%= (@races.map { |r| ((r.time.to_i - Race::EPOCH) * 1000) if (!r.hr_avg.blank? && !r.hr_max.blank?) }).compact.inspect %>,
-			<%= @races.map { |r| (r.hr_avg.blank? || r.hr_max.blank?) ? nil : r.hr_max }.compact.inspect %>,
-			<%= @races.map { |r| (r.hr_avg.blank? || r.hr_max.blank?) ? nil : r.hr_avg }.compact.inspect %>,
+			chart.render_track_statistics(<%= @track_statistics.chart_races.map { |r| r.training.date.to_s }.inspect %>,
+			<%= @track_statistics.chart_races.map { |r| ((r.time.to_i - Race::EPOCH) * 1000) }.inspect %>,
+			<%= @track_statistics.chart_races.map { |r| r.hr_max }.inspect %>,
+			<%= @track_statistics.chart_races.map { |r| r.hr_avg }.inspect %>,
 			options);
+			
+			$("#slider").slider({range: true,
+				max: <%= @track_statistics.chart_races_count - 1 %>,
+				values: [<%= (@track_statistics.chart_races_count > 20) ? (@track_statistics.chart_races_count - 21) : 0 %>, <%= @track_statistics.chart_races_count - 1 %>],
+				stop: function(event, ui) {
+					var from = $(this).slider( "option", "values" )[0];
+					var to = $(this).slider( "option", "values" )[1];
+					$.get('/users/<%= @user.login %>/track_statistics_data/<%= @track_statistics.track.id %>?from=' + from + '&to=' + to);
+				}
+			});
 		});
 	</script>
 <% end %>
-<h2><%= link_to @track.title, @track %></h2>
-
-<div id="user_track_statistics_chart" style="width:1000px; height:400px;"></div>
-
 <div class="user_track_statistics">
+	<h2><%= link_to @track_statistics.track.title, @track_statistics.track %></h2>
+
+	<div id="user_track_statistics_chart"></div>
+	<div id="slider"></div>
+	
 	<table>
 		<tbody>
 			<tr class="small">
-				<th><%= link_to t("activerecord.attributes.training.date"), user_track_statistics_path(@user, @track, :order => order("date")), :class => "order" %></th>
-				<th><%= link_to t("activerecord.attributes.race.time"), user_track_statistics_path(@user, @track, :order => order("time")), :class => "order" %></th>
-				<th><%= link_to t("users.track_statistics.time_per_km"), user_track_statistics_path(@user, @track, :order => order("time")), :class => "order" %></th>
-				<th><%= link_to t("activerecord.attributes.race.hr_max"), user_track_statistics_path(@user, @track, :order => order("hr_max")), :class => "order" %></th>
-				<th><%= link_to t("activerecord.attributes.race.hr_avg"), user_track_statistics_path(@user, @track, :order => order("hr_avg")), :class => "order" %></th>
+				<th><%= link_to t("activerecord.attributes.training.date"), user_track_statistics_path(@user, @track_statistics.track, :order => order("date")), :class => "order" %></th>
+				<th><%= link_to t("activerecord.attributes.race.time"), user_track_statistics_path(@user, @track_statistics.track, :order => order("time")), :class => "order" %></th>
+				<th><%= link_to t("users.track_statistics.time_per_km"), user_track_statistics_path(@user, @track_statistics.track, :order => order("time")), :class => "order" %></th>
+				<th><%= link_to t("activerecord.attributes.race.hr_max"), user_track_statistics_path(@user, @track_statistics.track, :order => order("hr_max")), :class => "order" %></th>
+				<th><%= link_to t("activerecord.attributes.race.hr_avg"), user_track_statistics_path(@user, @track_statistics.track, :order => order("hr_avg")), :class => "order" %></th>
 			</tr>
-			<%= render :partial => "track_statistics", :collection => @races %>
+			<%= render :partial => "track_statistics", :collection => @track_statistics.races %>
 		</tbody>
 	</table>
 </div>

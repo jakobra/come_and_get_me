@@ -4,7 +4,7 @@ authorization do
     has_permission_on :users, :to => :read do
       if_attribute :id => is_not {APP_CONFIG['admin_user']}
     end
-    has_permission_on :users, :to => [:new, :create, :statistics, :records, :track_statistics, :events]
+    has_permission_on :users, :to => [:new, :create, :statistics, :records, :track_statistics, :track_statistics_data, :events]
     has_permission_on :comments, :to => :report
     has_permission_on :pages, :to => :show
     has_permission_on :tracks, :to => [:read, :records, :recent_track_records]
