@@ -8,10 +8,6 @@
 
 * Make it possible to import race from external sites like runkeeper through api or screen-scrape
 
-* Separate records for women/men
-
-* Records depending on event
-
 ### CODING ###
 
 * Work on the code for comments-container
@@ -29,10 +25,6 @@
 * Make it better when taking RaceTrack records through association ????? still?
 
 * Rewrite de code for creating and updating Tracks
-
-* Better layout for pb:s and records
-
-* Migrate all javascript to JQuery -- In progess
 
 ### BUGS ###
 

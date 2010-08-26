@@ -69,11 +69,11 @@ protected
     new_cookie_flag = (params[:remember_me] == "1")
     handle_remember_cookie! new_cookie_flag
     flash[:notice] = t("login.logged_in")
-    redirect_back_or_default('/')
+    redirect_back_or_default(user_path(self.current_user))
   end
   
   def failed_login(msg = t("login.password_failure", :login => params[:login]))
-    @login       = params[:login]
+    @login = params[:login]
     @remember_me = params[:remember_me]
     if using_open_id?
       flash[:error] = msg

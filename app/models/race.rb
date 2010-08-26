@@ -21,7 +21,12 @@ class Race < ActiveRecord::Base
   
   def self.personal_bests(options = {})
     tracks = minimum(:time, :group => :track_id, :conditions => ["track_id IS NOT NULL"])
-    find_all_by_time(tracks.values, options.merge(:order => "trainings.date DESC"))
+    logger.info "options #{options.inspect}"
+    races = []
+    tracks.each do |track|
+      races << find(:first, options.merge(:order => "trainings.date DESC", :conditions => ["track_id = ? AND time = ?", track[0], track[1]], :include => [:track, :training]))
+    end
+    races.sort {|a, b| b.training.date <=> a.training.date}
   end
   
   def self.recent_records(gender = nil)

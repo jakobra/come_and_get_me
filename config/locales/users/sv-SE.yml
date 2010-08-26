@@ -14,6 +14,7 @@ sv-SE:
             total_distance: "Total distans"
             total_time: "Total tid"
             pb: "Personliga rekord"
+            training_hours: "Träningstimmar"
         edit:
             male: "Man"
             female: "Kvinna"
