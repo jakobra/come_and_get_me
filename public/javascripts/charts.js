@@ -42,7 +42,7 @@ chart.render_events = function(categories, hours, distances, options) {
 				// Secondary yAxis
 		 		{title: {text: options.yAxisTitleSecond, style : {color: '#e0a421'}}, opposite: true}],
 		tooltip: {formatter: function() {
-					if(this.series.name == options.hoursSerie)
+					if(this.series.name == options.yAxisTitleFirst)
 		            	return this.y + " " + options.hours;
 					else
 						return this.y + " " + options.km;
