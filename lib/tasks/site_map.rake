@@ -20,7 +20,5 @@ task :site_map => :environment do
   
   sitemap += "\n</urlset>"
   
-  puts sitemap
-  
   File.open(RAILS_ROOT + "/public/sitemap.xml", 'w') {|f| f.write(sitemap) }
 end
