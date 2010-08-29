@@ -15,6 +15,7 @@ task :site_map => :environment do
   
   Track.all.each do |track|
     sitemap += "\n\t<url>\n\t\t<loc>http://www.comeandgetme.se/tracks/#{track.to_param}</loc>\n\t</url>"
+    sitemap += "\n\t<url>\n\t\t<loc>http://www.comeandgetme.se/tracks/#{track.to_param}/records</loc>\n\t</url>"
   end
   
   sitemap += "\n</urlset>"
