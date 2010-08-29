@@ -47,3 +47,6 @@ Rails::Initializer.run do |config|
   # Include all view_models
   Dir["#{RAILS_ROOT}/app/view_models/*/"].map { |dir| config.load_paths << dir }
 end
+
+require 'lib/extensions/string_extensions'
+require 'lib/extensions/array_extensions'

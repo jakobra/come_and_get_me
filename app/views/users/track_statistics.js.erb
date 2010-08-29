@@ -1,10 +1,10 @@
 <tbody>
 	<tr class="small">
-		<th><%= link_to t("activerecord.attributes.training.date"), user_track_statistics_path(@user, @track, :order => order("date")), :class => "order" %></th>
-		<th><%= link_to t("activerecord.attributes.race.time"), user_track_statistics_path(@user, @track, :order => order("time")), :class => "order" %></th>
-		<th><%= link_to t("users.track_statistics.time_per_km"), user_track_statistics_path(@user, @track, :order => order("time")), :class => "order" %></th>
-		<th><%= link_to t("activerecord.attributes.race.hr_max"), user_track_statistics_path(@user, @track, :order => order("hr_max")), :class => "order" %></th>
-		<th><%= link_to t("activerecord.attributes.race.hr_avg"), user_track_statistics_path(@user, @track, :order => order("hr_avg")), :class => "order" %></th>
+		<th><%= link_to t("activerecord.attributes.training.date"), user_track_statistics_path(@user, @track_statistics.track, :order => order("date")), :class => "order" %></th>
+		<th><%= link_to t("activerecord.attributes.race.time"), user_track_statistics_path(@user, @track_statistics.track, :order => order("time")), :class => "order" %></th>
+		<th><%= link_to t("users.track_statistics.time_per_km"), user_track_statistics_path(@user, @track_statistics.track, :order => order("time")), :class => "order" %></th>
+		<th><%= link_to t("activerecord.attributes.race.hr_max"), user_track_statistics_path(@user, @track_statistics.track, :order => order("hr_max")), :class => "order" %></th>
+		<th><%= link_to t("activerecord.attributes.race.hr_avg"), user_track_statistics_path(@user, @track_statistics.track, :order => order("hr_avg")), :class => "order" %></th>
 	</tr>
-	<%= render :partial => "track_statistics", :collection => @races %>
+	<%= render :partial => "track_statistics", :collection => @track_statistics.races %>
 </tbody>

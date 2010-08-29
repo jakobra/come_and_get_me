@@ -1,4 +1,6 @@
-<% title @track.title %>
+<% title t("seo.tracks_show_title", :track => @track.title) %>
+<% description t("seo.tracks_show_description", :track => @track.title, :municipality => @track.municipality.name) %>
+<% canonical track_path(@track) %>
 <% main_class("large_width") %>
 
 <% content_for :head do %>
@@ -6,19 +8,16 @@
 	<script type="text/javascript" src="/javascripts/google_maps.js"></script>
 	
 	<script type="text/javascript" charset="utf-8">
-	$(function() {
-		<% if @track.tracksegments.blank? %>
-			Map.set_options();
-		<% else %>
-			Map.set_options({track: <%= @track.id %>, track_version: <%= @track.version %>});
-		<% end %>
+		$(function() {
+			<% if @track.tracksegments.blank? %>
+				Map.set_options();
+			<% else %>
+				Map.set_options({track: <%= @track.id %>, track_version: <%= @track.version %>});
+			<% end %>
 		
-		Map.display();
-	});
-		
+			Map.display();
+		});
 	</script>
-	
-	
 <% end %>
 
 <div class="tracks_show">
@@ -48,7 +47,7 @@
 				</p>
 			<% end %>
 
-			<%= link_to t("tracks.show.view_history"), nil, :class => "toggle_history show" %>
+			<%= link_to t("tracks.show.view_history"), nil, :class => "toggle_history" %>
 			
 			<%= link_to t("tracks.show.hide_history"), nil, :class => "toggle_history hide" %>
 

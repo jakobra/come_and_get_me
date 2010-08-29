@@ -1,12 +1,12 @@
 class Race < ActiveRecord::Base
-  belongs_to :event
+  belongs_to :event, :include => true
   belongs_to :training
   belongs_to :track
   
   has_one :user, :through => :training
   has_many :comments, :as => :commentable, :dependent => :destroy
   has_one :note, :as => :noteable, :dependent => :destroy
-  
+
   accepts_nested_attributes_for :note, :allow_destroy => true, :reject_if => lambda { |a| a[:content].blank? }
   
   attr_accessor :new_event_name, :new_event_description
@@ -78,6 +78,14 @@ class Race < ActiveRecord::Base
     seconds_per_km = (self.time.to_i - EPOCH) / self.distance
     time = Time.at(seconds_per_km + EPOCH)
     time.getgm
+  end
+  
+  def to_param
+    if(!self.event.blank?)
+      "#{self.id}-#{self.event.name}".to_uri
+    else
+      self.id.to_s
+    end
   end
   
 end

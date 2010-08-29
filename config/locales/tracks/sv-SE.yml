@@ -17,6 +17,8 @@ sv-SE:
             plot_track: "... eller plotta en bana på kartan"
             same_start_finish: "Samma start och slut punkt?"
             remove_last_point: "Ta bort sista punkten"
+            tag_names: "Taggar"
+            tag_names_description: "(separerar med \",\")"
         create:
             created: "{{name}} sparad"
         update:

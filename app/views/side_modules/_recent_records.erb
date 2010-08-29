@@ -9,8 +9,8 @@
 	</div>
 	<div class="golden_border">
 		<p class="small">
-			<% tab_service.content.each do |record| %>
-				<%= link_to record.time.strftime("%H:%M:%S"), race_path(record) unless record.time.blank? %>, <%= truncate(record.track.title,:length => 25) unless record.track.blank? %><br />
+			<% tab_service.content.each do |race| %>
+				<%= link_to race.time.strftime("%H:%M:%S"), race_path(race) unless race.time.blank? %>, <%= truncate(race.track.title,:length => 25) unless race.track.blank? %><br />
 			<% end %>
 		</p>
 	</div>

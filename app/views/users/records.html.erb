@@ -1,4 +1,4 @@
-<% title "#{@user.login}s #{t("tracks.record").downcase}"%>
+<% title t("seo.users_records_title", :user => @user.login)%>
 
 <% content_for :left_side do %>
 	<%= render "side_modules/recent_trainings", :user => @user %>

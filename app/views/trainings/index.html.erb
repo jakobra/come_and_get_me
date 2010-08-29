@@ -1,5 +1,6 @@
-<% title "#{@user.login}s #{t("activerecord.models.training.other")}" %>
-
+<% title t("seo.trainings_index_title", :user => @user.login) %>
+<% description t("seo.trainings_index_description", :user => @user.login) %>
+<% canonical "/users/#{@user.login}/trainings"%>
 <h1><%= "#{t("trainings.index.trainings_for")} #{@user.login}" %></h1>
 
 <% if permitted_to? :create, @user.trainings %>

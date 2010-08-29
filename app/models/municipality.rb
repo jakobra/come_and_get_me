@@ -15,6 +15,6 @@ class Municipality < ActiveRecord::Base
   end
   
   def to_param
-    "#{self.id}-#{CGI.escape(self.name)}"
+    "#{self.id}-#{self.name}".to_uri
   end
 end

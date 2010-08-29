@@ -3,13 +3,16 @@
 # to do so you may need to add this line to your ApplicationController
 #   helper :layout
 module LayoutHelper
-  def title(page_title, show_title = false)
+  def title(page_title)
     @content_for_title = page_title.to_s
-    @show_title = show_title
   end
   
-  def show_title?
-    @show_title
+  def description(page_description)
+    @content_for_description = page_description.to_s
+  end
+  
+  def canonical(page_canonical)
+    @content_for_canonical = page_canonical.to_s
   end
   
   def stylesheet(*args)

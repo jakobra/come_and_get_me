@@ -22,7 +22,7 @@
 	<% if permitted_to? :update, @municipality %>
 		<%= link_to "Edit", edit_municipality_path(@municipality) %> |
 	<% end %>
-	<% if permitted_to? :destroy. @municipality %>
+	<% if permitted_to? :destroy, @municipality %>
 		<%= link_to "Destroy", @municipality, :confirm => 'Are you sure?', :method => :delete %> |
 	<% end %>
 	<%= link_to "View All", county_municipalities_path(@municipality.county) %>

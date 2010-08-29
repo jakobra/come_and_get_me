@@ -1,4 +1,6 @@
-<% title "#{@race.training.date} // #{@race.event.name}"  %>
+<% title t("seo.races_show_title", :event => @race.event.name)  %>
+<% description t("seo.races_show_description", :event => @race.event.name, :track => @race.track.title)  %>
+<% canonical race_path(@race) %>
 
 <h2><%= @race.training.date %></h2>
 

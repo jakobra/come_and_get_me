@@ -1,4 +1,6 @@
-<% title @user.login %>
+<% title t("seo.users_show_title", :user => @user.login) %>
+<% description t("seo.users_show_description") %>
+<% canonical "/#{@user.to_param}" %>
 
 <% content_for :left_side do %>
 	

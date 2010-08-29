@@ -1,4 +1,5 @@
-<% title "#{@track.title} - #{t("tracks.record")}" %>
+<% title t("seo.tracks_records_title", :track => @track.title, :events => @track_records.races.map { |r| r.event.name }.uniq.humanize_join(", ", " & ")) %>
+<% description t("seo.tracks_records_description", :track => @track.title, :events => Event.all.map { |e| e.name }.humanize_join(", ", " & ")) %>
 
 <% content_for :left_side do %>
 	<%= render "side_modules/recent_records", :tab_service => @recent_records_tab_service, :title => t("side_modules.recent_records") %>

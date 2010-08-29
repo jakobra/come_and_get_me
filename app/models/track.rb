@@ -15,6 +15,7 @@ class Track < ActiveRecord::Base
   accepts_nested_attributes_for :tracksegments, :allow_destroy => true, :reject_if => lambda { |a| a[:points_attributes].blank? }
   
   before_destroy :destroy_all_tracksegments
+  after_save :assign_tags
   
   has_attached_file :track,
                     :url => "/assets/:class/:id_:version_:basename.:extension",
@@ -28,6 +29,8 @@ class Track < ActiveRecord::Base
   
   validates_presence_of :municipality_id, :title
   
+  attr_writer :tag_names
+  
   # Versioned by vestal versions
   versioned
   
@@ -35,6 +38,10 @@ class Track < ActiveRecord::Base
   attr_accessor :circle
   
   named_scope :latest, {:limit => 5, :order => "id DESC"}
+  
+  def tag_names
+    @tag_names || tags.map(&:name).join(", ")
+  end
   
   def records(conditions = {})
     races.find(:all, :order => "time", :limit => 20, :include => [:event, {:training => :user}], :conditions => conditions)
@@ -64,6 +71,10 @@ class Track < ActiveRecord::Base
     races.find(:all, :select => 'DISTINCT event_id', :include => :event).map { |race| race.event }
   end
   
+  def to_param
+    "#{self.id}-#{self.title}".to_uri
+  end
+  
   private
   
   def destroy_all_tracksegments
@@ -80,6 +91,14 @@ class Track < ActiveRecord::Base
                                       :latitude => lp.latitude, 
                                       :elevation => lp.elevation)
       logger.info "Finish point appended"
+    end
+  end
+  
+  def assign_tags
+    if @tag_names
+      self.tags = @tag_names.split(/,/).map do |name|
+        Tag.find_or_create_by_name(name.strip)
+      end
     end
   end
   

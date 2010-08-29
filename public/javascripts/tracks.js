@@ -1,16 +1,9 @@
 $(function() {
-	$('.tracks_show a.toggle_history.show').click(function(event) {
-		$(this).parent().children("ul.track_history").slideDown();
-		$(this).hide();
-		$(this).parent().children("a.hide").show();
+	$('.tracks_show a.toggle_history').click(function(event) {
 		event.preventDefault();
-	});
-	
-	$('.tracks_show a.toggle_history.hide').click(function(event) {
-		$(this).parent().children("ul.track_history").slideUp();
+		$(this).parent().children("ul.track_history").slideToggle();
 		$(this).hide();
-		$(this).parent().children("a.show").show();
-		event.preventDefault();
+		$(this).siblings("a").show();
 	});
 	
 	$('input[name=gender]').live("click", function(event) {

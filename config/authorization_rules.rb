@@ -1,7 +1,7 @@
 authorization do
   role :guest do
     has_permission_on [:trainings, :municipalities, :counties], :to => :read
-    has_permission_on :users, :to => :read do
+    has_permission_on :users, :to => :show do
       if_attribute :id => is_not {APP_CONFIG['admin_user']}
     end
     has_permission_on :users, :to => [:new, :create, :statistics, :records, :track_statistics, :track_statistics_data, :events]

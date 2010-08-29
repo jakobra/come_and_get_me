@@ -1,4 +1,4 @@
-<% title t("activerecord.models.track.other") %>
+<% title t("seo.tracks_index_title", :events => Event.find(:all, :limit => 3).map { |e| e.name }.humanize_join(", ", " & ")) %>
 
 <% content_for :left_side do %>
 	<div class="side_module">

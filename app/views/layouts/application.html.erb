@@ -3,7 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-		<title><%= h(yield(:title) || t("common.title")) %></title>
+		<title><%= h(yield(:title) || t("seo.default_title")) %></title>
+		<meta name="description" content="<%= h(yield(:description) || t("seo.default_description")) %>" />
+		<link rel="canonical" href="<%= h(yield(:canonical) || request.path) %>" />
+		
 		<%= stylesheet_link_tag :all %>
 		<%= stylesheet_link_tag :rambo %>
 		<%= javascript_include_tag :rambo %>

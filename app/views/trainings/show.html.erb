@@ -1,4 +1,4 @@
-<% title "#{@training.date.strftime("%e %b - %Y")}" %>
+<% title t("seo.trainings_show_title", :user => @training.user.login ) %>
 <% main_class("large_width") %>
 
 <% content_for :head do %>
