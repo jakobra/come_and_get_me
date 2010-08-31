@@ -1,5 +1,6 @@
 <tr class="<%= cycle "odd", "even" %>">
 	<td><%= link_to track.title, track %></td>
+	<td><%= number_with_delimiter(track.distance) %></td>
 	<td class="record"><%= link_to(t("tracks.record"), records_track_path(track)) %></td>
 	<% if permitted_to? :edit, track %>
 		<td class="edit"><%= link_to t("common.edit"), edit_track_path(track) %></td>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100505193038) do
+ActiveRecord::Schema.define(:version => 20100831191811) do
 
   create_table "comments", :force => true do |t|
     t.text     "content"
@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(:version => 20100505193038) do
     t.text     "description"
     t.integer  "municipality_id"
     t.integer  "created_by_user_id"
+    t.decimal  "distance",           :precision => 7, :scale => 3
   end
 
   create_table "tracksegments", :force => true do |t|

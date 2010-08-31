@@ -23,6 +23,7 @@
 <div class="tracks_show">
 	<div class="information">
 		<h3><%= h @track.title %></h3>
+		<h4><%= t("tracks.show.km", :km => number_with_delimiter(@track.distance)) %></h4>
 		<div>
 			<%= RedCloth.new(@track.description).to_html %>
 		</div>

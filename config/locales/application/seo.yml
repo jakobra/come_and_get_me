@@ -15,5 +15,5 @@ sv-SE:
         trainings_index_title: "{{user}} - För träningsdagbok på Come And Get Me"
         trainings_index_description: "{{user}} - För träningsdagbok över din träning. Gå tillbaka och håll koll på dina förbättringar."
         trainings_show_title: "{{user}} - Registrera dina träningar och rekord på Come And Get Me"
-        races_show_title: "Come And Get Me - Resultat av träningslopp för {{event}}."
+        races_show_title: "Come And Get Me - Resultat för träningslopp i {{event}}."
         races_show_description: "{{event}} - Resultat för träningslopp {{track}}"

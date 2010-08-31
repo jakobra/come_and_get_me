@@ -6,19 +6,19 @@ class TracksController < ApplicationController
   # GET /tracks.xml
   def index
     if !params[:municipality].blank?
-      @municipality = Municipality.find(params[:municipality])
-      @tracks = @municipality.tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
-      @county = @municipality.county
-      @municipalities = @county.municipalities
+      municipality = Municipality.find(params[:municipality])
+      tracks = municipality.tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
+      county = municipality.county
+      municipalities = county.municipalities
     elsif !params[:county].blank?
-      @county = County.find(params[:county], :include => :municipalities)
-      @municipalities = @county.municipalities
-      @tracks = @county.tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
+      county = County.find(params[:county], :include => :municipalities)
+      municipalities = county.municipalities
+      tracks = county.tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
     else
-      @municipalities = Municipality.all
-      @tracks = Track.paginate(:page => params[:page], :order => :title, :per_page => 25)
+      municipalities = Municipality.all
+      tracks = Track.paginate(:page => params[:page], :order => :title, :per_page => 25)
     end
-    @latest_tracks = Track.latest
+    @tracks_container = TracksContainer.new(tracks, county, municipality, municipalities, Track.latest)
   end
 
   # GET /tracks/1

@@ -46,6 +46,7 @@ sv-SE:
                 track_file_name: "Filen"
                 municipality_id: "Kommun"
                 tracksegments: "GPS-koordinater eller GPX-fil"
+                distance: "Distans (km)"
             training:
                 date: "Datum"
                 races: "Lopp"

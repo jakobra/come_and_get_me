@@ -12,12 +12,16 @@
 			<%= f.text_area :description, :rows => 4, :cols => 33 %>
 		</p>
 		
-		<p>
+		<p class="default">
 			<%= f.label :tag_names, t("tracks.new.tag_names") %> <span class="small"><%= t("tracks.new.tag_names_description") %></span><br />
 			<%= f.text_field :tag_names %>
 		</p>
 	</div>
 	<div class="left margin_left_large">
+		<p class="default">
+			<%= f.label :distance, t("activerecord.attributes.track.distance") %><br />
+			<%= f.text_field :distance, :size => 8 %>
+		</p>
 		<p class="default">
 			<%= f.label :municipality_id, t("activerecord.models.municipality.one") %><br />
 			<%= select("county", "id", County.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.county")}"}, {:onchange => remote_function(:url => {:controller => :municipalities, :action => :index}, :with => "'county_id=' + this.value", :method => :get)}) %>

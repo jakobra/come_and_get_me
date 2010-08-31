@@ -28,6 +28,7 @@ class Track < ActiveRecord::Base
                       :unless => Proc.new { |track| track.track_file_name.blank? }
   
   validates_presence_of :municipality_id, :title
+  validates_numericality_of :distance
   
   attr_writer :tag_names
   
@@ -45,6 +46,10 @@ class Track < ActiveRecord::Base
   
   def records(conditions = {})
     races.find(:all, :order => "time", :limit => 20, :include => [:event, {:training => :user}], :conditions => conditions)
+  end
+  
+  def record
+    races.find(:first, :order => "time", :include => [:event, {:training => :user}])
   end
   
   def save_attached_files_with_parse_file

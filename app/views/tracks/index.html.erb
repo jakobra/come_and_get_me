@@ -4,7 +4,7 @@
 	<div class="side_module">
 		<h5><%= t("side_modules.latest_tracks") %></h5>
 		<ul class="small">
-			<% @latest_tracks.each do |track| %>
+			<% @tracks_container.latest_tracks.each do |track| %>
 				<li><%= link_to track.title, track_path(track) %></li>
 			<% end %>
 		</ul>
@@ -15,7 +15,7 @@
 <h1><%= t("activerecord.models.track.other") %></h1>
 
 <div class="content">
-	<%= render "tracks", :tracks => @tracks, :county => @county, :counties => @counties, :municipality => @municipality, :municipalities => @municipalities %>
+	<%= render "tracks", :tc => @tracks_container %>
 </div>
 
 <% if permitted_to? :create, Track.new %>

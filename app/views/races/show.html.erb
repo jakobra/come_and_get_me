@@ -1,5 +1,5 @@
-<% title t("seo.races_show_title", :event => @race.event.name)  %>
-<% description t("seo.races_show_description", :event => @race.event.name, :track => @race.track.title)  %>
+<% title t("seo.races_show_title", :event => @race.event.name) %>
+<% description t("seo.races_show_description", :event => @race.event.name, :track => @race.track.title) unless @race.track == nil %>
 <% canonical race_path(@race) %>
 
 <h2><%= @race.training.date %></h2>
@@ -25,15 +25,15 @@
 
 <div class="left margin_left_large">
 	<p class="default">
-		<span class="bold"><%= t("activerecord.attributes.race.track_id") %>:</span><br />
+		<span class="bold"><%= t("activerecord.attributes.race.track_id") %>:</span>
 		<%= link_to @race.track.title, track_path(@race.track) unless @race.track.blank? %>
 	</p>
 	<p class="default">
-		<span class="bold"><%= t("activerecord.attributes.race.hr_max") %>:</span><br />
+		<span class="bold"><%= t("activerecord.attributes.race.hr_max") %>:</span>
 		<%= @race.hr_max unless @race.hr_max.blank? %>
 	</p>
 	<p class="default">
-		<span class="bold"><%= t("activerecord.attributes.race.hr_avg") %>:</span><br />
+		<span class="bold"><%= t("activerecord.attributes.race.hr_avg") %>:</span>
 		<%= @race.hr_avg unless @race.hr_avg.blank? %>
 	</p>
 </div>
