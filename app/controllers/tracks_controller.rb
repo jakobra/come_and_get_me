@@ -84,8 +84,8 @@ class TracksController < ApplicationController
     attributes[:updated_by] = current_user
     
     if attributes[:file].blank?
+      attributes[:file] = nil
       unless attributes[:tracksegments_attributes]["0"][:points_attributes].blank?
-        attributes[:file] = nil
         attributes[:tracksegments_attributes]["0"][:circle] = attributes[:circle]
         attributes["date(1i)"] = Date.today.year.to_s
         attributes["date(2i)"] = Date.today.month.to_s
@@ -95,6 +95,7 @@ class TracksController < ApplicationController
         attributes["date(6i)"] = Time.now.sec.to_s
       end
     else
+      attributes[:file] = nil
       attributes[:tracksegments_attributes]["0"][:points_attributes] = nil
     end
     
