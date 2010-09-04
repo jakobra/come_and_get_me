@@ -272,15 +272,11 @@ ul {
 	margin:5px 0px;
 }
 
-/* MODALBX CONTENT */
-.modalbox_content {
+/* Loader */
+div.loader {
 	padding:0px;
 	margin:0px;
 	display:none;
-}
-
-#MB_content > .modalbox_content {
-	display:block;
 }
 
 /* INDIVIDUAL STYLES */
@@ -288,54 +284,8 @@ ul {
 	float:left;
 }
 
-.new_comment_box, .edit_comment_box {
-	padding:10px;
-}
-
-form.comment > #errorExplanation {
-  width: 300px;
-}
-
 .personal_bests h3 {
 	margin-top:20px;
-}
-
-.new_comment_box, .edit_comment_box {
-	background-image:url("/images/transparent/trans_black_06.png");
-}
-
-/* COMMENTS */
-.comment_entry {
-	float:left;
-	clear:both;
-	border-top:1px solid black;
-	margin:3px 0px;
-}
-
-.comments {
-	margin-left:20px;
-}
-
-.comments_container {
-	margin-top:10px;
-	margin-bottom:10px;
-	padding:10px;
-	border:1px solid #cccccc;
-}
-
-.comments_container > .comments {
-	margin-left:0px;
-}
-
-.view_comment_form {
-	color:blue;
-	text-decoration:underline;
-	cursor:pointer;
-}
-
-p.comment_updated {
-	font-style:italic;
-	font-size:10px;
 }
 
 /* PAGES STYLES */

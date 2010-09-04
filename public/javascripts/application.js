@@ -1,5 +1,5 @@
 $(function() {
-	$("a[rel=popup]").popup();
+	initialize($("html"));
 	
 	$(".toggle_note").live("click", function(event) {
 		$(this).parent().siblings(".new_note").toggle();

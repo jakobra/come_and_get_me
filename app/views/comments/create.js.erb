@@ -5,8 +5,13 @@
 	$('form.comment').prepend(content);
 <% else %>
 	var content = '<%= escape_javascript(render :partial => @comment) %>';
-	$('#<%= escape_javascript(dom_id(@comment.commentable, "comments")) %>').append(content);
-	$("a[rel=popup]").popup();
+	var parent = $('#<%= escape_javascript(dom_id(@comment.commentable, "comments")) %>');
+	<% if(@comment.commentable.comments.size == 1) %>
+		parent.html("");
+	<% end %>
+	parent.append(content);
+	var container = $('#<%= escape_javascript(dom_id(@comment)) %>');
+	initialize(container);
 	$('.popup-close').trigger("click");
 	<% flash.discard %>
 <% end %>

@@ -47,6 +47,7 @@ sv-SE:
                 municipality_id: "Kommun"
                 tracksegments: "GPS-koordinater eller GPX-fil"
                 distance: "Distans (km)"
+                gpx_file: "en GPX-fil"
             training:
                 date: "Datum"
                 races: "Lopp"

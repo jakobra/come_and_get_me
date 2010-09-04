@@ -7,7 +7,8 @@ authorization do
     has_permission_on :users, :to => [:new, :create, :statistics, :records, :track_statistics, :track_statistics_data, :events]
     has_permission_on :comments, :to => :report
     has_permission_on :pages, :to => :show
-    has_permission_on :tracks, :to => [:read, :records, :recent_track_records]
+    has_permission_on :tracks, :to => [:read, :records, :recent_track_records, :file]
+    has_permission_on :images, :to => [:original, :medium, :small, :thumbnail]
   end
   
   role :member do

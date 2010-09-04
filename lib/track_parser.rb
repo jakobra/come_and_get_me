@@ -1,7 +1,8 @@
 module TrackParser
+  require 'tempfile'
   attr_accessor :file_handler, :track_document, :tmp_segment, :tmp_point
   
-  def parse_file(track)
+  def parse_gpx_file(track)
     logger.info "Initilize TrackParser ..."
     @track = track
     prepare_track_file
@@ -19,7 +20,7 @@ module TrackParser
   
   def make_file_handler
     Rails.logger.info "Make file handler ..."
-    self.file_handler = File.new(File.join(RAILS_ROOT, "public", @track.track.url.split("?")[0]), "r")
+    self.file_handler = @track.file
   end
   
   def open_track_file

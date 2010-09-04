@@ -2,7 +2,7 @@
 module ApplicationHelper
   
   def loading_div
-    content_tag :div, :class => "modalbox_content" do
+    content_tag :div, :class => "loader" do
       image_tag "icons/ajax-loader(2).gif", :class => "spinner"
     end
   end

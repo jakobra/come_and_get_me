@@ -1,40 +1,63 @@
-function ModalPopup(link) {
-    $("#popup a[rel=popup]").attr("href", link).trigger("click");
+var modal_box = new Object();
+
+modal_box.create_overlay = function(duration) {
+	if ($("#overlay").size() < 1) {
+        $("<div></div>").attr("id", "overlay").appendTo("body")
+    }
+    
+    if ($("#popup").size() < 1) {
+        $("<div id=\"popup\" class=\"popup\"><div class=\"popup-close\"></div><a href=\"\" style=\"display: none;\" rel=\"popup\"></a><div id=\"popup-container\"></div></div>").appendTo("body");
+    }
+	
+    $('#popup > div.popup-close, #overlay').bind('click', function () {
+        modal_box.close_popup(duration);
+    });
+}
+
+modal_box.insert = function(popup, duration, content) {
+	var container = $("#popup > div").eq(1);
+	container.html(content);
+
+	$(".popup-close", container).click(function (event) {
+        modal_box.close_popup(duration);
+		event.preventDefault();
+    });
+
+    var head = $("head");
+    $("style", container).each(function () {
+        head.append($(this).clone());
+        $(this).remove();
+    });
+
+    Utilities.positionPopup();
+
+    popup.css("opacity", "0.0000001").show();
+    popup.css("opacity", "").hide();
+
+    popup.fadeIn(duration);
+}
+
+modal_box.close_popup = function (duration) {
+	$('#popup').fadeOut(duration, function () {
+        $('#overlay').eq(0).fadeOut(duration, function () {
+            $('#popup > div').eq(1).css("width", "").css("height", "").css("display", "").empty();
+            $("#popup").css("width", "").css("height", "").css("position", "").css("left", "").css("top", "");
+        });
+    });
 }
 
 $.fn.popup = function (options) {
-    var options = $.extend({
-        duration: 250,
-        closeContent: null
+	var options = $.extend({
+        duration: 250
     }, options);
-
-    if ($("#overlay").size() < 1) {
-        $("<div></div>").attr("id", "overlay").appendTo("body")
-    }
-    var tags = $(this);
-    if ($("#popup").size() < 1) {
-        $("<div id=\"popup\" class=\"popup\"><div class=\"popup-close\">" + (options.closeContent != null ? options.closeContent : "") + "</div><a href=\"\" style=\"display: none;\" rel=\"popup\"></a><div id=\"popup-container\"></div></div>").appendTo("body");
-        tags = tags.add($("#popup a[rel=popup]"));
-    }
-
-	var closePopup = function() {
-		$('#popup').fadeOut(options.duration, function () {
-            $('#overlay').eq(0).fadeOut(options.duration, function () {
-                $('#popup > div').eq(1).css("width", "").css("height", "").css("display", "").empty();
-                $("#popup").css("width", "").css("height", "").css("position", "").css("left", "").css("top", "");
-            });
-        });
-	} 
-
-    $('#popup > div.popup-close, #overlay').bind('click', function () {
-        closePopup();
-    });
-
+	
+	modal_box.create_overlay(options.duration);
+	
     var popup = $('#popup');
     var container = $("#popup > div").eq(1);
     var overlay = $('#overlay');
 
-    return tags.each(function () {
+    return $(this).each(function () {
         $(this).click(function (event) {
             var anchor = $(this);
             var alreadyVisible = popup.is(":visible");
@@ -58,25 +81,7 @@ $.fn.popup = function (options) {
                     }
 
                     var reposition = function (e) {
-                        container.html(content);
-
-						$(".popup-close", container).click(function (event) {
-					        closePopup();
-							event.preventDefault();
-					    });
-					
-                        var head = $("head");
-                        $("style", container).each(function () {
-                            head.append($(this).clone());
-                            $(this).remove();
-                        });
-
-                        Utilities.positionPopup();
-
-                        popup.css("opacity", "0.0000001").show();
-                        popup.css("opacity", "").hide();
-
-                        popup.fadeIn(options.duration);
+                        modal_box.insert(popup, options.duration, content)
                     }
 
                     sReg = /\b(src)\s*=\s*"([^"]*)"/g;

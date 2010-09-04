@@ -84,4 +84,24 @@ class ImagesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def original
+    image = Image.find(params[:id])
+    send_data image.original, :type => image.file_type
+  end
+  
+  def medium
+    image = Image.find(params[:id])
+    send_data image.medium, :type => image.file_type
+  end
+  
+  def small
+    image = Image.find(params[:id])
+    send_data image.small, :type => image.file_type
+  end
+  
+  def thumbnail
+    image = Image.find(params[:id])
+    send_data image.thumbnail, :type => image.file_type
+  end
 end

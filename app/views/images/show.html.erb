@@ -2,13 +2,7 @@
 	<b>Title:</b>
 	<%=h @image.title %><br />
 
-	<%= image_tag @image.image.url(:thumb) %>
-	
-	<%= image_tag @image.image.url(:xsmall) %>
-	
-	<%= image_tag @image.image.url(:small) %>
-	
-	<%= image_tag @image.image.url(:original) %>
+	<%= image_tag thumbnail_image_path(@image) %>
 </p>
 
 

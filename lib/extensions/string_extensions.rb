@@ -9,7 +9,14 @@ class String
     uri_string.gsub!(/[\(\)]+/,'')
     uri_string.gsub!(/[^a-z0-9,._]+/, '-')
     uri_string.gsub!(/(^[-]+|[-]+$)/, '')
-    #uri_string = CGI::escape(uri_string)
     uri_string
+  end
+  
+  def sanitize
+    string = self.dup
+    string.gsub!(/[ÄäÅå]+/,'a')
+    string.gsub!(/[Öö]+/,'o')
+    string.gsub!(/[^0-9A-Za-z._\-]/, '_')
+    string
   end
 end

@@ -32,6 +32,10 @@ $(function() {
 		Map.remove_last_point();
 	});
 	
+	$('form.form input[type=submit]').click(function(event) {
+		$('#overlay').addClass("black").css({ 'opacity': 0, 'display': 'block' }).fadeTo(250, 0.8);
+		modal_box.insert($('#popup').addClass("center-vertical"), 250, $("div.loader").html());
+	});
 });
 
 function get_track_records(element) {

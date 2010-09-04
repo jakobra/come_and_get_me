@@ -7,10 +7,10 @@ module TracksHelper
   end
   
   def track_created_from(track)
-    if track.track_file_name.blank?
+    if track.file_name.blank?
       "Plot"
     else
-      link_to "#{h(track.title)} (GPX)", track.track.url
+      link_to "#{h(track.title)} (GPX)", track_file_path(:id => track.id, :version => track.version, :file_name => track.file_name)
     end
   end
 

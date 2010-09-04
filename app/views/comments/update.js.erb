@@ -4,7 +4,8 @@
 	$('#<%= escape_javascript(dom_id(@comment, "edit")) %>').prepend('<%= escape_javascript(error_messages_for("comment")) %>');
 <% else %>
 	$('#<%= escape_javascript(dom_id(@comment)) %>').replaceWith('<%= escape_javascript(render :partial => @comment) %>');
-	$("a[rel=popup]").popup();
+	var container = $('#<%= escape_javascript(dom_id(@comment)) %>');
+	initialize(container);
 	$('.popup-close').trigger("click");
 	<% flash.discard %>
 <% end %>

@@ -16,6 +16,17 @@
 	</p>
 </div>
 
+<p class="left clear_left">
+	<%= f.label :track_id, t("activerecord.models.track.one") %><br />
+	<%= f.collection_select :track_id, 
+		((current_user.municipality.track_ids.include?(f.object.track_id) or f.object.track_id.blank?) ? current_user.municipality.tracks.find(:all, :order => :title) : Track.find(:all, :order => :title)),
+		:id,
+		:title,
+		{:prompt => t("trainings.edit.local_tracks")},
+		{:class => "tracks"} %>
+	<%= link_to(t("trainings.show.view_all_tracks"), nil, :class => "view_all_tracks") if f.object.new_record? %>
+</p>
+
 <p class="left  clear_left">
 	<%= f.label :distance, t("activerecord.attributes.race.distance") %><br />
 	<%= f.text_field :distance, :size => 4 %>
@@ -30,15 +41,10 @@
 	<%= f.label :hr_max, t("activerecord.attributes.race.hr_max") %><br />
 	<%= f.text_field :hr_max, :size => 4 %>
 </p>
+
 <p class="left margin_left">
 	<%= f.label :hr_avg, t("activerecord.attributes.race.hr_avg") %><br />
 	<%= f.text_field :hr_avg, :size => 4 %>
-</p>
-
-<p class="left margin_left">
-	<%= f.label :track_id, t("activerecord.models.track.one") %><br />
-	<%= f.collection_select :track_id, ((current_user.municipality.track_ids.include?(f.object.track_id) or f.object.track_id.blank?) ? current_user.municipality.tracks.find(:all, :order => :title) : Track.find(:all, :order => :title)), :id, :title, :prompt => t("trainings.edit.local_tracks") %>
-	<%= link_to(t("trainings.show.view_all_tracks"), nil, :class => "view_all_tracks") if f.object.new_record? %>
 </p>
 
 <% if f.object.note.blank? or f.object.note.new_record? %>

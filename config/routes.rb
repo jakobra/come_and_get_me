@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :images
+  map.resources :images, :member => {:original => :get, :medium => :get, :small => :get, :thumbnail => :get}
+  map.connect '/assets/images/:id/:action.*file_name', :controller => 'images'
 
   map.resources :menu_nodes
 
@@ -42,11 +43,12 @@ ActionController::Routing::Routes.draw do |map|
   map.user_track_statistics_data '/users/:login/track_statistics_data/:track_id', :controller => 'users', :action => 'track_statistics_data'
   map.resource :session, :only => [:new, :create, :destroy]
   
-  map.resources :tracks, :member => {:records => :get}, :collection => {:recent_track_records => :get} do |tracks|
+  map.resources :tracks, :member => {:records => :get, :file => :get}, :collection => {:recent_track_records => :get} do |tracks|
     tracks.resources :tracksegments, :only => [:new, :create]
     tracks.resources :comments, :only => [:new, :create]
     tracks.resources :points, :only => :index
   end
+  map.track_file '/assets/tracks/:id.:version.*file_name', :controller => 'tracks', :action => 'file'
   
   map.root :controller => "home"
   

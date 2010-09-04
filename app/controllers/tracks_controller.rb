@@ -1,5 +1,5 @@
 class TracksController < ApplicationController
-  filter_resource_access :additional_collection => [:recent_track_records]
+  filter_resource_access :additional_collection => [:recent_track_records], :additional_member => [:file]
   include GpsCalculation
   
   # GET /tracks
@@ -55,7 +55,7 @@ class TracksController < ApplicationController
   def create
     #@track = Track.new(params[:track])
     
-    if params[:track][:track].blank?
+    if params[:track][:file].blank?
       params[:track][:tracksegments_attributes]["0"][:circle] = params[:track][:circle]
     else
       params[:track][:tracksegments_attributes]["0"][:points_attributes] = nil
@@ -83,9 +83,9 @@ class TracksController < ApplicationController
     attributes = params[:track]
     attributes[:updated_by] = current_user
     
-    if attributes[:track].blank?
+    if attributes[:file].blank?
       unless attributes[:tracksegments_attributes]["0"][:points_attributes].blank?
-        attributes[:track] = nil
+        attributes[:file] = nil
         attributes[:tracksegments_attributes]["0"][:circle] = attributes[:circle]
         attributes["date(1i)"] = Date.today.year.to_s
         attributes["date(2i)"] = Date.today.month.to_s
@@ -141,4 +141,7 @@ class TracksController < ApplicationController
     recent_records(params[:gender].to_sym)
   end
   
+  def file
+    send_data @track.file.read, :type => @track.file_type
+  end
 end

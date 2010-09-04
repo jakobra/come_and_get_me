@@ -14,31 +14,46 @@ class Track < ActiveRecord::Base
   
   accepts_nested_attributes_for :tracksegments, :allow_destroy => true, :reject_if => lambda { |a| a[:points_attributes].blank? }
   
-  before_destroy :destroy_all_tracksegments
-  after_save :assign_tags
-  
-  has_attached_file :track,
-                    :url => "/assets/:class/:id_:version_:basename.:extension",
-                    :path => ":rails_root/public/assets/:class/:id_:version_:basename.:extension",
-                    :keep_old_files => true
+  before_destroy :clean_up
+  after_save :assign_tags, :parse_file
                     
-  validates_format_of :track_file_name, 
-                      :with => %r{\.(gpx)$}i, 
-                      :message => (I18n.translate("activerecord.errors.messages.must_be", :name => "en GPX-fil")),
-                      :unless => Proc.new { |track| track.track_file_name.blank? }
+  validates_format_of :file_name, 
+    :with => %r{\.(gpx)$}i, 
+    :message => (I18n.translate("activerecord.errors.messages.must_be", :name => I18n.translate("activerecord.attributes.track.gpx_file"))),
+    :unless => Proc.new { |track| track.file_name.blank? }
   
   validates_presence_of :municipality_id, :title
   validates_numericality_of :distance
   
   attr_writer :tag_names
+  attr_accessor :circle # Boolean attributes, same_start_and_finish point
   
   # Versioned by vestal versions
   versioned
   
-  # Boolean attributes, same_start_and_finish point
-  attr_accessor :circle
-  
   named_scope :latest, {:limit => 5, :order => "id DESC"}
+  
+  def file=(file)
+    if !file.nil?
+      self.file_name = file.original_filename.sanitize
+      self.file_type = file.content_type
+      self.file_size = file.size
+      self.file_content = File.open(file.path,"rb") {|io| io.read}
+      file.close
+    else
+      self.file_name = nil
+      self.file_type = nil
+      self.file_size = nil
+      self.file_content = nil
+    end
+  end
+  
+  def file
+    path = File.join(RAILS_ROOT, APP_CONFIG['track_path'])
+    Dir.mkdir(path) unless File.directory?(path)
+    File.open(File.join(path, current_file_name), 'w') {|f| f.write(file_content) }
+    File.open(File.join(path, current_file_name), 'r')
+  end
   
   def tag_names
     @tag_names || tags.map(&:name).join(", ")
@@ -52,16 +67,16 @@ class Track < ActiveRecord::Base
     races.find(:first, :order => "time", :include => [:event, {:training => :user}])
   end
   
-  def save_attached_files_with_parse_file
-    dirty = track.dirty?
-    save_attached_files_without_parse_file
-    if dirty
-      parse_file(self)
+  def current_file_name
+    "#{self.id}.#{self.version}.#{self.file_name}"
+  end
+  
+  def parse_file
+    unless self.file_name.blank?
+      parse_gpx_file(self)
       set_finish_point
     end
   end
-  
-  alias_method_chain :save_attached_files, :parse_file
     
   def tracksegment_version
     result = nil
@@ -82,9 +97,10 @@ class Track < ActiveRecord::Base
   
   private
   
-  def destroy_all_tracksegments
+  def clean_up
     tracksegments = Tracksegment.find(:all, :conditions => {:track_id => self.id})
     tracksegments.each { |seg| seg.destroy }
+    FileUtils.rm_rf File.join(RAILS_ROOT, APP_CONFIG['track_path'])
   end
   
   # Appends a gps point so that a track starts and stops at the same position if user choosen so through :circle
@@ -105,6 +121,5 @@ class Track < ActiveRecord::Base
         Tag.find_or_create_by_name(name.strip)
       end
     end
-  end
-  
+  end  
 end
