@@ -57,7 +57,7 @@
 <% end %>
 
 <% if(@hr_max_disclaimer) %>
-	<p class="small"><%= t("races.show.disclaimer") %></p>
+	<p class="small clear_both"><%= t("races.show.disclaimer") %></p>
 <% end %>
 
 <%= render "comments/comments_container", :commentable => @race, :url => new_race_comment_path(@race) %>

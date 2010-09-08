@@ -47,25 +47,26 @@
 					<%= link_to t("tracks.show.current"), :version => nil %>
 				</p>
 			<% end %>
-
-			<%= link_to t("tracks.show.view_history"), nil, :class => "toggle_history" %>
+			<% if(@track.versions.size > 1) %>
+				<%= link_to t("tracks.show.view_history"), nil, :class => "toggle_history" %>
 			
-			<%= link_to t("tracks.show.hide_history"), nil, :class => "toggle_history hide" %>
+				<%= link_to t("tracks.show.hide_history"), nil, :class => "toggle_history hide" %>
 
-			<ul class="track_history">
-				<li>
-					1. <%= link_to @track.created_at.strftime("%Y-%m-%d"), :version => 1 %>,
-					<%= link_to @track.created_by_user.login, user_path(@track.created_by_user) unless @track.created_by_user.blank? %>
-				</li>
-				<% @track.versions.each do |version| %>
+				<ul class="track_history">
 					<li>
-						<%= version.number %>. 
-						<%= link_to version.created_at.strftime("%Y-%m-%d"), :version => version.number %>,
-						<%= link_to version.user.login, user_path(version.user) unless version.user.blank? %>
+						1. <%= link_to @track.created_at.strftime("%Y-%m-%d"), :version => 1 %>,
+						<%= link_to @track.created_by_user.login, user_path(@track.created_by_user) unless @track.created_by_user.blank? %>
 					</li>
-				<% end %>
-			</ul>
-
+					<% @track.versions.each do |version| %>
+						<li>
+							<%= version.number %>. 
+							<%= link_to version.created_at.strftime("%Y-%m-%d"), :version => version.number %>,
+							<%= link_to version.user.login, user_path(version.user) unless version.user.blank? %>
+						</li>
+					<% end %>
+				</ul>
+			<% end %>
+			
 			<% unless @track.tracksegments.blank? %>
 				<p>
 					<%= t("tracks.show.download_track") %>:<br>

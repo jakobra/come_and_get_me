@@ -52,6 +52,10 @@ class Race < ActiveRecord::Base
     end
   end
   
+  def distance
+    track_id != nil ? track.distance.to_f : super
+  end
+  
   def time_string
     if @time_string.blank?
       time.blank? ? "" : time.strftime("%H:%M:%S")
