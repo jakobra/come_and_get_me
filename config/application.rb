@@ -1,8 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-require 'lib/extensions/string_extensions'
-require 'lib/extensions/array_extensions'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -19,8 +17,8 @@ module ComeAndGetMe
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    Dir["#{RAILS_ROOT}/app/view_models/*/"].map { |dir| config.autoload_paths += dir }
-
+    config.autoload_paths += Dir[Rails.root.join('app', 'view_models', '**', '*.{rb}').to_s]
+    config.autoload_paths += %W(#{config.root}/lib)
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]

@@ -21,9 +21,6 @@ class ApplicationController < ActionController::Base
     @content_for_head = side_module_resolver.head
   end
   
-  # Scrub sensitive parameters from your log
-  filter_parameter_logging :password
-  
   private
   
   def load_side_module(side_module)
