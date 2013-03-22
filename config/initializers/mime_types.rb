@@ -6,4 +6,3 @@
 
 Mime::Type.register "text/xml", :gpx
 Mime::Type.register "text/xml", :kml
-

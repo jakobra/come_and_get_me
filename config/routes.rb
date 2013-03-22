@@ -1,62 +1,97 @@
-ActionController::Routing::Routes.draw do |map|
-  map.resources :images, :member => {:original => :get, :medium => :get, :small => :get, :thumbnail => :get}
-  map.connect '/assets/images/:id/:action.*file_name', :controller => 'images'
-
-  map.resources :menu_nodes
-
-  map.resources :side_modules
-
-  map.resources :pages
-
-  map.resources :comments, :only => [:index, :edit, :update], :member => {:approve => :put, :report => :get} do |comments|
-    comments.resources :comments, :only => [:new, :create]
-  end
-  
-  map.resources :counties do |county|
-    county.resources :tracks, :only => [:index]
-    
-    county.resources :municipalities, :shallow => true do |municipality|
-      municipality.resources :tracks, :only => [:index]
+ComeAndGetMe::Application.routes.draw do
+  resources :images do
+    member do
+      get 'original'
+      get 'medium'
+      get 'small'
+      get 'thumbnail'
     end
   end
   
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
+  match '/assets/images/:id/:action.*file_name', :controller => 'images'
   
-  map.login '/login', :controller => 'sessions', :action => 'new'
+  resources :menu_nodes
+  resources :side_modules
+  resources :pages
   
-  map.register '/register', :controller => 'users', :action => 'create'
+  resources :comments, :only => [:index, :edit, :update] do
+    member do
+      get 'report'
+      put 'approve'
+    end
+    
+    resources :comments, :only => [:new, :create]
+  end
   
-  map.signup '/signup', :controller => 'users', :action => 'new'
+  resources :counties do
+    resources :tracks, :only => [:index]
+    
+    resources :municipalities, :shallow => true do
+      resources :tracks, :only => [:index]
+    end
+  end
   
-  map.open_id_complete 'session', :controller => 'sessions', :action => 'create', :requirements => {:method => :get}
+  match 'logout' => 'sessions#destroy', :as => :logout
+  match 'login' => 'sessions#new', :as => :login
+  match 'register' => 'users#create', :as => :register
+  match 'signup' => 'users#new', :as => :signup
   
-  map.resources :users, :member => {:statistics => :get, :admin => :put, :records => :get, :events => :get} do |users|
-    users.resources :trainings, :shallow => true do |trainings|
-      trainings.resources :comments, :only => [:new, :create]
-      trainings.resources :races, :shallow => true do |races| 
-        races.resources :comments, :only => [:new, :create]
+  match 'session' => 'sessions#create', :as => :open_id_complete
+  
+  resources :users do
+    member do
+      get 'statistics'
+      put 'admin'
+      get 'records'
+      get 'events'
+    end
+    
+    resources :trainings, :shallow => true do
+      resources :comments, :only => [:new, :create]
+      resources :races, :shallow => true do
+        resources :comments, :only => [:new, :create]
       end
     end
   end
   
-  map.user_track_statistics '/users/:login/track_statistics/:track_id', :controller => 'users', :action => 'track_statistics'
-  map.user_track_statistics_data '/users/:login/track_statistics_data/:track_id', :controller => 'users', :action => 'track_statistics_data'
-  map.resource :session, :only => [:new, :create, :destroy]
+  match 'users/:login/track_statistics/:track_id' => 'users#track_statistics', :as => :user_track_statistics
+  match 'users/:login/track_statistics_data/:track_id' => 'users#track_statistics_data', :as => :user_track_statistics_data
   
-  map.resources :tracks, :member => {:records => :get, :file => :get}, :collection => {:recent_track_records => :get} do |tracks|
-    tracks.resources :tracksegments, :only => [:new, :create]
-    tracks.resources :comments, :only => [:new, :create]
-    tracks.resources :points, :only => :index
+  resource :session, :only => [:new, :create, :destroy]
+  
+  resources :tracks do
+    member do
+      get 'records'
+      get 'file'
+    end
+    
+    get 'recent_track_records', :on => :collection
+
+    resources :tracksegments, :only => [:new, :create]
+    resources :comments, :only => [:new, :create]
+    resources :points, :only => :index
   end
-  map.track_file '/assets/tracks/:id.:version.*file_name', :controller => 'tracks', :action => 'file'
   
-  map.root :controller => "home"
+  match '/assets/tracks/:id.:version.*file_name' => 'tracks#file', :as => :track_file
   
-  map.static "info/:permalink", :controller => :pages, :action => :show
+  root :to => 'home#index'
   
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
-  map.connect ':controller/:action.:format'
+  match "info/:permalink" => 'pages#show', :as => :static
   
-  map.member ':login', :controller => :users, :action => :show
+  match ':login' => 'users#show', :as => :member
+
+  # Sample resource route with more complex sub-resources
+  #   resources :products do
+  #     resources :comments
+  #     resources :sales do
+  #       get 'recent', :on => :collection
+  #     end
+  #   end
+
+  # Sample resource route within a namespace:
+  #   namespace :admin do
+  #     # Directs /admin/products/* to Admin::ProductsController
+  #     # (app/controllers/admin/products_controller.rb)
+  #     resources :products
+  #   end
 end
