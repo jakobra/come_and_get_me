@@ -2,8 +2,6 @@
 
 * Layout and Design	-- In progess
 
-* Birthday year or max pulse or choose
-
 * Add way-points to describe specific points
 
 * Make it possible to import race from external sites like runkeeper through api or screen-scrape
@@ -21,8 +19,6 @@
 * Change Mime-types for gpx and kml
 
 * Migrate authentication to authlogic
-
-* Make it better when taking RaceTrack records through association ????? still?
 
 * Rewrite de code for creating and updating Tracks
 

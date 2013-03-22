@@ -14,6 +14,22 @@
 	<% end %>
 </div>
 
-<ol>
-	<%= render :partial => "track_record", :collection => track_records.races %>
-</ol>
+<table class="small">
+	<tr>
+		<th></th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<tbody>
+		<% track_records.races.each_with_index do |track_record, index| %>
+		<tr class="<%= cycle "odd", "even" %>">
+			<td><%= index + 1 %>. <%= link_to track_record.user.login, user_path(track_record.user) %></td>
+			<td><%= link_to track_record.event.name, track_record %></td>
+			<td><%= track_record.time.strftime("%H:%M:%S") unless track_record.time.blank? %></td>
+			<td><%= track_record.training.date.strftime("%y-%m-%d") %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+	

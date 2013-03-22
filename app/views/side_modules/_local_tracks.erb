@@ -7,18 +7,14 @@
 
 			<%= select("municipality", "id", Municipality.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.municipality.one")}"}, {:class => "municipality"}) %>
 		</div>
-		<% content_tag :ul do %>
+		<ul>
 			<% if area.tracks.blank? %>
-			<% content_tag :li, :class => "small" do %>
-				<%= t("home.index.no_tracks") %>
-			<% end %>
+			<li class="small"><%= t("home.index.no_tracks") %></li>
 			<% end %>
 			<% area.tracks.each do |track| %>
-				<% content_tag :li, :class => "small" do %>
-					<%= link_to track.title, track_path(track), :class => "font_color" %>
-				<% end %>
+				<li class="small"><%= link_to track.title, track_path(track), :class => "font_color" %></li>
 			<% end%>
-		<% end %>
+		</ul>
 		<p class="small">
 			<span class="bold"><%= t("home.index.add_track")%></span> <%= t("side_modules.your_own") %>
 			<%= link_to t("activerecord.models.track.one"), new_track_path, :class => "font_color" %>

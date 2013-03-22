@@ -2,7 +2,7 @@
 <% description t("seo.races_show_description", :event => @race.event.name, :track => @race.track.title) unless @race.track == nil %>
 <% canonical race_path(@race) %>
 
-<h2><%= @race.training.date %></h2>
+<h2><%= link_to @race.training.date, @race.training %></h2>
 
 <div class="left">
 	<p class="default">
@@ -57,7 +57,7 @@
 <% end %>
 
 <% if(@hr_max_disclaimer) %>
-	<p class="small"><%= t("races.show.disclaimer") %></p>
+	<p class="small clear_both"><%= t("races.show.disclaimer") %></p>
 <% end %>
 
 <%= render "comments/comments_container", :commentable => @race, :url => new_race_comment_path(@race) %>

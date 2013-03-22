@@ -33,6 +33,8 @@
 			
 			<%= render "/application/footer" %>
     	</div>
-		<%= render "/application/google_analytics" %>
+		<% if RAILS_ENV == "production" %>
+			<%= render "/application/google_analytics" %>
+		<% end %>
 	</body>
 </html>
