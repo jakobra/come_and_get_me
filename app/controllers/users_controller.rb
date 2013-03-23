@@ -54,8 +54,6 @@ class UsersController < ApplicationController
     end
   end
   
-  # DELETE /users/1
-  # DELETE /users/1.xml
   def destroy
     #@user = User.find_by_login(params[:id])
     @user.destroy
@@ -66,7 +64,6 @@ class UsersController < ApplicationController
     end
   end
   
-  # PUT /users/1/admin
   def admin
     #@user = User.find(params[:id])
     @user.toggle!(:admin)
@@ -74,8 +71,6 @@ class UsersController < ApplicationController
     redirect_to(users_url)
   end
   
-  # GET /users/1/statistics
-  # GET /users/1/statistics.xml
   def statistics
     #@user = User.find(params[:id])
     @start_date = Date.civil(params[:from][:year].to_i, params[:from][:month].to_i, params[:from][:day].to_i)

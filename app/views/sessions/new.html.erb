@@ -4,10 +4,10 @@
 <div class="sessions_new">
 	<h1><%= t("login.login") %></h1>
 
-	<% form_tag session_path do -%>
+	<%= form_tag session_path do -%>
 		<div class="username login">
 			<p>
-				<%= label_tag 'login', t("activerecord.attributes.user.login") %> (<a href="/" class="openid login"><%= t("login.or_use_openid") %></a>)<br />
+				<%= label_tag 'login', t("activerecord.attributes.user.login") %><br />
 				<%= text_field_tag 'login', @login %>
 			</p>
 
@@ -16,14 +16,6 @@
 				<%= password_field_tag 'password', nil %>
 			</p>
 		</div>
-
-		<div class="openid login">
-			<p>
-				<%= label_tag 'openid_url', t("login.open_id") %>, (<a href="/" class="username login"><%= t("login.or_use_username") %></a>)<br/>
-				<%= text_field_tag 'openid_url' %>
-			</p>
-		</div>
-
 
 		<p><span class="button gold big"><%= submit_tag t("login.login") %></span></p>
 	<% end -%>

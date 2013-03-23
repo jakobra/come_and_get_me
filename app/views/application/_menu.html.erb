@@ -1,13 +1,13 @@
-<% content_tag :div, :class => "menu_container" do %>
+<%= content_tag :div, :class => "menu_container" do %>
 	
-	<% content_tag :ul, :id => "menu" do %>
+	<%= content_tag :ul, :id => "menu" do %>
 		<% menu_roots.each do |menu_node| %>
 			<li><%= link_to menu_node.title, menu_node.url %></li>
 		<% end %>
 	<% end %>
 	
-	<% if current_user
-		content_tag :ul, :id => "user_menu" do %>
+	<% if current_user %>
+		<%=	content_tag :ul, :id => "user_menu" do %>
 			<li><%= link_to t("users.show.new_training"), new_user_training_path(current_user) %></li>
 		<% end %>
 	<% end %>

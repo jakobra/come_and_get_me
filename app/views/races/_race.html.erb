@@ -7,7 +7,7 @@
 		<td><%= race.time_per_km.strftime("%M:%S") unless race.time.blank? %></td>
 		<td><%= race.hr_max unless race.hr_max.blank? %></td>
 		<td><%= race.hr_avg unless race.hr_avg.blank? %></td>
-		<td <%= "class=\"race_note\"" unless race.note.blank? %>>
+		<td <%= raw("class=\"race_note\"") unless race.note.blank? %>>
 			<% unless race.note.blank?  %>
 				<%= t("trainings.show.note") %>
 				<div><p class="race_note"><%= race.note.content %></p></div>

@@ -5,14 +5,13 @@
 
 <% content_for :head do %>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	<script type="text/javascript" src="/javascripts/google_maps.js"></script>
 	
 	<script type="text/javascript" charset="utf-8">
 		$(function() {
 			<% if @track.tracksegments.blank? %>
 				Map.set_options();
 			<% else %>
-				Map.set_options({track: <%= @track.id %>, track_version: <%= @track.version %>});
+				Map.set_options({track: <%= @track.id %>});
 			<% end %>
 		
 			Map.display();
@@ -23,7 +22,7 @@
 <div class="tracks_show">
 	<div class="information">
 		<h3><%= h @track.title %></h3>
-		<h4><%= t("tracks.show.km", :km => number_with_delimiter(@track.distance)) %></h4>
+		<h4><%= I18n.t("tracks.show.km", :km => number_with_delimiter(@track.distance)) %></h4>
 		<div>
 			<%= RedCloth.new(@track.description).to_html %>
 		</div>
@@ -42,31 +41,6 @@
 		<% end %>
 
 		<div class="border_top">
-			<% if params[:version] %>
-				<p>
-					<%= link_to t("tracks.show.current"), :version => nil %>
-				</p>
-			<% end %>
-			<% if(@track.versions.size > 1) %>
-				<%= link_to t("tracks.show.view_history"), nil, :class => "toggle_history" %>
-			
-				<%= link_to t("tracks.show.hide_history"), nil, :class => "toggle_history hide" %>
-
-				<ul class="track_history">
-					<li>
-						1. <%= link_to @track.created_at.strftime("%Y-%m-%d"), :version => 1 %>,
-						<%= link_to @track.created_by_user.login, user_path(@track.created_by_user) unless @track.created_by_user.blank? %>
-					</li>
-					<% @track.versions.each do |version| %>
-						<li>
-							<%= version.number %>. 
-							<%= link_to version.created_at.strftime("%Y-%m-%d"), :version => version.number %>,
-							<%= link_to version.user.login, user_path(version.user) unless version.user.blank? %>
-						</li>
-					<% end %>
-				</ul>
-			<% end %>
-			
 			<% unless @track.tracksegments.blank? %>
 				<p>
 					<%= t("tracks.show.download_track") %>:<br>
@@ -94,8 +68,6 @@
 	</div>
 	<div class="map_area">
 		<div id="map_canvas"></div>
-
-		<%= render "comments/comments_container", :commentable => @track, :url => new_track_comment_path(@track) %>
 	</div>
 </div>
 

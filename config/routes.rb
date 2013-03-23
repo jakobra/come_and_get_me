@@ -14,15 +14,6 @@ ComeAndGetMe::Application.routes.draw do
   resources :side_modules
   resources :pages
   
-  resources :comments, :only => [:index, :edit, :update] do
-    member do
-      get 'report'
-      put 'approve'
-    end
-    
-    resources :comments, :only => [:new, :create]
-  end
-  
   resources :counties do
     resources :tracks, :only => [:index]
     
@@ -47,10 +38,7 @@ ComeAndGetMe::Application.routes.draw do
     end
     
     resources :trainings, :shallow => true do
-      resources :comments, :only => [:new, :create]
-      resources :races, :shallow => true do
-        resources :comments, :only => [:new, :create]
-      end
+      resources :races, :shallow => true
     end
   end
   
@@ -68,11 +56,12 @@ ComeAndGetMe::Application.routes.draw do
     get 'recent_track_records', :on => :collection
 
     resources :tracksegments, :only => [:new, :create]
-    resources :comments, :only => [:new, :create]
     resources :points, :only => :index
   end
   
   match '/assets/tracks/:id.:version.*file_name' => 'tracks#file', :as => :track_file
+  
+  match 'javascripts/load_all_tracks' => 'javascripts#load_all_tracks'
   
   root :to => 'home#index'
   

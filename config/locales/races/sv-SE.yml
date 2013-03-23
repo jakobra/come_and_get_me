@@ -2,7 +2,7 @@ sv-SE:
     races:
         show: 
             time_per_km: "Km tid (mm:ss)"
-            percentage_of_hr_max: "{{percentage}}% av maxpuls*"
+            percentage_of_hr_max: "%{percentage}% av maxpuls*"
             disclaimer: "* = maxpuls beräknas enligt formeln 210 - (0,65 * åldern)"
         edit_individual:
             update_races: "Uppdatera Lopp"

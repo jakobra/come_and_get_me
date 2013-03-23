@@ -2,10 +2,9 @@ class Track < ActiveRecord::Base
   require "rexml/document"
   include TrackParser
   
-  has_many :tracksegments, :dependent => :destroy, :conditions => 'track_version = #{self.send(:tracksegment_version)}'
+  has_many :tracksegments, :dependent => :destroy
   has_many :points, :through => :tracksegments
   has_many :races
-  has_many :comments, :as => :commentable, :dependent => :destroy
   has_many :tagings
   has_many :tags, :through => :tagings
   
@@ -28,10 +27,7 @@ class Track < ActiveRecord::Base
   attr_writer :tag_names
   attr_accessor :circle # Boolean attributes, same_start_and_finish point
   
-  # Versioned by vestal versions
-  versioned
-  
-  named_scope :latest, {:limit => 5, :order => "id DESC"}
+  scope :latest, order("id DESC").limit(5)
   
   def file=(file)
     if !file.nil?

@@ -1,8 +1,6 @@
 class RacesController < ApplicationController
   before_filter :login_required, :except => [:index, :show]
   
-  # GET /races/1
-  # GET /races/1.xml
   def show
     @race = Race.find(params[:id])
     
@@ -12,13 +10,10 @@ class RacesController < ApplicationController
     end
   end
   
-  # GET /races/1/edit
   def edit
     @race = Race.find(params[:id])
   end
   
-  # POST /races
-  # POST /races.xml
   def create
     @training = Training.find(params[:training_id])
     @race = @training.races.build(params[:race])
@@ -37,8 +32,6 @@ class RacesController < ApplicationController
     end
   end
   
-  # PUT /races/1
-  # PUT /races/1.xml
   def update
     @race = Race.find(params[:id])
 

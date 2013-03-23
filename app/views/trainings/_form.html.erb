@@ -1,19 +1,19 @@
-<% form_for([@user, @training]) do |f| %>
-	<%= f.error_messages %>
+<%= form_for([@user, @training]) do |f| %>
+	<%= error_messages(@training) %>
 	
 	<p>
 		<%= f.label :date, t("activerecord.attributes.training.date") %><br />
 		<%= f.date_select :date %>
 	</p>
 	
-	<% f.fields_for :note, (@training.note.blank? ? @training.build_note : @training.note) do |builder| %>
+	<%= f.fields_for :note, (@training.note.blank? ? @training.build_note : @training.note) do |builder| %>
 		<p>
 			<%= builder.label :content, t("activerecord.models.note.one") %><br />
 			<%= builder.text_area :content, :rows => 4 %>
 		</p>
 	<% end %>
 	
-	<% f.fields_for :races do |builder| %>
+	<%= f.fields_for :races do |builder| %>
 		<%= render "race_fields", :f => builder %>
 	<% end %>
 		

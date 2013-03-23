@@ -7,7 +7,6 @@ class User < ActiveRecord::Base
   
   has_many :trainings, :dependent => :destroy
   has_many :races, :through => :trainings
-  has_many :comments
   belongs_to :municipality
   
   validates_presence_of     :login

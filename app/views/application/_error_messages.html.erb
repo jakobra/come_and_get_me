@@ -1,0 +1,8 @@
+<%= content_tag :div, :id => "error_explanation" do %>
+	<%= content_tag :h2, "#{entity.errors.count} fel hindrade #{text_resource} från att sparas:" %>
+	<%= content_tag :ul do  %>
+		<% entity.errors.full_messages.each do |msg| %>
+			<%= content_tag :li, msg %>
+		<% end %>
+	<% end %>
+<% end %>

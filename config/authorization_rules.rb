@@ -5,7 +5,6 @@ authorization do
       if_attribute :id => is_not {APP_CONFIG['admin_user']}
     end
     has_permission_on :users, :to => [:new, :create, :statistics, :records, :track_statistics, :track_statistics_data, :events]
-    has_permission_on :comments, :to => :report
     has_permission_on :pages, :to => :show
     has_permission_on :tracks, :to => [:read, :records, :recent_track_records, :file]
     has_permission_on :images, :to => [:original, :medium, :small, :thumbnail]
@@ -25,15 +24,10 @@ authorization do
     end
     
     has_permission_on :tracks, :to => [:new, :edit, :create, :update]
-    has_permission_on :comments, :to => [:new, :create]
-    
-    has_permission_on :comments, :to => [:edit, :update] do
-      if_attribute :user => is {user}
-    end
   end
   
   role :admin do
-    has_permission_on [:users, :comments, :pages, :side_modules, :menu_nodes, :trainings, :images], :to => [:manage, :read]
+    has_permission_on [:users, :pages, :side_modules, :menu_nodes, :trainings, :images], :to => [:manage, :read]
     has_permission_on [:municipalities, :counties], :to => :manage
     has_permission_on :tracks, :to => :destroy
   end

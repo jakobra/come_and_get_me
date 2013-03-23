@@ -3,7 +3,7 @@
 <% content_for :left_side do %>
 	<%= render "side_modules/recent_records", :tab_service => @recent_records_tab_service, :title => t("side_modules.recent_records") %>
 	
-	<%= render "side_modules/last_races", :object => @last_races %>
+	<%= render :partial => "side_modules/last_races", :locals => { :last_races => @last_races } %>
 <% end %>
 
 <% unless @index_page.blank? %>

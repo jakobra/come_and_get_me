@@ -1,6 +1,4 @@
-# Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-  
   def loading_div
     content_tag :div, :class => "loader" do
       image_tag "icons/ajax-loader(2).gif", :class => "spinner"
@@ -19,8 +17,7 @@ module ApplicationHelper
       end
       render(association.to_s.pluralize + "/" + association.to_s.singularize + "_fields", :f => builder)
     end
-    #link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"))
-    "#{link_to(name, nil, :class => "add_fields #{association}")} #{fields}"
+    raw("#{link_to(name, nil, :class => "add_fields #{association}")} #{fields}")
   end
   
   def info_tag(info)
@@ -31,16 +28,28 @@ module ApplicationHelper
     unless page.style.blank?
       head_content = ["<style type=\"text/css\" media=\"screen\">", page.style, "</style>"]
       content_for :head do
-      	head_content.join 
+      	head_content.join.html_safe
       end
     end
-    RedCloth.new(page.content).to_html
+    RedCloth.new(page.content).to_html.html_safe
   end
   
   def render_side_module_html(side_module)
     result = "<div class=\"side_module\">"
     result += render_html_content side_module
     result += "<div class=\"bottom\"></div></div>"
+    result.html_safe
   end
-    
+  
+  def error_messages(entity)
+    unless entity.errors.any?
+      return
+    end
+    render :partial => "shared/error_messages", :locals => {:entity => entity, :text_resource => text_resource(entity)}
+  end
+  
+  def text_resource(entity)
+    text_resource = t("activerecord.models.#{entity.class.name.underscore}.one")
+    text_resource.nil? ? entity.class.name.underscore.humanize : text_resource
+  end
 end

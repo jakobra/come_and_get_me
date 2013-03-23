@@ -12,7 +12,7 @@ sv-SE:
             hide_history: "Dölj historia"
             download_track: "Ladda ner banan"
             current: "Senaste versionen"
-            km: "{{km}} km"
+            km: "%{km} km"
         new:
             new_track: "Ny bana"
             plot_track: "... eller plotta en bana på kartan"
@@ -21,9 +21,9 @@ sv-SE:
             tag_names: "Taggar"
             tag_names_description: "(separerar med \",\")"
         create:
-            created: "{{name}} sparad"
+            created: "%{name} sparad"
         update:
-            updated: "{{name}} uppdaterad"
+            updated: "%{name} uppdaterad"
         records:
             records_for: "Rekord för"
             all: "Alla"

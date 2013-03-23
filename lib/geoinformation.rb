@@ -8,7 +8,7 @@ module Geoinformation
   private
   # Returns RegionName of geolocation
   def self.get_location(remote_ip)
-    if RAILS_ENV == "development"
+    if Rails.env == "development"
       ip = "85.224.104.52"
       #ip = "194.237.179.38"
     else

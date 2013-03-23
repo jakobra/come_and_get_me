@@ -1,12 +1,11 @@
 module SideModules
-  
   def local_tracks
     @area = County.find_by_geolocation(request.remote_ip)
     @area = @area.municipalities.find_by_geolocation(request.remote_ip) unless @area.blank?
   end
   
   def last_races
-    @last_races = Race.find(:all, :order => "Id DESC", :limit => 3)
+    @last_races = Race.order("Id DESC").limit(3)
   end
   
   def recent_records(current = :all)

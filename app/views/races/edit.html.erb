@@ -3,7 +3,7 @@
 
 <h1><%= t("races.edit.edit_race") %></h1>
 
-<% form_for @race do |f| %>
+<%= form_for @race do |f| %>
 	<%= render "fields", :f => f %>
 	
 	<p class="clear_left">

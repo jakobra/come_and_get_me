@@ -2,6 +2,9 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
+require '/Users/jakobra/Development/rails/come_and_get_me/lib/extensions/string_extensions'
+require '/Users/jakobra/Development/rails/come_and_get_me/lib/extensions/array_extensions'
+
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))
@@ -16,8 +19,10 @@ module ComeAndGetMe
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
-    config.autoload_paths += Dir[Rails.root.join('app', 'view_models', '**', '*.{rb}').to_s]
+    config.autoload_paths += %W(#{Rails.root}/app/view_models/application)
+    config.autoload_paths += %W(#{Rails.root}/app/view_models/tracks)
+    config.autoload_paths += %W(#{Rails.root}/app/view_models/users)
+    config.autoload_paths += %W(#{Rails.root}/lib/extionsions)
     config.autoload_paths += %W(#{config.root}/lib)
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -26,7 +31,7 @@ module ComeAndGetMe
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
     
-    config.time_zone = 'Stockholm'
+    config.time_zone = 'London'
     
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{yml}').to_s]

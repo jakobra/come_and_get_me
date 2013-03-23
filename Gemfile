@@ -9,6 +9,8 @@ gem 'mysql2'
 gem 'will_paginate'
 gem "declarative_authorization"
 gem 'rack-openid'
+gem 'RedCloth'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

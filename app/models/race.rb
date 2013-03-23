@@ -1,10 +1,10 @@
 class Race < ActiveRecord::Base
-  belongs_to :event, :include => true
+  attr_accessible :event_id, :new_event_name, :new_event_description, :track_id, :distance, :time_string, :hr_max, :hr_avg, :note_attributes
+  belongs_to :event
   belongs_to :training
   belongs_to :track
   
   has_one :user, :through => :training
-  has_many :comments, :as => :commentable, :dependent => :destroy
   has_one :note, :as => :noteable, :dependent => :destroy
 
   accepts_nested_attributes_for :note, :allow_destroy => true, :reject_if => lambda { |a| a[:content].blank? }
@@ -48,7 +48,7 @@ class Race < ActiveRecord::Base
       find_all_by_time(tracks.values, options.merge(:order => "trainings.date DESC", :joins => :training))
     rescue
       # Having an rescue so that we don´t run join training twice, don´t know a better way
-      find_all_by_time(tracks.values, options.merge(:order => "trainings.date DESC"))
+      find_all_by_time(tracks.values, options.merge(:order => "trainings.date DESC", :joins => :training))
     end
   end
   
@@ -70,7 +70,7 @@ class Race < ActiveRecord::Base
   
   def time_string=(time_str)
     @time_string = time_str
-    self.time = time_str.blank? ? nil : Time.parse(time_str)
+    self.time = time_str.blank? ? nil : Time.parse(time_str + " UTC")
   rescue ArgumentError
   end
   

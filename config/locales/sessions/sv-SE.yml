@@ -1,15 +1,8 @@
 sv-SE:
     login:
-        or_use_openid: "eller använd OpenId"
-        or_use_username: "tillbaks till användarnamn"
-        open_id: "OpenId"
         login: "Logga in"
         logged_in: "Du är inloggad"
         confirm_user_profile: "Bekräfta och fyll i saknade uppgifter"
-        password_failure: "Det gick inte att logga in som '{{login}}'"
-        open_id_missing: "Det gick inte att hitta den angivna OpenId servern"
-        open_id_invalid: "Det här ser inte ut att vara en giltigt OpenId"
-        open_id_canceled: "OpenId verifieringen avbröts"
-        open_id_failed: "Ledsen, OpenId verifieringen misslyckades"
+        password_failure: "Det gick inte att logga in som '%{login}'"
     logout:
         logged_out: "Du är utloggad"

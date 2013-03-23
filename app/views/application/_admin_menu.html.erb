@@ -1,7 +1,6 @@
 <% if permitted_to? :create, Page.new %>
 	<% content_tag :div, :id => "admin_menu" do %>
 		<ul>
-			<li><%= link_to "Comments", comments_path %></li> |
 			<li><%= link_to "Pages", pages_path %></li> |
 			<li><%= link_to "Side Modules", side_modules_path %></li> |
 			<li><%= link_to "Menu Nodes", menu_nodes_path %></li> |

@@ -15,10 +15,12 @@ class ApplicationController < ActionController::Base
   
   def load_side_modules
     @current_menu_node = MenuNodeResolver.new(request).current_menu_node
-    side_module_resolver = SideModuleResolver.new(@current_menu_node)
-    @content_for_left_side = side_module_resolver.left_side
-    @content_for_right_side = side_module_resolver.right_side
-    @content_for_head = side_module_resolver.head
+    @side_module_resolver = SideModuleResolver.new(@current_menu_node)
+    #content_for :left_side, side_module_resolver.left_side
+    #@view_flow.append(:left_side, side_module_resolver.left_side)
+    #@view_flow.append(:right_side, side_module_resolver.right_side)
+    #@content_for_right_side << side_module_resolver.right_side
+    @content_for_head = @side_module_resolver.head
   end
   
   private

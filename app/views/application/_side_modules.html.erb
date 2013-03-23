@@ -4,10 +4,8 @@
 	<% end %>
 <% end %>
 
-<% unless instance_variable_get("@content_for_#{side_modules}").blank?  %>
-
-	<% content_tag :div, :class => "xsmall_width #{side_module_class}" do %>
-		<%= yield(side_modules) %>
+<% if content_for?(side_modules.to_sym) %>
+	<%= content_tag :div, :class => "xsmall_width #{side_module_class}" do %>
+		<% yield side_modules.to_sym %>
 	<% end %>
-	
 <% end %>

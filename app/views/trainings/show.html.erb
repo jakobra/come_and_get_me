@@ -18,7 +18,7 @@
 			<th><%= t("trainings.show.distance_html") %></th>
 			<th><%= t("activerecord.attributes.race.track_id") %></th>
 			<th><%= t("trainings.show.time_html") %></th>
-			<th><%= t("trainings.show.time_per_km") %></th>
+			<th><%= t("trainings.show.time_per_km").html_safe %></th>
 			<th><%= t("trainings.show.hr_max_html") %></th>
 			<th><%= t("trainings.show.hr_avg_html") %></th>
 		</tr>
@@ -42,5 +42,4 @@
 
 		<%= link_to t("common.back"), member_path(@training.user) %>
 	</div>
-	<%= render "comments/comments_container", :commentable => @training, :url => new_training_comment_path(@training) %>
 </div>

@@ -1,6 +1,6 @@
 <div class="header">
 	<%= link_to image_tag("logo.png"), root_path %>
-	<% content_tag :div, :id => "authentication_info" do %>
+	<%= content_tag :div, :id => "authentication_info" do %>
 		<% if logged_in? %>
 			<span class="bold"><%= link_to (h current_user.login), member_path(current_user) %></span> | <%= link_to t("header.logout"), logout_path %>
 		<% else %>

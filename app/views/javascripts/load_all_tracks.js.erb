@@ -1,9 +1,9 @@
 var tracks = new Object();
 
-tracks.json_list = <%= @tracks.to_json(:only => [ :id, :distance ]) %>;
+tracks.json_list = <%= @tracks.to_json(:only => [ :id, :distance ]).html_safe %>;
 
 $(function() {
-	$("a.view_all_tracks").live("click", function(event) {
+	$("a.view_all_tracks").on("click", function(event) {
 		$(this).parent().children("select").html('<%= escape_javascript(options_from_collection_for_select(@tracks, :id, :title)) %>');
 		$(this).parent().children("select").prepend('<option><%= t("trainings.edit.all_tracks") %></option>');
 		$(this).remove();

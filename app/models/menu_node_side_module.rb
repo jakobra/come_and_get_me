@@ -1,11 +1,12 @@
 class MenuNodeSideModule < ActiveRecord::Base
   belongs_to :side_module
-  named_scope :left, :conditions => {:position => false}
-  named_scope :right, :conditions => {:position => true}
+  scope :published, where(:publish => true).order("created_at DESC")
+  scope :left, where(:position => false)
+  scope :right, where(:position => true)
   
-  named_scope :left_before, :conditions => {:position => false, :position_y => false}
-  named_scope :right_before, :conditions => {:position => true, :position_y => false}
+  scope :left_before, where(:position => false, :position_y => false)
+  scope :right_before, where(:position => true, :position_y => false)
   
-  named_scope :left_after, :conditions => {:position => false, :position_y => true}
-  named_scope :right_after, :conditions => {:position => true, :position_y => true}
+  scope :left_after, where(:position => false, :position_y => true)
+  scope :right_after, where(:position => true, :position_y => true)
 end

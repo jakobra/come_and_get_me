@@ -24,11 +24,7 @@ class SideModuleResolver
   def render_side_module(side_modules)
     content_for_right_side = ""
     side_modules.each do |menu_node_side_module|
-      if content_for_right_side.blank?
-        content_for_right_side += render_html_content_to_string menu_node_side_module.side_module
-      else
-        content_for_right_side += render_html_content_to_string menu_node_side_module.side_module
-      end
+      content_for_right_side += render_html_content_to_string menu_node_side_module.side_module
     end
     content_for_right_side
   end
@@ -38,11 +34,7 @@ class SideModuleResolver
     side_modules.each do |item|
       unless item.side_module.style.blank?
         head_content = ["<style type=\"text/css\" media=\"screen\">", item.side_module.style, "</style>"]
-        if content.blank?
-          content = head_content.join
-        else
-          content += head_content.join
-        end
+        content += head_content.join
       end
     end
     content
