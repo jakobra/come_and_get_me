@@ -1,9 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-
-require '/Users/jakobra/Development/rails/come_and_get_me/lib/extensions/string_extensions'
-require '/Users/jakobra/Development/rails/come_and_get_me/lib/extensions/array_extensions'
+require File.expand_path('../../lib/extensions/string_extensions', __FILE__)
+require File.expand_path('../../lib/extensions/array_extensions', __FILE__)
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
