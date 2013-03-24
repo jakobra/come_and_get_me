@@ -37,6 +37,8 @@ gem 'jquery-rails'
 gem 'capistrano'
 gem 'rvm-capistrano'
 gem 'passenger'
+gem 'execjs'
+gem 'therubyracer'
 
 # To use debugger
 # gem 'debugger'
