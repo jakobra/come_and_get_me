@@ -2,6 +2,7 @@
 	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
+		<%= csrf_meta_tag %>
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 		<title><%= h(yield(:title) || t("seo.default_title")) %></title>
 		<meta name="description" content="<%= h(yield(:description) || t("seo.default_description")) %>" />

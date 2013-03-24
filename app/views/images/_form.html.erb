@@ -1,5 +1,5 @@
-<% form_for(@image, :html => {:multipart => true}) do |f| %>
-  <%= f.error_messages %>
+<%= form_for(@image, :html => {:multipart => true}) do |f| %>
+  <%= error_messages(@image) %>
 	
 	<p>
 		<%= f.label :title %><br />

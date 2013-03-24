@@ -34,7 +34,6 @@ sv-SE:
                 name: "Namn"
                 gender: "Kön"
                 municipality_id: "Kommun"
-                identity_url: "OpenId url"
             track:
                 title: "Namn"
                 description: "Beskrivning"
@@ -88,3 +87,4 @@ sv-SE:
                   even: "måste vara jämnt"
                   record_invalid: "Ett fel uppstod: %{errors}"
                   must_be: "måste vara %{name}"
+                  bad_email: "är felaktig"

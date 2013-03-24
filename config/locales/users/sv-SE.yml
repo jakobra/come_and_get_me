@@ -32,6 +32,4 @@ sv-SE:
     sign_up:
         sign_up: "Registrera"
         sign_up_as_member: "Registrera dig som ny medlem"
-        do_you_have_openid: "Har du OpenID?"
-        login_through_openid: "Logga in med OpenID"
         

@@ -1,0 +1,12 @@
+.tracks_show div.information {
+	width:240px;
+	float:left;
+}
+
+.tracks_show div.map_area {
+	float:right;
+}
+
+a.toggle_history.hide, ul.track_history {
+	display:none;
+}

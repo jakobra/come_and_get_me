@@ -1,4 +1,5 @@
 class Training < ActiveRecord::Base
+  attr_accessible :date, :note_attributes, :races_attributes
   belongs_to :user
   has_many :races, :dependent => :destroy
   has_one :note, :as => :noteable, :dependent => :destroy

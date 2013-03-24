@@ -1,5 +1,5 @@
-<% form_for @side_module do |f| %>
-	<%= f.error_messages %>
+<%= form_for @side_module do |f| %>
+	<%= error_messages(@side_module) %>
 	<p>
 		<%= f.label :title %><br />
 		<%= f.text_field :title %>

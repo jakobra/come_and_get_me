@@ -23,11 +23,9 @@ class RacesController < ApplicationController
         flash[:notice] = 'Race was successfully created.'
         format.html { redirect_to(@training) }
         format.xml  { render :xml => @race, :status => :created, :location => @race }
-        format.js
       else
         format.html { render :template => "trainings/show" }
         format.xml { render :xml => @race.errors, :status => :unprocessable_entity }
-        format.js
       end
     end
   end

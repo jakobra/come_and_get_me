@@ -1,0 +1,57 @@
+/* COLORS
+	http://www.colourlovers.com/palette/144642/Cherry_Cub
+	almost pure		#fffcfc
+	Linen			#f0dfab
+	Cold Coffee		#c98a3b
+	Sour Cherry		#f10879
+	Golden Crumb	#e0a421
+	Color Lover		#eeeef0
+*/
+
+h1, h2, h3, h4, h5, h6 {
+	margin:0px 0px;
+}
+
+h1 {
+	margin:0.1em 0;
+}
+
+p {
+	margin:4px 0px;
+}
+
+.small {
+	font-size:12px;
+}
+
+.xsmall {
+	font-size:11px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.center {
+	text-align: center;
+}
+
+.align_left {
+	text-align:left;
+}
+
+.align_right {
+	text-align:right;
+}
+
+.font_color {
+	color:#444444;
+}
+
+.margin_left {
+	margin-left:15px !important;
+}
+
+.sour_cherry {
+	color:#f10879;
+}

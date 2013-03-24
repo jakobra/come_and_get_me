@@ -1,5 +1,5 @@
 <% if permitted_to? :create, Page.new %>
-	<% content_tag :div, :id => "admin_menu" do %>
+	<%= content_tag :div, :id => "admin_menu" do %>
 		<ul>
 			<li><%= link_to "Pages", pages_path %></li> |
 			<li><%= link_to "Side Modules", side_modules_path %></li> |

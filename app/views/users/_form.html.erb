@@ -1,5 +1,5 @@
-<% form_for(@user) do |f| %>
-	<%= f.error_messages %>
+<%= form_for(@user) do |f| %>
+	<%= error_messages(@user) %>
 	
 	<% if action_name == "create" or action_name == "new" or @user.login.blank?%>
 		<p class="left clear_left">
@@ -42,13 +42,6 @@
 	<p class="left clear_left">
 		<%= f.label :password_confirmation, t("activerecord.attributes.user.password_confirmation") %><br />
 		<%= f.password_field :password_confirmation %>
-	</p>
-	
-	<p class="left clear_left"><%= "#{t("header.or")} #{t("login.open_id")}" %>...</p>
-	
-	<p class="left clear_left">
-		<%= f.label :identity_url, t("activerecord.attributes.user.identity_url") %><br />
-		<%= f.text_field :identity_url, :id => "openid_url" %>
 	</p>
 	
 	<p class="left clear_left">

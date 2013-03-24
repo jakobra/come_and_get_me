@@ -8,7 +8,7 @@
 <% @images.each do |image| %>
   <tr>
     <td><%=h image.title %></td>
-	<td><%=image_tag "/assets/images/#{image.id}/thumbnail.#{image.file_name}"%></td>
+	<td><%=image_tag "/content/images/#{image.id}/thumbnail.#{image.file_name}"%></td>
     <td><%= link_to 'Show', image %></td>
     <td><%= link_to 'Edit', edit_image_path(image) %></td>
     <td><%= link_to 'Destroy', image, :confirm => 'Are you sure?', :method => :delete %></td>

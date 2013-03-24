@@ -17,7 +17,7 @@
 *.rails2
 /vendor/plugins/rails_upgrade/**
 /resources
-assets
+content
 
 config/database.yml
 config/config.yml

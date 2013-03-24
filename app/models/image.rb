@@ -1,9 +1,10 @@
 class Image < ActiveRecord::Base
+  attr_accessible :title, :image
   attr_reader :image
   
   before_destroy :delete_dir
   after_update :delete_dir
-            
+       
   def image=(image)
     new_image = MiniMagick::Image.new(image.path)
     self.file_name = image.original_filename.sanitize
@@ -39,14 +40,15 @@ class Image < ActiveRecord::Base
   private
   
   def image_processing(image, size)
+    Rails.logger.info "File size #{size}"
     image.resize IMAGE_SIZES[size.to_sym] unless IMAGE_SIZES[size.to_sym] == nil
-    path = "#{RAILS_ROOT}#{APP_CONFIG['image_path']}/#{self.id}"
+    path = "#{Rails.root}#{APP_CONFIG['image_path']}/#{self.id}"
     Dir.mkdir(path) unless File.directory?(path)
-    File.open("#{path}/#{size}.#{self.file_name}", 'w') {|f| f.write(image.to_blob) }
+    File.open("#{path}/#{size}.#{self.file_name}", 'wb') {|f| f.write(image.to_blob) }
     image
   end
   
   def delete_dir
-    FileUtils.rm_rf "#{RAILS_ROOT}#{APP_CONFIG['image_path']}/#{self.id}"
+    FileUtils.rm_rf "#{Rails.root}#{APP_CONFIG['image_path']}/#{self.id}"
   end
 end

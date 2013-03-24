@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   def index
     @users = User.all
     load_side_module("last_races")
+    Rails.logger.info @last_races.count
   end
   
   def show

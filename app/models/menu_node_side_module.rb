@@ -1,4 +1,6 @@
 class MenuNodeSideModule < ActiveRecord::Base
+  attr_accessible :side_module_id, :position, :position_y
+  
   belongs_to :side_module
   scope :published, where(:publish => true).order("created_at DESC")
   scope :left, where(:position => false)

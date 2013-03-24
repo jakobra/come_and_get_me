@@ -45,7 +45,7 @@ module ApplicationHelper
     unless entity.errors.any?
       return
     end
-    render :partial => "shared/error_messages", :locals => {:entity => entity, :text_resource => text_resource(entity)}
+    render :partial => "application/error_messages", :locals => {:entity => entity, :text_resource => text_resource(entity)}
   end
   
   def text_resource(entity)
