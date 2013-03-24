@@ -15,12 +15,31 @@ class ApplicationController < ActionController::Base
   
   def load_side_modules
     @current_menu_node = MenuNodeResolver.new(request).current_menu_node
-    @side_module_resolver = SideModuleResolver.new(@current_menu_node)
-    #content_for :left_side, side_module_resolver.left_side
-    #@view_flow.append(:left_side, side_module_resolver.left_side)
-    #@view_flow.append(:right_side, side_module_resolver.right_side)
-    #@content_for_right_side << side_module_resolver.right_side
-    @content_for_head = @side_module_resolver.head
+    side_module_resolver = SideModuleResolver.new(@current_menu_node)
+    content_for :left_side, side_module_resolver.left_side
+    content_for :right_side, side_module_resolver.right_side
+    content_for :head, side_module_resolver.head
+  end
+  
+  def view_context
+    super.tap do |view|
+      (@_content_for || {}).each do |name,content|
+        view.content_for name, content
+      end
+    end
+  end
+  
+  def content_for(name, content) # no blocks allowed yet
+    @_content_for ||= {}
+    if @_content_for[name].respond_to?(:<<)
+      @_content_for[name] << content
+    else
+      @_content_for[name] = content
+    end
+  end
+  
+  def content_for?(name)
+    @_content_for[name].present?
   end
   
   private

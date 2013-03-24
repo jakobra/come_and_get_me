@@ -26,7 +26,7 @@ class SideModuleResolver
     side_modules.each do |menu_node_side_module|
       content_for_right_side += render_html_content_to_string menu_node_side_module.side_module
     end
-    content_for_right_side
+    content_for_right_side.html_safe
   end
   
   def content_for_head(side_modules)
@@ -37,7 +37,7 @@ class SideModuleResolver
         content += head_content.join
       end
     end
-    content
+    content.html_safe
   end
   
   def render_html_content_to_string(item)

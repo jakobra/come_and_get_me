@@ -10,19 +10,12 @@
 		<%= stylesheet_link_tag "application" %>
 		<%= javascript_include_tag "application" %>
 		
-		<% content_for :head do %>
-			<%= @side_module_resolver.head.html_safe %>
-		<% end %>
 		<%= yield(:head) %>
 	</head>
 	<body>
 		<%= render :partial =>  "/application/admin_menu" %>
 		<div id="container">
 			<%= render :partial =>  "/application/header" %>
-			
-			<% content_for :left_side do %>
-				<%= @side_module_resolver.left_side.html_safe %>
-			<% end %>
 			
 			<%= render :partial => "/application/side_modules", :object => "left_side", :locals => {:after_side_content => @current_menu_node.menu_node_side_modules.left_after, :side_module_class => "left_side"} %>
 			
@@ -32,10 +25,6 @@
 				<%- end -%>
 				
 				<%= yield :layout %>
-			<% end %>
-			
-			<% content_for :rigt_side do %>
-				<%= @side_module_resolver.right_side.html_safe %>
 			<% end %>
 			
 			<%= render :partial => "/application/side_modules", :object => "right_side", :locals => {:after_side_content => @current_menu_node.menu_node_side_modules.right_after, :side_module_class => ""} %>
