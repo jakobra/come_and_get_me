@@ -7,6 +7,8 @@ require 'rvm/capistrano'
 
 set :application, "come_and_get_me"
 
+set :normalize_asset_timestamps, false
+
 set :host, "jakobra.se"
 
 set :user, "deploy"
