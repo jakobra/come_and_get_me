@@ -1,10 +1,6 @@
 <% title t("seo.trainings_show_title", :user => @training.user.login ) %>
 <% main_class("large_width") %>
 
-<% content_for :head do %>
-	<%= stylesheet_link_tag "trainings/show" %>
-<% end %>
-
 <div class="trainings_show">
 	<p class="bold"><%=h @training.date %></p>
 
