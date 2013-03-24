@@ -15,6 +15,4 @@
 //= require underscore-min
 //= require backbone-min
 //= require backbone-setup
-//= require_tree ./models
-//= require_tree ./collections
 //= require_tree .
