@@ -3,6 +3,7 @@ set :stages, %w(staging production)
 set :default_stage, "staging"
 
 require 'capistrano/ext/multistage'
+require 'rvm/capistrano'
 
 set :application, "come_and_get_me"
 
@@ -16,6 +17,8 @@ set :scm, :git
 set :repository,  "git@github.com:jakobra/Come-And-Get-Me.git"
 set :deploy_via, :remote_cache
 
+set :keep_releases, 5
+
 role :web, "jakobra.se"                   # Your HTTP server, Apache/etc
 role :app, "jakobra.se"                   # This may be the same as your `Web` server
 role :db,  "jakobra.se", :primary => true # This is where Rails migrations will run
@@ -28,22 +31,24 @@ namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{File.join(current_path,'tmp','restart.txt')}"
+    run <<-CMD
+      if [[ -f #{release_path}/tmp/pids/passenger.#{passenger_port}.pid ]];
+      then
+        cd #{deploy_to}/current && passenger stop -p #{passenger_port};
+      fi
+    CMD
+    run "cd #{deploy_to}/current && passenger start -e #{rails_env} -p #{passenger_port} -d"
   end
   
   task :symlink_shared do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/config.yml #{release_path}/config/config.yml"
-    run "ln -nfs #{shared_path}/public/assets #{release_path}/public"
+    run "ln -nfs #{shared_path}/public/content #{release_path}/public"
     run "ln -nfs #{shared_path}/public/google15c02b50c0cc5f0b.html #{release_path}/public/google15c02b50c0cc5f0b.html"
   end
   
-  task :rake_gems do
-    run "sudo rake gems:install"
-  end
-  
   task :sync_assets do
-    system "scp -r public/assets  #{user}@#{host}:/#{deploy_to}/shared/public/"
+    system "scp -r public/content  #{user}@#{host}:/#{deploy_to}/shared/public/"
   end
   
   task :config do
@@ -51,14 +56,15 @@ namespace :deploy do
     system "scp -r config/database.yml #{user}@#{host}:/#{deploy_to}/shared/config/database.yml"
   end
   
-  task :disable do
-    run "cp #{current_path}/public/closed.html #{current_path}/public/maintenance.html"
+  task :bundle_install do
+    run "cd #{release_path}; bundle install"
   end
   
-  task :enable do
-    run "rm #{current_path}/public/maintenance.html"
+  task :pipeline_precompile do
+    run "cd #{release_path}; RAILS_ENV=#{rails_env} bundle exec rake assets:precompile"
   end
-  
 end
 
-after "deploy:update_code", "deploy:symlink_shared"
+after "deploy:update_code", "deploy:bundle_install", "deploy:symlink_shared", "deploy:pipeline_precompile"
+
+after "deploy:restart", "deploy:cleanup"

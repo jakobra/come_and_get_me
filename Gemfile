@@ -34,8 +34,9 @@ gem 'jquery-rails'
 # Use unicorn as the app server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
+gem 'rvm-capistrano'
+gem 'passenger'
 
 # To use debugger
 # gem 'debugger'
