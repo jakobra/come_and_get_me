@@ -1,5 +1,5 @@
 $(function() {
-	$("div.races.fields select.tracks").on("click", function(event) {
+	/*$("div.races.fields select.tracks").on("click", function(event) {
 		var select = $(this);
 		select.parent().next().children("input").removeAttr("readonly").val("");
 		$.each(tracks.json_list, function(key,track){
@@ -8,5 +8,5 @@ $(function() {
 				return false;
 			}
 		});
-	});
+	});*/
 });

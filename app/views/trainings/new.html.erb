@@ -1,7 +1,16 @@
 <% title t("trainings.new.new_training") %>
 
-<% javascript "/javascripts/load_all_tracks" %>
-
 <h1><%= t("trainings.new.new_training") %></h1>
 
 <%= render 'form', :submit => t("common.create") %>
+
+<% content_for :footer_scripts do %>
+	<script type="text/javascript" charset="utf-8">
+		var localTracks = new TracksCollection();
+		localTracks.reset(<%= raw(current_user.municipality.tracks.find(:all, :order => :title).to_json) %>);
+		
+		appRouter.on('route:manageTraining', function() {
+			new TrainingView({el: $("#new_training"), model: {localTracks: localTracks}});
+		});
+	</script>
+<% end %>

@@ -7,8 +7,12 @@ sv-SE:
             user: 
                 one: "Medlem"
                 other: "Medlemmar"
-            race: "Lopp"
-            county: "Län"
+            race:
+                one: "Lopp"
+                other: "Lopp"
+            county:
+                one: "Län"
+                other: "Län"
             municipality:
                 one: "Kommun"
                 other: "Kommuner"

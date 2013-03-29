@@ -11,13 +11,19 @@ module ApplicationHelper
   
   def link_to_add_fields(name, f, association)
     new_object = f.object.class.reflect_on_association(association).klass.new
-    fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
+    child_index = "new_#{association}_#{f.object.hash}"
+    fields = f.fields_for(association, new_object, :child_index => child_index) do |builder|
       if builder.object.class.to_s == "Race"
         builder.object.build_note
       end
       render(association.to_s.pluralize + "/" + association.to_s.singularize + "_fields", :f => builder)
     end
-    raw("#{link_to(name, nil, :class => "add_fields #{association}")} #{fields}")
+    fields.gsub!(child_index, "{{=index}}")
+    raw("#{link_to(name, nil, :class => "add_fields")} #{render_as_javascript_template fields, association}")
+  end
+  
+  def render_as_javascript_template(content, association)
+    "<script id=\"#{association.to_s.singularize}_form_template\" type=\"text/template\">#{content}</script>"
   end
   
   def info_tag(info)

@@ -3,9 +3,4 @@ $(function() {
 		$(this).parent().siblings("fieldset").toggle("fast");
 		event.preventDefault();
 	});
-	
-	$("a.toggle_event").on("click", function(event) {
-		$(this).parent().siblings(".new_event").toggle("fast");
-		event.preventDefault();
-	});
 });

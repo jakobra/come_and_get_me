@@ -21,7 +21,6 @@ class TrainingsController < ApplicationController
   end
   
   def new
-    #@user = User.find_by_login(params[:user_id])
     @training = @user.trainings.build
     @training.build_note
     @training.races.build
@@ -33,11 +32,9 @@ class TrainingsController < ApplicationController
   end
   
   def edit
-    #@training = Training.find(params[:id])
   end
   
   def create
-    #@user = User.find_by_login(params[:user_id])
     @training = @user.trainings.build(params[:training])
 
     respond_to do |format|

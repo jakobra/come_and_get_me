@@ -1,31 +1,4 @@
 $(function() {
-	initialize($("html"));
-	
-	$(".toggle_note").on("click", function(event) {
-		$(this).parent().siblings(".new_note").toggle();
-		event.preventDefault();
-	});
-	
-	$("a.remove_fields").on("click", function(event) {
-		$(this).siblings("input[type=hidden]").attr("value", 1);
-		$(this).parents(".fields").hide();
-		event.preventDefault();
-	});
-	
-	$("a.add_fields").click(function(event) {
-		var new_id = new Date().getTime();
-		var association = $(this).attr("class").split(/\s+/)[1];
-		var regexp = RegExp("new_" + association, "g");
-		
-		var content = $(this).parent().next("div.fields").clone();
-		var new_content = content.html().replace(regexp, new_id);
-		content.html(new_content);
-		
-		content.removeClass("hidden");
-		$(this).parent().before(content);
-		event.preventDefault();
-	});
-	
 	$("form input[type=submit]").click(function(event) {
 		// removes hidden fields before submit
 		$(this).parents("form").children("div.fields.hidden").remove();

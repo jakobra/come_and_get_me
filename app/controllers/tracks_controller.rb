@@ -2,27 +2,29 @@ class TracksController < ApplicationController
   filter_resource_access :additional_collection => [:recent_track_records], :additional_member => [:file]
   include GpsCalculation
   
-  # GET /tracks
-  # GET /tracks.xml
   def index
-    if !params[:municipality].blank?
-      municipality = Municipality.find(params[:municipality])
-      tracks = municipality.tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
-      county = municipality.county
-      municipalities = county.municipalities
-    elsif !params[:county].blank?
-      county = County.find(params[:county], :include => :municipalities)
-      municipalities = county.municipalities
-      tracks = county.tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
-    else
-      municipalities = Municipality.all
-      tracks = Track.paginate(:page => params[:page], :order => :title, :per_page => 25)
-    end
-    @tracks_container = TracksContainer.new(tracks, county, municipality, municipalities, Track.latest)
+    @tracks = Track.all
+    respond_to do |format|
+      format.html {
+        if !params[:municipality].blank?
+          municipality = Municipality.find(params[:municipality])
+          tracks = municipality.tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
+          county = municipality.county
+          municipalities = county.municipalities
+        elsif !params[:county].blank?
+          county = County.find(params[:county], :include => :municipalities)
+          municipalities = county.municipalities
+          tracks = county.tracks.paginate(:page => params[:page], :order => :title, :per_page => 25)
+        else
+          municipalities = Municipality.all
+          tracks = Track.paginate(:page => params[:page], :order => :title, :per_page => 25)
+        end
+        @tracks_container = TracksContainer.new(tracks, county, municipality, municipalities, Track.latest)
+      }
+      format.js { render :json => @tracks, :only => [:id, :title, :distance] }
+    end    
   end
-
-  # GET /tracks/1
-  # GET /tracks/1.xml
+  
   def show
     #@track = Track.find(params[:id])
     @track.revert_to(params[:version].to_i) if params[:version]
@@ -32,9 +34,7 @@ class TracksController < ApplicationController
       format.xml  { render :xml => @track }
     end
   end
-
-  # GET /tracks/new
-  # GET /tracks/new.xml
+  
   def new
     #@track = Track.new
     @track.tracksegments.build

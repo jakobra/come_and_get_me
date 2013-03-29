@@ -12,12 +12,13 @@
 			<%= builder.text_area :content, :rows => 4 %>
 		</p>
 	<% end %>
-	
-	<%= f.fields_for :races do |builder| %>
-		<%= render "race_fields", :f => builder %>
-	<% end %>
+	<div class="races_fields">
+		<%= f.fields_for :races do |builder| %>
+			<%= render "race_fields", :f => builder %>
+		<% end %>
+	</div>
 		
-	<p><%= link_to_add_fields t("trainings.new.add_race"), f, :races %></p>
+	<div><%= link_to_add_fields t("trainings.new.add_race"), f, :races %></div>
 	
 	<p>
 		<span class="button gold"><%= f.submit submit %></span> |
