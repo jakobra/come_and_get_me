@@ -2,17 +2,16 @@
 
 <% content_for :head do %>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	<script type="text/javascript" src="/javascripts/google_maps.js"></script>
 	
 	<script type="text/javascript" charset="utf-8">
 	$(function() {
-		<% if  !@track.tracksegments.blank? and @track.tracksegments.last.new_record? %>
+		<% if  true %>
 			<% @track.tracksegments.last.points.each do |point| %>
 				Map.points.push(new google.maps.LatLng(<%= point.latitude %>, <%= point.longitude %>));
 			<% end %>
 		<% end %>
 		
-		Map.set_options({click_listener: true, track_version: <%= @track.version %>});
+		Map.set_options({click_listener: true});
 		
 		Map.display();
 	});

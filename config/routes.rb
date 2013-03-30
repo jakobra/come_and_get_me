@@ -59,7 +59,7 @@ ComeAndGetMe::Application.routes.draw do
     resources :points, :only => :index
   end
   
-  match '/assets/tracks/:id.:version.*file_name' => 'tracks#file', :as => :track_file
+  match '/content/tracks/:id.*file_name' => 'tracks#file', :as => :track_file
   
   match 'javascripts/load_all_tracks' => 'javascripts#load_all_tracks'
   

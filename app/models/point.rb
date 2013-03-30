@@ -1,6 +1,8 @@
 class Point < ActiveRecord::Base
   belongs_to :tracksegment
   
+  attr_accessible :latitude, :longitude, :elevation
+  
   validates_presence_of :latitude, :longitude
   
   def self.find_with_sample_rate(rate = nil)

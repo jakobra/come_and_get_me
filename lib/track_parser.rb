@@ -44,7 +44,7 @@ module TrackParser
   
   def parse_track_segments(node)
     if node.name.eql? "trkseg"
-      tmp_segment = @track.tracksegments.create(:track_version => @track.version)
+      tmp_segment = @track.tracksegments.create()
       node.each_element do |node|
         parse_points(node, tmp_segment)
       end

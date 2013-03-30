@@ -26,7 +26,7 @@
 			<%= link_to t("trainings.show.show_hide_form") %>
 		</p>
 
-		<fieldset<%= " style=\"display:none;\"" unless @race.errors.any? %>>
+		<fieldset<%= " style=\"display:none;\"".html_safe unless @race.errors.any? %>>
 			<%= render "trainings/new_race_form", :race => @race %>
 		</fieldset>
 		

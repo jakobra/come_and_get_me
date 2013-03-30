@@ -2,6 +2,8 @@ class Tracksegment < ActiveRecord::Base
   belongs_to :track
   has_many :points, :dependent => :delete_all
   
+  attr_accessible :points_attributes, :circle
+  
   accepts_nested_attributes_for :points, :allow_destroy => true
   
   attr_accessor :circle
@@ -11,13 +13,11 @@ class Tracksegment < ActiveRecord::Base
   private
   
   def set_finish_point
-    logger.info "Circle #{circle}"
     if circle == "1"
       lp = points.first
       points.create(:longitude => lp.longitude, 
                     :latitude => lp.latitude, 
                     :elevation => lp.elevation)
-      logger.info "Finish point appended"
     end
   end
   

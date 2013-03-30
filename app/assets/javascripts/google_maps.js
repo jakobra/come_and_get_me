@@ -37,7 +37,12 @@ Map.Methods = {
 	display: function(options) {
 		if(!this.initialized) this._init(options);
 		if(this.options.track == null) {
-			this._render_map();
+			if(Map.points.length > 0) {
+				Map._add_route();
+				Map._set_center_point_and_zoom_level();
+			} else {
+				this._render_map();
+			}
 		} else {
 			this._load_track_points(this.options.track);
 		}
@@ -55,9 +60,7 @@ Map.Methods = {
 			Map.points = new Array();
 			
 			for(var i = 0; i < json_points.length; i++) {
-				Map.points[i] = new Object();
-				Map.points[i]['latitude'] = json_points[i]['latitude'];
-				Map.points[i]['longitude'] = json_points[i]['longitude'];
+				Map.points[i] = new google.maps.LatLng(json_points[i]['latitude'], json_points[i]['longitude']);
 			}
 			Map._add_route();
 			Map._set_center_point_and_zoom_level();
@@ -67,7 +70,7 @@ Map.Methods = {
 	_set_center_point_and_zoom_level: function() {
 		var polylineBounds = new google.maps.LatLngBounds();
 		for (var i=0; i < this.points.length; i++) {
-			var point = new google.maps.LatLng(this.points[i]["latitude"], this.points[i]["longitude"]);
+			var point = this.points[i];
 			polylineBounds.extend(point);
 		}
 		this.map.setCenter(polylineBounds.getCenter());
@@ -78,7 +81,9 @@ Map.Methods = {
 		var line = new Array();
 		
 		for (var i = 0; i < this.points.length; i++) {
-			line[i] = new google.maps.LatLng(this.points[i]["latitude"], this.points[i]["longitude"]);
+			var point = this.points[i];
+			line[i] = point
+			this.current_point = point;
 		}
 		
 		this._render_polyline(line);
@@ -118,9 +123,6 @@ Map.CreateMethods = {
 	},
 	
 	_insert_hidden_fields: function(point) {
-		// Url to get the elevation ... never used
-		var url = "http://ws.geonames.org/gtopo30JSON?lat=" + this.current_point.lat() + "&lng=" + this.current_point.lng();
-		
 		var fields = '<input type="hidden" id="track_tracksegments_attributes_0_points_attributes_new_points_latitude" name="track[tracksegments_attributes][0][points_attributes][new_points][latitude]" value="' + this.current_point.lat() + '" />';
 		fields += '<input type="hidden" id="track_tracksegments_attributes_0_points_attributes_new_points_longitude" name="track[tracksegments_attributes][0][points_attributes][new_points][longitude]" value="' + this.current_point.lng() + '" />';
 		fields += '<input type="hidden" id="track_tracksegments_attributes_0_points_attributes_new_points_elevation" name="track[tracksegments_attributes][0][points_attributes][new_points][elevation]" value="0" />';
@@ -132,6 +134,7 @@ Map.CreateMethods = {
 	},
 	
 	remove_last_point: function() {
+		console.log(this.points);
 		var element = $("div." + this.options.points_reference_element);
 		element.children("div").html("");
 		

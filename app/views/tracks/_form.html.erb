@@ -1,5 +1,5 @@
-<% form_for(@track, :html => {:multipart => true, :class => "form"}) do |f| %>
-	<%= f.error_messages %>
+<%= form_for(@track, :html => {:multipart => true, :class => "form"}) do |f| %>
+	<%= error_messages(@track) %>
 	
 	<div class="left">
 		<p class="default">
@@ -24,7 +24,7 @@
 		</p>
 		<p class="default">
 			<%= f.label :municipality_id, t("activerecord.models.municipality.one") %><br />
-			<%= select("county", "id", County.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.county")}"}, {:onchange => remote_function(:url => {:controller => :municipalities, :action => :index}, :with => "'county_id=' + this.value", :method => :get)}) %>
+			<%= select("county", "id", County.all.map {|c| [ c.name, c.id ] }, {:prompt => "#{t("common.select")} #{t("activerecord.models.county.one")}"}) %>
 			<%= f.collection_select :municipality_id, Municipality.all, :id, :name, {:prompt => "#{t("common.select")} #{t("activerecord.models.municipality.one")}"}, {:id => 'municipality_id'} %>
 		</p>
 		
@@ -40,19 +40,18 @@
 		</p>
 		
 		<p><%= t("tracks.new.plot_track") %></p>
-
-		<!-- Tracksegments-->
+		
 		<div class="tracksegments">
-			<% if @track.new_record? %>
-				<% f.fields_for :tracksegments do |builder| %>
-					<%= builder.hidden_field :track_version, :value => 1 %>
+			<div>
+				<%= f.fields_for :tracksegments do |builder| %>
+					<%= builder.fields_for :points do |point| %>
+						<%= point.hidden_field :longitude %>
+						<%= point.hidden_field :latitude %>
+						<%= point.hidden_field :elevation %>
+					<% end %>
 				<% end %>
-			<% else %>
-				<input id="track_tracksegments_attributes_0_track_version" name="track[tracksegments_attributes][0][track_version]" type="hidden" value="<%= @track.version + 1 %>" />
-			<% end %>
-			<div></div>
+			</div>
 		</div>
-		<!-- /Tracksegments-->
 	</div>
 	
 	<div id="map_canvas" class="left"></div>

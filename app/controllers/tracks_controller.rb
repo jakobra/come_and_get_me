@@ -58,7 +58,7 @@ class TracksController < ApplicationController
     if params[:track][:file].blank?
       params[:track][:tracksegments_attributes]["0"][:circle] = params[:track][:circle]
     else
-      params[:track][:tracksegments_attributes]["0"][:points_attributes] = nil
+      #params[:track][:tracksegments_attributes]["0"][:points_attributes] = nil
     end
     
     @track = Track.new(params[:track])
@@ -81,7 +81,6 @@ class TracksController < ApplicationController
   def update
     #@track = Track.find(params[:id])
     attributes = params[:track]
-    attributes[:updated_by] = current_user
     
     if attributes[:file].blank?
       attributes[:file] = nil

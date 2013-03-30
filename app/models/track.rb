@@ -2,6 +2,8 @@ class Track < ActiveRecord::Base
   require "rexml/document"
   include TrackParser
   
+  attr_accessible :title, :description, :tag_names, :distance, :municipality_id, :circle, :tracksegments_attributes, :file, :date
+  
   has_many :tracksegments, :dependent => :destroy
   has_many :points, :through => :tracksegments
   has_many :races
@@ -35,7 +37,6 @@ class Track < ActiveRecord::Base
       self.file_type = file.content_type
       self.file_size = file.size
       self.file_content = File.open(file.path,"rb") {|io| io.read}
-      file.close
     else
       self.file_name = nil
       self.file_type = nil
@@ -45,7 +46,7 @@ class Track < ActiveRecord::Base
   end
   
   def file
-    path = File.join(RAILS_ROOT, APP_CONFIG['track_path'])
+    path = File.join(Rails.root, APP_CONFIG['track_path'])
     Dir.mkdir(path) unless File.directory?(path)
     File.open(File.join(path, current_file_name), 'w') {|f| f.write(file_content) }
     File.open(File.join(path, current_file_name), 'r')
@@ -64,7 +65,7 @@ class Track < ActiveRecord::Base
   end
   
   def current_file_name
-    "#{self.id}.#{self.version}.#{self.file_name}"
+    "#{self.id}.#{self.file_name}"
   end
   
   def parse_file
@@ -72,15 +73,6 @@ class Track < ActiveRecord::Base
       parse_gpx_file(self)
       set_finish_point
     end
-  end
-    
-  def tracksegment_version
-    result = nil
-    Tracksegment.find(:all, :conditions => ["track_id = ?", self.id], :order => "track_version DESC").each do |tracksegment|
-      result = tracksegment.track_version <= version ? tracksegment.track_version : nil
-      break unless result.nil?
-    end
-    result.nil? ? 1 : result
   end
   
   def events
@@ -96,7 +88,7 @@ class Track < ActiveRecord::Base
   def clean_up
     tracksegments = Tracksegment.find(:all, :conditions => {:track_id => self.id})
     tracksegments.each { |seg| seg.destroy }
-    FileUtils.rm_rf File.join(RAILS_ROOT, APP_CONFIG['track_path'])
+    FileUtils.rm_rf File.join(Raisl.root, APP_CONFIG['track_path'])
   end
   
   # Appends a gps point so that a track starts and stops at the same position if user choosen so through :circle
