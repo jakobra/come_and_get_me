@@ -28,4 +28,4 @@ sv-SE:
             local_tracks: "Lokala banor"
             all_tracks: "Alla banor"
         update:
-            updated: "Träningen {{date}} uppdaterad"
+            updated: "Träningen %{date} uppdaterad"

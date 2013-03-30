@@ -13,6 +13,7 @@ class TrainingsController < ApplicationController
   
   def show
     #@training = Training.find(params[:id])
+    @race = @training.races.build
     
     respond_to do |format|
       format.html # show.html.erb

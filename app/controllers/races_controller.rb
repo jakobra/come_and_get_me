@@ -1,5 +1,5 @@
 class RacesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :login_required, :except => [:show]
   
   def show
     @race = Race.find(params[:id])
@@ -44,9 +44,7 @@ class RacesController < ApplicationController
       end
     end
   end
-
-  # DELETE /races/1
-  # DELETE /races/1.xml
+  
   def destroy
     @race = Race.find(params[:id])
     @race.destroy

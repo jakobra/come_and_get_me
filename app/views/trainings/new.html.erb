@@ -9,8 +9,6 @@
 		var localTracks = new TracksCollection();
 		localTracks.reset(<%= raw(current_user.municipality.tracks.find(:all, :order => :title).to_json) %>);
 		
-		appRouter.on('route:manageTraining', function() {
-			new TrainingView({el: $("#new_training"), model: {localTracks: localTracks}});
-		});
+		new TrainingView({el: $("#new_training"), model: {localTracks: localTracks}});
 	</script>
 <% end %>

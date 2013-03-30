@@ -1,6 +1,14 @@
 <% title t("trainings.edit.edit_training") %>
-<% main_class "large_width" %>
 
 <h1><%= t("trainings.edit.edit_training") %></h1>
 
-<%= render :partial => 'form', :locals => {:submit => t("common.create")} %>
+<%= render 'form', :submit => t("common.create") %>
+
+<% content_for :footer_scripts do %>
+	<script type="text/javascript" charset="utf-8">
+		var localTracks = new TracksCollection();
+		localTracks.reset(<%= raw(Track.find(:all, :order => :title).to_json) %>);
+		
+		new TrainingView({el: $(".edit_training"), model: {localTracks: localTracks}});
+	</script>
+<% end %>

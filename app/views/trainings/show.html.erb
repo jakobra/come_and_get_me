@@ -26,9 +26,19 @@
 			<%= link_to t("trainings.show.show_hide_form") %>
 		</p>
 
-		<fieldset style="display:none;">
-			<%= render "new_race_form", :race => @training.races.build %>
+		<fieldset<%= " style=\"display:none;\"" unless @race.errors.any? %>>
+			<%= render "trainings/new_race_form", :race => @race %>
 		</fieldset>
+		
+		<% content_for :footer_scripts do %>
+			<script type="text/javascript" charset="utf-8">
+				var localTracks = new TracksCollection();
+				localTracks.reset(<%= raw(current_user.municipality.tracks.find(:all, :order => :title).to_json) %>);
+				
+				var form = new RaceFormView({model: {localTracks: localTracks}, index: 0});
+				form.setElement($('#new_race'));
+			</script>
+		<% end %>
 	<% end %>
 
 	<div class="left clear_left">

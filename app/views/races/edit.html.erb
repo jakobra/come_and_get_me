@@ -12,3 +12,13 @@
 <% end %>
 
 <%= link_to t("activerecord.models.training.one"), training_path(@race.training) %>
+
+<% content_for :footer_scripts do %>
+	<script type="text/javascript" charset="utf-8">
+		var localTracks = new TracksCollection();
+		localTracks.reset(<%= raw(current_user.municipality.tracks.find(:all, :order => :title).to_json) %>);
+		
+		var form = new RaceFormView({model: {localTracks: localTracks}, index: 0});
+		form.setElement($('form.edit_race'));
+	</script>
+<% end %>
