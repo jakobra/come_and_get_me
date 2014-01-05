@@ -6,3 +6,5 @@ config/config.yml
 bin
 resources
 assets
+.vagrant
+.bundle

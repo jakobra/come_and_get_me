@@ -16,19 +16,23 @@ set :scm, :git
 set :repository,  "git@github.com:jakobra/Come-And-Get-Me.git"
 set :deploy_via, :remote_cache
 
-role :web, "jakobra.se"                   # Your HTTP server, Apache/etc
-role :app, "jakobra.se"                   # This may be the same as your `Web` server
-role :db,  "jakobra.se", :primary => true # This is where Rails migrations will run
+role :web, "burton.jakobra.com"                   # Your HTTP server, Apache/etc
+role :app, "burton.jakobra.com"                   # This may be the same as your `Web` server
+role :db,  "burton.jakobra.com", :primary => true # This is where Rails migrations will run
 
-# If you are using Passenger mod_rails uncomment this:
-# if you're still using the script/reapear helper you will need
-# these http://github.com/rails/irs_process_scripts
+set :shared_children, %w()
 
 namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{File.join(current_path,'tmp','restart.txt')}"
+    run <<-CMD
+      if [[ -f #{release_path}/tmp/pids/passenger.#{passenger_port}.pid ]];
+      then
+        cd #{release_path} && ~/.rbenv/bin/rbenv exec bundle exec passenger stop -p #{passenger_port};
+      fi
+    CMD
+    run "cd #{release_path} && ~/.rbenv/bin/rbenv exec bundle exec passenger start -e production -p #{passenger_port} -d"
   end
   
   task :symlink_shared do
@@ -38,27 +42,9 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/public/google15c02b50c0cc5f0b.html #{release_path}/public/google15c02b50c0cc5f0b.html"
   end
   
-  task :rake_gems do
-    run "sudo rake gems:install"
+  task :bundle_install do
+    run "cd #{release_path}; ~/.rbenv/bin/rbenv exec bundle install --without development --deployment --quiet --binstubs"
   end
-  
-  task :sync_assets do
-    system "scp -r public/assets  #{user}@#{host}:/#{deploy_to}/shared/public/"
-  end
-  
-  task :config do
-    system "scp -r config/config.yml #{user}@#{host}:/#{deploy_to}/shared/config/config.yml"
-    system "scp -r config/database.yml #{user}@#{host}:/#{deploy_to}/shared/config/database.yml"
-  end
-  
-  task :disable do
-    run "cp #{current_path}/public/closed.html #{current_path}/public/maintenance.html"
-  end
-  
-  task :enable do
-    run "rm #{current_path}/public/maintenance.html"
-  end
-  
 end
 
-after "deploy:update_code", "deploy:symlink_shared"
+after "deploy:update_code", "deploy:bundle_install", "deploy:symlink_shared"

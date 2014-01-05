@@ -20,10 +20,10 @@ Rails::Initializer.run do |config|
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
   
-  config.gem 'RedCloth'
+  #config.gem 'RedCloth'
   # config.gem 'vestal_versions'
-  config.gem 'will_paginate', :version => '~> 2.3.16'
-  config.gem "declarative_authorization"
+  #config.gem 'will_paginate', :version => '~> 2.3.16'
+  #config.gem "declarative_authorization"
   #config.gem "mini_magick"
 
   # Only load the plugins named here, in the order given (default is alphabetical).

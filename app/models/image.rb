@@ -17,22 +17,22 @@ class Image < ActiveRecord::Base
   IMAGE_SIZES = {:original => nil, :medium => "480x480>", :small => "218x218>", :thumbnail => "100x100>"}
   
   def original
-    original = MiniMagick::Image.from_blob(self.file_content.to_s)
+    original = MiniMagick::Image.read(self.file_content.to_s)
     image_processing(original, "original").to_blob
   end
   
   def medium
-    medium = MiniMagick::Image.from_blob(self.file_content.to_s)
+    medium = MiniMagick::Image.read(self.file_content.to_s)
     image_processing(medium, "medium").to_blob
   end
   
   def small
-    small = MiniMagick::Image.from_blob(self.file_content.to_s)
+    small = MiniMagick::Image.read(self.file_content.to_s)
     image_processing(small, "small").to_blob
   end
   
   def thumbnail
-    thumbnail = MiniMagick::Image.from_blob(self.file_content.to_s)
+    thumbnail = MiniMagick::Image.read(self.file_content.to_s)
     image_processing(thumbnail, "thumbnail").to_blob
   end
   
@@ -41,7 +41,7 @@ class Image < ActiveRecord::Base
   def image_processing(image, size)
     image.resize IMAGE_SIZES[size.to_sym] unless IMAGE_SIZES[size.to_sym] == nil
     path = "#{RAILS_ROOT}#{APP_CONFIG['image_path']}/#{self.id}"
-    Dir.mkdir(path) unless File.directory?(path)
+    FileUtils.mkdir_p(path) unless File.directory?(path)
     File.open("#{path}/#{size}.#{self.file_name}", 'w') {|f| f.write(image.to_blob) }
     image
   end
