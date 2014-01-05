@@ -50,7 +50,7 @@ class Track < ActiveRecord::Base
   
   def file
     path = File.join(RAILS_ROOT, APP_CONFIG['track_path'])
-    Dir.mkdir(path) unless File.directory?(path)
+    FileUtils.mkdir_p(path) unless File.directory?(path)
     File.open(File.join(path, current_file_name), 'w') {|f| f.write(file_content) }
     File.open(File.join(path, current_file_name), 'r')
   end

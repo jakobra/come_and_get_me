@@ -6,14 +6,12 @@ require 'capistrano/ext/multistage'
 
 set :application, "come_and_get_me"
 
-set :host, "jakobra.se"
-
 set :user, "deploy"
 set :use_sudo, false
 set :ssh_options, {:forward_agent => true}
 
 set :scm, :git
-set :repository,  "git@github.com:jakobra/Come-And-Get-Me.git"
+set :repository,  "git@github.com:jakobra/come_and_get_me.git"
 set :deploy_via, :remote_cache
 
 role :web, "burton.jakobra.com"                   # Your HTTP server, Apache/etc
@@ -32,7 +30,7 @@ namespace :deploy do
         cd #{release_path} && ~/.rbenv/bin/rbenv exec bundle exec passenger stop -p #{passenger_port};
       fi
     CMD
-    run "cd #{release_path} && ~/.rbenv/bin/rbenv exec bundle exec passenger start -e production -p #{passenger_port} -d"
+    run "cd #{release_path} && ~/.rbenv/bin/rbenv exec bundle exec passenger start -e #{rails_env} -p #{passenger_port} -d"
   end
   
   task :symlink_shared do
@@ -40,6 +38,9 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/config/config.yml #{release_path}/config/config.yml"
     run "ln -nfs #{shared_path}/public/assets #{release_path}/public"
     run "ln -nfs #{shared_path}/public/google15c02b50c0cc5f0b.html #{release_path}/public/google15c02b50c0cc5f0b.html"
+    
+    run "ln -nfs #{shared_path}/tmp/pids #{release_path}/tmp"
+    run "ln -nfs #{shared_path}/log #{release_path}"
   end
   
   task :bundle_install do
