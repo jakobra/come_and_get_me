@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  web:
+    container_name: come_and_get_me_web_prod
+    environment:
+      RAILS_ENV: production
+    volumes:
+      - ./config/database.yml:/app/config/database.yml
+      - ./config/config.yml:/app/config/config.yml
+      - ./log:/app/log
+    restart: always
+
+networks:
+  default:
+    external:
+      name: slingshot_prod

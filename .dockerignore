@@ -1,0 +1,8 @@
+.git*
+Dockerfile
+log/*
+tmp/*
+public/assets/*
+docker-compose/*
+config/database.yml
+config/config.yml

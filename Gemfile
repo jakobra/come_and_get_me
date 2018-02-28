@@ -11,11 +11,6 @@ gem "mysql", "2.8.1"
 gem "will_paginate", "2.3.12"
 gem "mini_magick", "~> 2.1"
 
-group :development do
-  gem "capistrano", "~> 2.12.0"
-  gem "capistrano-ext", "~> 1.2.1"
-end
-
 group :production do
   gem "passenger", "~> 3.0.7"
 end

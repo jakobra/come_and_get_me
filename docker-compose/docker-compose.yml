@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+    web:
+      image: "come_and_get_me_web:${TAG}"
+      container_name: come_and_get_me
+      volumes:
+       - public_assets:/app/public/assets
+
+volumes:
+    public_assets:
